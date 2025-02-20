@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: ad9031e5e5730497fa641f74ec804411
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - newTrait: {instanceID: 0}
+  - weaponPrefab: {instanceID: 0}
+  - holdPoint: {fileID: 4592801120884442310, guid: 4c995af7853be472996d5228b63162bd, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

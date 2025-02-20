@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 368499b12bbac4734bafb17280245afe
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - rb: {instanceID: 0}
+  - bulletPrefab: {instanceID: 0}
+  - particleEffect: {fileID: 8513413842233391543, guid: 3d9358a9486fc4fb9900bec98f257634, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
