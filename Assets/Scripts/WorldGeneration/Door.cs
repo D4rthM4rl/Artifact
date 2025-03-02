@@ -6,7 +6,7 @@ using UnityEngine.Tilemaps;
 public class Door : MonoBehaviour
 {
     public int xOffset;
-    public int yOffset;
+    public int zOffset;
     public Vector2Int finalCoords;
     public enum DoorDirection
     {
@@ -92,23 +92,23 @@ public class Door : MonoBehaviour
         if (tiles) tiles.enabled = true;
     }
 
-    public Room GetRight(int startX, int startY)
+    public Room GetRight(int startX, int startZ)
     {
-        return RoomController.instance.FindRoom(startX + xOffset + 1, startY + yOffset);
+        return RoomController.instance.FindRoom(startX + xOffset + 1, startZ + zOffset);
     }
 
-    public Room GetLeft(int startX, int startY)
+    public Room GetLeft(int startX, int startZ)
     {
-        return RoomController.instance.FindRoom(startX + xOffset - 1, startY + yOffset);
+        return RoomController.instance.FindRoom(startX + xOffset - 1, startZ + zOffset);
     }
 
-    public Room GetTop(int startX, int startY)
+    public Room GetTop(int startX, int startZ)
     {
-        return RoomController.instance.FindRoom(startX + xOffset, startY + yOffset + 1);
+        return RoomController.instance.FindRoom(startX + xOffset, startZ + zOffset + 1);
     }
 
-    public Room GetBottom(int startX, int startY)
+    public Room GetBottom(int startX, int startZ)
     {
-        return RoomController.instance.FindRoom(startX + xOffset, startY + yOffset - 1);
+        return RoomController.instance.FindRoom(startX + xOffset, startZ + zOffset - 1);
     }
 }

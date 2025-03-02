@@ -6,10 +6,11 @@ using UnityEngine.Tilemaps;
 public class Room : MonoBehaviour
 {
     public int startX;
-    public int startY;
+    public int startZ;
     public List<Vector2Int> coordinatePairs = new List<Vector2Int>(); // Coords relative to (0, 0)
-    public int width;
-    public int height;
+    public int xWidth;
+    public int zWidth;
+    // public int height;
     private bool cleared = false;
 
     /// <summary>
@@ -43,7 +44,7 @@ public class Room : MonoBehaviour
         Door[] ds = GetComponentsInChildren<Door>();
         foreach (Door d in ds)
         {
-            Vector2Int doorOffset = new Vector2Int(d.xOffset, d.yOffset);
+            Vector2Int doorOffset = new Vector2Int(d.xOffset, d.zOffset);
             if (!doors.ContainsKey(doorOffset))
             {
                 doors.Add(doorOffset, new List<Door>());
@@ -76,22 +77,22 @@ public class Room : MonoBehaviour
                 switch (d.doorDirection)
                 {
                     case Door.DoorDirection.right:
-                        r = d.GetRight(startX, startY);
+                        r = d.GetRight(startX, startZ);
                         o = Door.DoorDirection.left;
                         SetupDoor(r, d, o, Vector2Int.right);
                         break;
                     case Door.DoorDirection.left:
-                        r = d.GetLeft(startX, startY);
+                        r = d.GetLeft(startX, startZ);
                         o = Door.DoorDirection.right;
                         SetupDoor(r, d, o, Vector2Int.left);
                         break;
                     case Door.DoorDirection.top:
-                        r = d.GetTop(startX, startY);
+                        r = d.GetTop(startX, startZ);
                         o = Door.DoorDirection.bottom;
                         SetupDoor(r, d, o, Vector2Int.up);
                         break;
                     case Door.DoorDirection.bottom:
-                        r = d.GetBottom(startX, startY);
+                        r = d.GetBottom(startX, startZ);
                         o = Door.DoorDirection.top;
                         SetupDoor(r, d, o, Vector2Int.down);
                         break;
@@ -113,10 +114,10 @@ public class Room : MonoBehaviour
         {
             if (!d.isLocked) d.SetOpen();
             // The coordinate of the door to be adjusted
-            Vector2Int doorFinalCoord = new Vector2Int(startX + d.xOffset, startY + d.yOffset);
+            Vector2Int doorFinalCoord = new Vector2Int(startX + d.xOffset, startZ + d.zOffset);
             // Debug.Log("Coord of door to connect: " + doorFinalCoord);
             // The coordinate offset from the other room of the door to be connected to
-            Vector2Int otherDoorOffset = doorFinalCoord + otherRoomOffset - new Vector2Int(r.startX, r.startY);
+            Vector2Int otherDoorOffset = doorFinalCoord + otherRoomOffset - new Vector2Int(r.startX, r.startZ);
             // Debug.Log("COord of other door to connect to: " + otherDoorOffset);
 
             foreach (Door otherDoor in r.doors[otherDoorOffset])
@@ -138,8 +139,8 @@ public class Room : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Vector3 roomCenter = GetRoomCenter();
-        if (isRegular) Gizmos.DrawWireCube(roomCenter, new Vector3(width, height, 0));
-        else Gizmos.DrawWireCube(new Vector3(roomCenter.x + RoomController.xWidth/2, roomCenter.y + RoomController.yWidth, 0), new Vector3(width, height, 0));
+        if (isRegular) Gizmos.DrawWireCube(roomCenter, new Vector3(xWidth, 100, zWidth));
+        else Gizmos.DrawWireCube(new Vector3(roomCenter.x + RoomController.xWidth/2, 0, roomCenter.z + RoomController.zWidth), new Vector3(xWidth, 10, zWidth));
     }
 
     /// <summary>
@@ -150,16 +151,16 @@ public class Room : MonoBehaviour
     {
         int numCoords = 0;
         float centerX = 0;
-        float centerY = 0;
+        float centerZ = 0;
         foreach (Vector2Int coord in finalCoords)
         {
             numCoords++;
             centerX += coord.x;
-            centerY += coord.y;
+            centerZ += coord.y;
         }
         centerX /= numCoords;
-        centerY /= numCoords;
-        return new Vector3(startX * RoomController.xWidth, startY * RoomController.yWidth);
+        centerZ /= numCoords;
+        return new Vector3(startX * RoomController.xWidth, 0, startZ * RoomController.zWidth);
     }
 
     /// <summary>

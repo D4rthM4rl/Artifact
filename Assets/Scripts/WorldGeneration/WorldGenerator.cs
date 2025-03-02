@@ -69,26 +69,26 @@ public class WorldGenerator : MonoBehaviour
         RoomController.instance.LoadRoom("Start", 0, 0, new List<Vector2Int>(){Vector2Int.zero});
         coordinatesTakenSoFar.Add(Vector2Int.zero);
         int farX = 0;
-        int farY = 0;
+        int farZ = 0;
         float maxDist = 0;
         foreach (Vector2Int roomLocation in rooms) // Look through room generation coords
         {
             int startX = roomLocation.x;
-            int startY = roomLocation.y;
+            int startZ = roomLocation.y;
 
             string name = GenerateRandomRoom();
             
             List<Vector2Int> coords = GetRoomCoordinatePairs(name);
             bool canGenerateRoom = true;
             int xStartOffset = 0;
-            int yStartOffset = 0;
+            int zStartOffset = 0;
             foreach (Vector2Int startPair in coords)
             {
-            // Debug.Log("trying to generate room at (" + (startX - startPair.x) + ", " + (startY - startPair.y) + ")");
+            // Debug.Log("trying to generate room at (" + (startX - startPair.x) + ", " + (startZ - startPair.y) + ")");
                 foreach (Vector2Int relativity in coords)
                 {
 
-                    if (coordinatesTakenSoFar.Contains(new Vector2Int(startX - startPair.x + relativity.x, startY - startPair.y + relativity.y)))
+                    if (coordinatesTakenSoFar.Contains(new Vector2Int(startX - startPair.x + relativity.x, startZ - startPair.y + relativity.y)))
                     {
                         // Debug.Log("    Not generating " + name + " room because it takes up (" + (startX - startPair.x + relativity.x) + ", " + (startY - startPair.y + relativity.y));
                         canGenerateRoom = false;
@@ -103,11 +103,11 @@ public class WorldGenerator : MonoBehaviour
                 {
                     // Debug.Log("    Yea generating " + name + " room at (" + (startX - startPair.x) + ", " + (startY - startPair.y));
                     xStartOffset = startPair.x;
-                    yStartOffset = startPair.y;
+                    zStartOffset = startPair.y;
                     break;
                 }
             }
-            if (!canGenerateRoom && !coordinatesTakenSoFar.Contains(new Vector2Int(startX, startY))) {
+            if (!canGenerateRoom && !coordinatesTakenSoFar.Contains(new Vector2Int(startX, startZ))) {
                 canGenerateRoom = true; // If it can't gen big room but can do 1x1 room
                 name = "Empty";
                 coords = GetRoomCoordinatePairs(name);
@@ -118,20 +118,20 @@ public class WorldGenerator : MonoBehaviour
                 foreach (Vector2Int coordPair in coords)
                 {
                     int x = startX - xStartOffset + coordPair.x;
-                    int y = startY - yStartOffset + coordPair.y;
-                    coordinatesTakenSoFar.Add(new Vector2Int(x, y));
-                    float distFromOrigin = Mathf.Sqrt(x * x + y * y);
+                    int z = startZ - zStartOffset + coordPair.y;
+                    coordinatesTakenSoFar.Add(new Vector2Int(x, z));
+                    float distFromOrigin = Mathf.Sqrt(x * x + z * z);
                     if (distFromOrigin > maxDist) {
                         farX = x;
-                        farY = y;
+                        farZ = z;
                         maxDist = distFromOrigin;
                     }
                 }
-                RoomController.instance.LoadRoom(name, startX - xStartOffset, startY - yStartOffset, coords);
+                RoomController.instance.LoadRoom(name, startX - xStartOffset, startZ - zStartOffset, coords);
             }
         }
 
-        Vector2Int finalCoords = GenerateEndCoords(farX, farY);
+        Vector2Int finalCoords = GenerateEndCoords(farX, farZ);
         coordinatesTakenSoFar.Add(finalCoords);
         RoomController.instance.LoadRoom("End", finalCoords.x, finalCoords.y, new List<Vector2Int>(){Vector2Int.zero});
         dungeonRooms.Clear();
@@ -167,26 +167,26 @@ public class WorldGenerator : MonoBehaviour
     /// Picks the coordinate to place the final room, as far away as possible
     /// </summary>
     /// <param name="farX">Farthest away a room is in x</param>
-    /// <param name="farY">Farthest away a room is in y</param>
+    /// <param name="farZ">Farthest away a room is in y</param>
     /// <returns></returns>
-    private Vector2Int GenerateEndCoords(int farX, int farY)
+    private Vector2Int GenerateEndCoords(int farX, int farZ)
     {
         int xDisplace = 0;
-        int yDisplace = 0;
-        if (Mathf.Abs(farX) >= Mathf.Abs(farY))
+        int zDisplace = 0;
+        if (Mathf.Abs(farX) >= Mathf.Abs(farZ))
         {
             if (farX > 0) {xDisplace = 1;}
             else if (farX < 0) {xDisplace = -1;}
             else {xDisplace = 5 - (2 * random.Next(2, 4));} // Random -1 or 1
         } else
         {
-            if (farY > 0) {yDisplace = 1;}
-            else if (farY < 0) {yDisplace = -1;}
-            else {yDisplace = 5 - (2 * random.Next(2, 4));} // Random -1 or 1
+            if (farZ > 0) {zDisplace = 1;}
+            else if (farZ < 0) {zDisplace = -1;}
+            else {zDisplace = 5 - (2 * random.Next(2, 4));} // Random -1 or 1
         }
         int xEnd = farX + xDisplace;
-        int yEnd = farY + yDisplace;
-        return new Vector2Int(xEnd, yEnd);
+        int zEnd = farZ + zDisplace;
+        return new Vector2Int(xEnd, zEnd);
     }
 
     /// <summary>

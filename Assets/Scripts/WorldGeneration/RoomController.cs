@@ -11,7 +11,7 @@ public class RoomInfo
     public string name;
     public bool basicShape;
     public int startX;
-    public int startY;
+    public int startZ;
     public List<Vector2Int> coordinatePairs;
 }
 
@@ -28,11 +28,11 @@ public class RoomController : MonoBehaviour
     /// <summary>
     /// Width of one x coordinate (in tiles)
     /// </summary>
-    public static int xWidth = 29;
+    public static int xWidth = 22;
     /// <summary>
-    /// Width of one y coordinate
+    /// Width of one z coordinate
     /// </summary>
-    public static int yWidth = 19;
+    public static int zWidth = 22;
 
     /// <summary>
     /// Room currently being loaded
@@ -119,21 +119,21 @@ public class RoomController : MonoBehaviour
     /// </summary>
     /// <param name="name">Name of room</param>
     /// <param name="x">Starting x coord</param>
-    /// <param name="y">Starting y coord</param>
+    /// <param name="z">Starting z coord</param>
     /// <param name="coords">Coordinate pairs that new room will take up</param>
-    public void LoadRoom (string name, int x, int y, List<Vector2Int> coords)
+    public void LoadRoom (string name, int x, int z, List<Vector2Int> coords)
     {
-        if (FindRoom(x, y) != null) {
+        if (FindRoom(x, z) != null) {
             return;
         }
 
         RoomInfo newRoomData = new RoomInfo();
         newRoomData.name = name;
         newRoomData.startX = x;
-        newRoomData.startY = y;
+        newRoomData.startZ = z;
         newRoomData.coordinatePairs = coords;
 
-        // Debug.Log("Enqueueing new room data at (" + newRoomData.startX + "," + newRoomData.startY + ")");
+        // Debug.Log("Enqueueing new room data at (" + newRoomData.startX + "," + newRoomData.startZ + ")");
 
         loadRoomQueue.Enqueue(newRoomData);
         allRooms.Enqueue(newRoomData);
@@ -143,10 +143,9 @@ public class RoomController : MonoBehaviour
     /// Asynchronously loads a room scene from its RoomInfo via SceneManager
     /// </summary>
     /// <param name="info">RoomInfo to be loaded by SceneManager</param>
-    /// <returns></returns>
     IEnumerator LoadRoomRoutine (RoomInfo info)
     {
-        // Debug.Log("TRYING TO LOAD ROOM ROUTINE at " + info.startX + ", " + info.startY);
+        // Debug.Log("TRYING TO LOAD ROOM ROUTINE at " + info.startX + ", " + info.startZ);
         string roomName = currentWorldName + " - " + info.name;
 
         AsyncOperation loadRoom = SceneManager.LoadSceneAsync(roomName, LoadSceneMode.Additive);
@@ -166,25 +165,25 @@ public class RoomController : MonoBehaviour
         // if (FindRoom(currentLoadRoomData.startX, currentLoadRoomData.startY) == null)
         // {
             room.startX = currentLoadRoomData.startX;
-            room.startY = currentLoadRoomData.startY;
+            room.startZ = currentLoadRoomData.startZ;
 
             // Set door coords using name
             room.coordinatePairs = WorldGenerator.instance.GetRoomCoordinatePairs(currentLoadRoomData.name);
 
-            room.name = currentWorldName + "-" + currentLoadRoomData.name + " " + room.startX + ", " + room.startY;
+            room.name = currentWorldName + "-" + currentLoadRoomData.name + " " + room.startX + ", " + room.startZ;
             room.transform.parent = transform;
 
             foreach (Vector2Int v in room.coordinatePairs)
             {
-                room.finalCoords.Add(new Vector2Int(v.x + room.startX, v.y + room.startY));
+                room.finalCoords.Add(new Vector2Int(v.x + room.startX, v.y + room.startZ));
             }
-            if (room.isRegular) room.transform.position = new Vector3(room.startX * xWidth, room.startY * yWidth, 0);
-            else room.transform.position = new Vector3(room.startX * xWidth - .5f, room.startY * yWidth - 1.5f, 0);
+            if (room.isRegular) room.transform.position = new Vector3(room.startX * xWidth, 0, room.startZ * zWidth);
+            else room.transform.position = new Vector3(room.startX * xWidth - .5f, 0, room.startZ * zWidth - 1.5f);
             isLoadingRoom = false;
 
-            if (loadedRooms.Count == 0) {
-                CameraController.instance.currRoom = room;
-            }
+            // if (loadedRooms.Count == 0) {
+            //     CameraController.instance.currRoom = room;
+            // }
 
             loadedRooms.Add(room);
         // } else {
@@ -229,17 +228,17 @@ public class RoomController : MonoBehaviour
     /// Returns room at given coordinates or null if nothing found there
     /// </summary>
     /// <param name="x">X coord to check</param>
-    /// <param name="y">Y coord to check</param>
+    /// <param name="z">Z coord to check</param>
     /// <returns> Returns null if room not found</returns>
-    public Room FindRoom (int x, int y)
+    public Room FindRoom (int x, int z)
     {
-        // Debug.Log("Finding (" + x + ", " + y + ")");
+        // Debug.Log("Finding (" + x + ", " + z + ")");
         foreach (Room r in loadedRooms)
         {
             foreach (Vector2Int v in r.finalCoords)
             {
                 // Debug.Log(v.x + " " + v.y);
-                if (v.x == x && v.y == y) {
+                if (v.x == x && v.y == z) {
                     // Debug.Log("Found");
                     return r;
                 }
@@ -257,7 +256,7 @@ public class RoomController : MonoBehaviour
     public Vector2Int FindRelativeCoord(Vector2Int coord)
     {
         Room r = FindRoom(coord.x, coord.y);
-        return new Vector2Int(coord.x - r.startX, coord.y - r.startY);
+        return new Vector2Int(coord.x - r.startX, coord.y - r.startZ);
     }
 
     /// <summary>

@@ -24,10 +24,10 @@ public class DoorTeleporter : MonoBehaviour
                             newPos += new Vector3(-3, 0, 0);
                             break;
                         case Door.DoorDirection.top:
-                            newPos += new Vector3(0, 3, 0);
+                            newPos += new Vector3(0, 0, 3);
                             break;
                         case Door.DoorDirection.bottom:
-                            newPos += new Vector3(0, -3, 0);
+                            newPos += new Vector3(0, 0, -3);
                             break;
                     }
                 other.attachedRigidbody.transform.position = newPos;

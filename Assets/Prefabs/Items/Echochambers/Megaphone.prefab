@@ -1,0 +1,77 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6707342139552045662
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6104351277047080106}
+  - component: {fileID: 8649750182613923042}
+  m_Layer: 0
+  m_Name: Megaphone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6104351277047080106
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6707342139552045662}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8649750182613923042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6707342139552045662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad9031e5e5730497fa641f74ec804411, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item:
+    name: Megaphone
+    description: Loud, too loud
+    rarity: 6
+    itemImage: {fileID: 0}
+  heal:
+    amount: 0
+    timeSpan: 0
+  maxHealthChange:
+    amount: 0
+    multiplier: 0
+  moveSpeedChange:
+    amount: 0
+    multiplier: 0
+  attackDamageChange:
+    amount: 1.1
+    multiplier: 1
+  attackRateChange:
+    amount: 0.9
+    multiplier: 1
+  attackSizeChange:
+    amount: 2
+    multiplier: 1
+  special: 0
+  newTrait: {fileID: 0}
+  effects:
+  - particles: {fileID: 517404345046783080, guid: 8f38a94ed0f8542759af558b1fa762f0, type: 3}
+    type: 2
+    level: 1
+    damagePerMilli: 0
+    duration: 0.1
