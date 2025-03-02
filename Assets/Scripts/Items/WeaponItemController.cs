@@ -2,18 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponItemController : ItemController
+public class WeaponItemController : MonoBehaviour
 {
+    public Item item;
+
+    public GameObject weaponPrefab;
+
     // Start is called before the first frame update
     void Start()
     {
-        GetComponent<SpriteRenderer>().sprite = item.itemImage;
-        Destroy(GetComponent<PolygonCollider2D>());
-        PolygonCollider2D collider = gameObject.AddComponent<PolygonCollider2D>();
-        collider.isTrigger = true;
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        sr.sprite = item.itemImage;
+        Destroy(GetComponent<Collider>());
+        if (!gameObject.GetComponentInParent<Character>()){
+            SphereCollider collider = gameObject.AddComponent<SphereCollider>();
+            collider.isTrigger = true;
+            Light light = gameObject.AddComponent<Light>();
+            light.color = Color.red;
+            light.intensity = 30;
+            light.range = 3;
+        }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.GetComponent<Player>()) 
         {

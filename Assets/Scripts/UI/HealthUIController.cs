@@ -24,12 +24,7 @@ public class HealthUIController : MonoBehaviour
         }
         heartsParent = transform.parent.transform;
     }
-
-    // Start is called before the first frame update
-    private void Start()
-    {
-        DoHearts();
-    }
+    
     public static void UpdateHearts(float health, float max)
     {
         currentHealth = health;

@@ -23,6 +23,7 @@ public class Player : Character
         animator = GetComponent<Animator>();
         weapons = new GameObject[5];
         rb = GetComponent<Rigidbody>();
+        HealthUIController.UpdateHearts(health, maxHealth);
     }
 
     void Update()
@@ -30,14 +31,21 @@ public class Player : Character
         // Collect movement input: horizontal (x) and vertical (z) axes.
         movement = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
 
-        // Convert mouse screen position into a world position on a horizontal plane.
+        // Cast a ray from screen point
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        // Here, the ground is assumed to be at y = 0. Adjust as necessary.
-        Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
-        float rayDistance;
-        if (groundPlane.Raycast(ray, out rayDistance))
-        {
-            mouseWorldPos = ray.GetPoint(rayDistance);
+
+        // Save the info
+        RaycastHit hit;
+        Vector3 dir;
+
+        // Hit ground
+        if (Physics.Raycast(ray, out hit)) {
+            // Find the direction from the player to the hit point
+            dir = hit.point - transform.position;
+        }
+        else {
+            // If you didn’t hit anything, just use the ray’s direction
+            dir = ray.direction;
         }
 
         // Use the movement magnitude to control a running animation.
@@ -69,6 +77,7 @@ public class Player : Character
 
             // Instantiate the weapon as a child of the player’s rigidbody transform.
             weapon = Instantiate(newWeapon, rb.transform);
+            weapon.transform.localPosition = new Vector3(.5f, 0, 0);
             weapons[numWeapons] = weapon;
 
             // Remove the WeaponItemController script from the instantiated weapon.

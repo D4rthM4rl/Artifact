@@ -7,8 +7,8 @@ public class PetalGust : ProjectileWeapon
     void FixedUpdate()
 	{
 		// transform.position = holdPoint.transform.position;
-        float rate = stats.cooldown * user.attackRateModifier;
-        if (Input.GetButton("Fire1") && Time.time > canFire && isSelected && user.UseMana(stats.manaUse))
+        float rate = cooldown * user.attackRateModifier;
+        if (Input.GetButton("Fire1") && Time.time > canFire && isSelected && user.UseMana(manaUse))
         {
 			Vector2 target = Vector2.zero;
 			if (user is Player) 

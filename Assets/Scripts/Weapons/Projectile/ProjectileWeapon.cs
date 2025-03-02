@@ -24,14 +24,31 @@ public abstract class ProjectileWeapon : Weapon
 	void FixedUpdate()
 	{
 		// transform.position = holdPoint.transform.position;
-        float rate = stats.cooldown * user.attackRateModifier;
-        if (Input.GetButton("Fire1") && Time.time > canFire && isSelected && user.UseMana(stats.manaUse))
+        float rate = cooldown * user.attackRateModifier;
+        if (Input.GetButton("Fire1") && Time.time > canFire && isSelected && user.UseMana(manaUse))
         {
 			Vector2 direction = Vector2.zero;
 			if (user is Player) 
-			{direction = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - firepoint.position).normalized;}
+			{
+				// Cast a ray from screen point
+				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+				// Save the info
+				RaycastHit hit;
+
+				// Hit ground
+				if (Physics.Raycast(ray, out hit)) {
+					// Find the direction from the player to the hit point
+					direction = hit.point - transform.position;
+				}
+				else {
+					// If you didn’t hit anything, just use the ray’s direction
+					direction = ray.direction;
+				}
+				// direction = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - firepoint.position).normalized;
+			}
 			else 
-			{direction = ((user as Enemy).focusPos - firepoint.position).normalized;}
+				direction = ((user as Enemy).focusPos - firepoint.position).normalized;
             StartCoroutine(Fire(direction));
             canFire = Time.time + rate;
         }
@@ -47,8 +64,8 @@ public abstract class ProjectileWeapon : Weapon
 			
 			SetupProjectile(bullet.GetComponent<Projectile>());
 			
-			Rigidbody2D bulletrb = bullet.GetComponent<Rigidbody2D>();
-			bulletrb.AddForce(direction.normalized * projectileSpeed, ForceMode2D.Impulse);
+			Rigidbody bulletrb = bullet.GetComponent<Rigidbody>();
+			bulletrb.AddForce(direction.normalized * projectileSpeed, ForceMode.Impulse);
 			yield return new WaitForSeconds(timeBetweenProjectilesInFire);
 		}
 		inUse = false;
@@ -58,9 +75,9 @@ public abstract class ProjectileWeapon : Weapon
 	{
         gameObject.layer = 11; // Intangible layer
         projectile.sender = user;
-        projectile.size = stats.size * user.attackSizeModifier;
-        projectile.damage = stats.damage * user.attackDamageModifier;
-        projectile.knockback = stats.knockback * user.knockbackModifier;
+        projectile.size = size * user.attackSizeModifier;
+        projectile.damage = damage * user.attackDamageModifier;
+        projectile.knockback = knockback * user.knockbackModifier;
 		projectile.speed = projectileSpeed * user.projectileSpeedModifier;
 		projectile.lifetime = projectileLifetime * user.projectileLifetimeModifier;
 		projectile.canAttack = user.willAttack;

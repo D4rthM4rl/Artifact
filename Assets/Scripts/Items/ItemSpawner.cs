@@ -7,29 +7,35 @@ public class ItemSpawner : MonoBehaviour
 {
 
     [System.Serializable]
-    public struct ItemSpawn
+    public struct Spawnable
     {
-        public ItemDetails item;
+        public GameObject gameObject;
         public float weight;
     }
 
-    public List<ItemSpawn> items = new List<ItemSpawn>();
+    public List<Spawnable> items = new List<Spawnable>();
     float totalWeight;
 
-    private Enemy enemyController;
+    private MonoBehaviour enemyController;
     private int chosenIndex;
 
+    /// <summary>
+    /// Gets the total weight of the items it could spawn
+    /// </summary>
     void Awake()
     {
         totalWeight = 0;
-        foreach (ItemSpawner.ItemSpawn spawnable in items)
+        foreach (var spawnable in items)
         {
             totalWeight += spawnable.weight;
         }
     }
 
     // Start is called before the first frame update
-    void Start() {StartCoroutine(StartHelper());}
+    void Start()
+    {
+        StartCoroutine(StartHelper());
+    }
 
     /// <summary>
     /// Generates a random item from the weights and spawns after a pause since
@@ -37,7 +43,6 @@ public class ItemSpawner : MonoBehaviour
     /// </summary>
     private IEnumerator StartHelper()
     {
-        if (items.Count == 0 || totalWeight == 0) yield return null;
         // Debug.Log(GameController.seed + GameController.numItemsSpawned);
         while (GameController.itemRandom == null) yield return new WaitForSeconds(0.1f);
         
@@ -59,15 +64,12 @@ public class ItemSpawner : MonoBehaviour
         }
     }
 
-    /// <summary>Spawns the randomly chosen item at the item spawner location</summary>
+    /// <summary>
+    /// Spawns the randomly chosen item at the item spawner location
+    /// </summary>
     public void SpawnItem() {
-        if (items[chosenIndex].item == null) {
-            Debug.LogWarning("ItemSpawner: Item is null");
-            return;
-        }
-        // GameObject i = Instantiate(items[chosenIndex].item.prefab, transform.position, Quaternion.identity);
-        GameObject i = new GameObject(items[chosenIndex].item.name, typeof(ItemController));
-        i.GetComponent<ItemController>().item = items[chosenIndex].item;
+        GameObject i = Instantiate(items[chosenIndex].gameObject, transform.position, Quaternion.identity) as GameObject;
+        i.SetActive(true);
         i.layer = 6; // Item layer
         GameController.numItemsSpawned++;
         WeaponItemController weaponController = i.GetComponent<WeaponItemController>();

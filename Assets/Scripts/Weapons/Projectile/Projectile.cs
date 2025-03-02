@@ -50,17 +50,17 @@ public class Projectile : MonoBehaviour
     }
 
     void Update() {
-        List<Collider2D> results = new List<Collider2D>();
-		GetComponent<Collider2D>().OverlapCollider(contactFilter, results);
-		foreach (Collider2D collider in results)
-        {
-			// Debug.Log(collider);
-            if (collider.gameObject != null && (canAttack.Contains(collider.gameObject) || 
-                (sender is Player && !collider.GetComponent<Player>())) || collider.gameObject.layer == 7)
-            {
-                gameObject.layer = 10;
-            }
-        }
+        // List<Collider> results = new List<Collider>();
+		// GetComponent<Collider>().OverlapCollider(contactFilter, results);
+		// foreach (Collider collider in results)
+        // {
+		// 	// Debug.Log(collider);
+        //     if (collider.gameObject != null && (canAttack.Contains(collider.gameObject) || 
+        //         (sender is Player && !collider.GetComponent<Player>())) || collider.gameObject.layer == 7)
+        //     {
+        //         gameObject.layer = 10;
+        //     }
+        // }
     }
 
     /// <summary>Hit a character</summary>
@@ -75,11 +75,11 @@ public class Projectile : MonoBehaviour
         if (other is Enemy) StartCoroutine((other as Enemy).Alert(other.gameObject));
 
         // Apply knockback force to what I'm hitting
-        Rigidbody2D targetRb = other.gameObject.GetComponent<Rigidbody2D>();
-        targetRb.AddForce(knockbackDirection * sender.knockbackModifier, ForceMode2D.Impulse);
+        Rigidbody targetRb = other.gameObject.GetComponent<Rigidbody>();
+        targetRb.AddForce(knockbackDirection * sender.knockbackModifier, ForceMode.Impulse);
     }
 
-    void OnCollisionEnter2D(Collision2D col)
+    void OnCollisionEnter(Collision col)
     {
         if (col.gameObject.tag == "Wall" || sender == null || sender.gameObject == null) 
         {

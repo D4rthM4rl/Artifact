@@ -31,7 +31,7 @@ public class SupernovaController : Weapon
     {
         // transform.position = holdPoint.transform.position;
         fireRate = user.attackRateModifier;
-        if (Input.GetButton("Fire1") && isSelected && Time.time > canFire && user.UseMana(stats.manaUse))
+        if (Input.GetButton("Fire1") && isSelected && Time.time > canFire && user.UseMana(manaUse))
         {
             Vector2 target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 direction = Vector2.zero;
@@ -65,7 +65,7 @@ public class SupernovaController : Weapon
         {
             // Increase the size gradually
             currentSize += 2 * Time.deltaTime;
-            currentSize = Mathf.Clamp(currentSize, 0f, stats.size);
+            currentSize = Mathf.Clamp(currentSize, 0f, size);
 
             // Increment timer
             timer += Time.deltaTime;

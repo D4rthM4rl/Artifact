@@ -3,6 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
+public class Item
+{
+    public string name;
+    public string description;
+    public int rarity;
+    public Sprite itemImage;
+}
+
+[System.Serializable]
 public class StatChange
 {
     public static StatChange same { get;} = new StatChange(0, false);
@@ -30,20 +39,30 @@ public class Heal
 }
 
 public class ItemController : MonoBehaviour
-{
-    public ItemDetails item;
-    public List<SpecialTrait> newTrait = new List<SpecialTrait>();
+{    
+    public Item item;
+    public Heal heal = new Heal(0, 0);
+    public StatChange maxHealthChange = new StatChange(0, false);
+    public StatChange moveSpeedChange = new StatChange(0, false);
+    public StatChange attackDamageChange = new StatChange(0, false);
+    public StatChange attackRateChange = new StatChange(0, false);
+    public StatChange attackSizeChange = new StatChange(0, false);
+
+    public bool special = false;
+    public MonoBehaviour newTrait;
+    
+    public List<Effect> effects = new List<Effect>();
+    
 
     // Start is called before the first frame update
     void Start()
     {
-        SpriteRenderer renderer = GetComponent<SpriteRenderer>();
-        if (renderer == null) {renderer = gameObject.AddComponent<SpriteRenderer>();}
-        renderer.sprite = item.itemImage;
-        Destroy(GetComponent<PolygonCollider2D>());
-        PolygonCollider2D collider = gameObject.AddComponent<PolygonCollider2D>();
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        sr.sprite = item.itemImage;
+        Destroy(GetComponent<Collider>());
+        SphereCollider collider = gameObject.AddComponent<SphereCollider>();
         collider.isTrigger = true;
-        foreach (SpecialTrait t in GetComponents<SpecialTrait>()) {newTrait.Add(t);}
+        gameObject.AddComponent<Light>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -51,31 +70,28 @@ public class ItemController : MonoBehaviour
         if (collision.gameObject.GetComponent<Character>()) 
         {
             Character c = collision.gameObject.GetComponent<Character>();
-            // Make whatever picked up the item drop it on death
-            c.gameObject.AddComponent<ItemSpawner>().items = new List<ItemSpawner.ItemSpawn> 
-                {new ItemSpawner.ItemSpawn {item = item, weight = 1}};
             // If we're multiplying by 0 it's probably an accident (default value) so we ignore it.
-            if (item.maxHealthChange.amount != 0 || !item.maxHealthChange.multiplier) {
-                c.ChangeMaxHealth(item.maxHealthChange.amount, item.maxHealthChange.multiplier);
+            if (maxHealthChange.amount != 0 || !maxHealthChange.multiplier) {
+                c.ChangeMaxHealth(maxHealthChange.amount, maxHealthChange.multiplier);
             }
 
-            c.Heal(item.heal.amount, item.heal.timeSpan);
+            c.Heal(heal.amount, heal.timeSpan);
 
-            if (item.moveSpeedChange.amount != 0 || !item.moveSpeedChange.multiplier) {
-                c.ChangeMoveSpeed(item.moveSpeedChange.amount, item.moveSpeedChange.multiplier);
+            if (moveSpeedChange.amount != 0 || !moveSpeedChange.multiplier) {
+                c.ChangeMoveSpeed(moveSpeedChange.amount, moveSpeedChange.multiplier);
             }
-            if (item.attackDamageChange.amount != 0 || !item.attackDamageChange.multiplier) {
-                c.ChangeAttackDamage(item.attackDamageChange.amount, item.attackDamageChange.multiplier);
+            if (attackDamageChange.amount != 0 || !attackDamageChange.multiplier) {
+                c.ChangeAttackDamage(attackDamageChange.amount, attackDamageChange.multiplier);
             }
-            if (item.attackRateChange.amount != 0 || !item.attackRateChange.multiplier) {
-                c.ChangeAttackRate(item.attackRateChange.amount, item.attackRateChange.multiplier);
+            if (attackRateChange.amount != 0 || !attackRateChange.multiplier) {
+                c.ChangeAttackRate(attackRateChange.amount, attackRateChange.multiplier);
             }
-            if (item.attackSizeChange.amount != 0 || !item.attackSizeChange.multiplier) {
-                c.ChangeAttackSize(item.attackSizeChange.amount, item.attackSizeChange.multiplier);
+            if (attackSizeChange.amount != 0 || !attackSizeChange.multiplier) {
+                c.ChangeAttackSize(attackSizeChange.amount, attackSizeChange.multiplier);
             }
-            foreach (Effect e in item.effects) {c.AddAttackEffect(e);}
+            foreach (Effect e in effects) {c.AddAttackEffect(e);}
 
-            foreach (SpecialTrait t in newTrait) {c.gameObject.AddComponent(t.GetType());}
+            if (newTrait != null) {c.gameObject.AddComponent(newTrait.GetType());}
             Destroy(gameObject);
         }
     }

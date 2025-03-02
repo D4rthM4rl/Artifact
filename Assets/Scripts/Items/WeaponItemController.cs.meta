@@ -3,7 +3,9 @@ guid: 1170fc62be6624b5fb7a208e96cb75ca
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - spriteMaterial: {fileID: 2100000, guid: af69f958c7ad9440abeb7d5da8c7bb44, type: 2}
+  - weaponPrefab: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
