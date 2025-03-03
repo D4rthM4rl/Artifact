@@ -29,10 +29,10 @@ public abstract class TeamingEnemy : Enemy
 
     public void SetTeamEstablished() {TeamController.teamEstablished = true;}
 
-    public override Collider2D[] GetPossibleFocuses(Vector3 pos, float range)
+    public override Collider[] GetPossibleFocuses(Vector3 pos, float range)
     {
-        HashSet<Collider2D> set = TeamController.GetTeamConcerns();
-        Collider2D[] arr = new Collider2D[set.Count];
+        HashSet<Collider> set = TeamController.GetTeamConcerns();
+        Collider[] arr = new Collider[set.Count];
         set.CopyTo(arr);
         // Debug.Log(arr.Length);
         return arr;
@@ -62,13 +62,14 @@ public abstract class TeamingEnemy : Enemy
         /// <summary>Some GameObject any is aware of</summary>
         public static GameObject anyAwareOf;
 
-        public static HashSet<Collider2D> GetTeamConcerns()
+        public static HashSet<Collider> GetTeamConcerns()
         {
-            HashSet<Collider2D> concerns = new HashSet<Collider2D>();
+            HashSet<Collider> concerns = new HashSet<Collider>();
             foreach (TeamingEnemy teamer in team)
             {
                 if (teamer == null || teamer.dead) continue;
-                foreach (Collider2D collider in Physics2D.OverlapCircleAll(teamer.transform.position, teamer.range))
+                foreach (Collider collider in 
+                Physics.OverlapSphere(teamer.transform.position, teamer.range, LayerMask.GetMask("Character", "Player")))
                 {
                     concerns.Add(collider);
                 }

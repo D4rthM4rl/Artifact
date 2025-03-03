@@ -62,11 +62,11 @@ public class ChargingEnemy : Enemy
   	{
     	other.TakeDamage(meleeDamage, false);
 		other.ReceiveEffect(attackEffects);
-		Vector2 knockbackDirection = (other.transform.position - transform.position).normalized;
+		Vector3 knockbackDirection = (other.transform.position - transform.position).normalized;
 
 		// Apply knockback force to what I hit
-		Rigidbody2D otherRb = other.gameObject.GetComponent<Rigidbody2D>();
-		otherRb.AddForce(knockbackDirection * knockbackModifier + Mathf.Pow(knockbackModifier, 1.5f) * rb.velocity, ForceMode2D.Impulse);
+		Rigidbody otherRb = other.gameObject.GetComponent<Rigidbody>();
+		otherRb.AddForce(knockbackDirection * knockbackModifier + Mathf.Pow(knockbackModifier, 1.5f) * rb.velocity, ForceMode.Impulse);
   	}
 
 	protected override void Follow()
@@ -83,7 +83,7 @@ public class ChargingEnemy : Enemy
 			{
 				chargingDir += 0.1f * (Vector2)(focusPos - transform.position);
 			}
-			rb.AddForce(chargingDir.normalized * moveSpeed * 0.5f, ForceMode2D.Impulse);
+			rb.AddForce(chargingDir.normalized * moveSpeed * 0.5f, ForceMode.Impulse);
 			maxSpeed = Mathf.Max(maxSpeed, rb.velocity.magnitude);
 			// Debug.Log(rb.velocity.magnitude + " (" + rb.velocity.x + "," + rb.velocity.y + ")");
 		}

@@ -3,24 +3,27 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Enemy
+  - Item
+  - Environment
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Item
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Environment
+  - Player
+  - Player Attack
+  - Character
+  - Character Attack
+  - Character 1
+  - Char 1 Attack
+  - Character 2
+  - Char 2 Attack
+  - Intangible
   - 
   - 
   - 

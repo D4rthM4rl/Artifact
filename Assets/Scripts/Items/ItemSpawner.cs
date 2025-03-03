@@ -70,7 +70,7 @@ public class ItemSpawner : MonoBehaviour
     public void SpawnItem() {
         GameObject i = Instantiate(items[chosenIndex].gameObject, transform.position, Quaternion.identity) as GameObject;
         i.SetActive(true);
-        i.layer = 6; // Item layer
+        i.layer = 3; // Item layer
         GameController.numItemsSpawned++;
         WeaponItemController weaponController = i.GetComponent<WeaponItemController>();
         if (weaponController) {weaponController.enabled = true;}

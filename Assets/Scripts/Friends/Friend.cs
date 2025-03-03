@@ -59,7 +59,7 @@ public class Friend : MonoBehaviour
     void Fire(Vector2 aim)
     {
         GameObject bullet = Instantiate(friend.bulletPrefab, transform.position, transform.rotation);
-        bullet.layer = 11; // Player attack layer
+        bullet.layer = 8; // Player attack layer
         Projectile bc = bullet.GetComponent<Projectile>();
         Player p = player.GetComponent<Player>();
         // foreach (Effect e in p.attackEffects) {bc.effects.Add(EffectController.instance.GetEffect(e));}

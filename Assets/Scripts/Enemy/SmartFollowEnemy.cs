@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+using Unity.AI;
 
 public class SmartFollowEnemy : Enemy
 {
+    public bool m_PathCalculate = false;
     private void Start() {EnemyStart();}
 
     void FixedUpdate() {
@@ -19,11 +22,14 @@ public class SmartFollowEnemy : Enemy
         switch(currState)
         {
             case(CharacterState.inactive):
-                return;
+            Follow();
+                // return;
+                break;
             case(CharacterState.wander): 
                 Wander();
                 break;
             case(CharacterState.follow):
+                if (ai == null) break;
                 Follow();
                 break;
             case(CharacterState.flee):
@@ -59,7 +65,20 @@ public class SmartFollowEnemy : Enemy
     {
         // if (followDistance)
         targetPos = focusPos;
-        MoveSmallTowardsPoint(targetPos, moveSpeed, ForceMode2D.Force);
+
+        // Debug.Log(ai.SetDestination(targetPos));
+        if (!ai.hasPath && m_PathCalculate)
+        {
+            ai.destination = transform.position;
+            m_PathCalculate = false;
+        }
+        else
+        {
+            ai.destination = targetPos;
+            m_PathCalculate = true;
+            transform.position = ai.nextPosition;
+        }
+        // MoveSmallTowardsPoint(targetPos, moveSpeed, ForceMode2D.Force);
     }
 
     /// <summary>

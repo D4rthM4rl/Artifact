@@ -27,7 +27,7 @@ public abstract class ProjectileWeapon : Weapon
         float rate = cooldown * user.attackRateModifier;
         if (Input.GetButton("Fire1") && Time.time > canFire && isSelected && user.UseMana(manaUse))
         {
-			Vector2 direction = Vector2.zero;
+			Vector3 direction = Vector3.zero;
 			if (user is Player) 
 			{
 				// Cast a ray from screen point
@@ -43,7 +43,7 @@ public abstract class ProjectileWeapon : Weapon
 				}
 				else {
 					// If you didn’t hit anything, just use the ray’s direction
-					direction = ray.direction;
+					direction = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 				}
 				// direction = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - firepoint.position).normalized;
 			}
@@ -73,7 +73,6 @@ public abstract class ProjectileWeapon : Weapon
 
 	protected virtual void SetupProjectile(Projectile projectile)
 	{
-        gameObject.layer = 11; // Intangible layer
         projectile.sender = user;
         projectile.size = size * user.attackSizeModifier;
         projectile.damage = damage * user.attackDamageModifier;
@@ -81,6 +80,7 @@ public abstract class ProjectileWeapon : Weapon
 		projectile.speed = projectileSpeed * user.projectileSpeedModifier;
 		projectile.lifetime = projectileLifetime * user.projectileLifetimeModifier;
 		projectile.canAttack = user.willAttack;
+		if (projectile.gameObject != null) projectile.gameObject.layer = user.gameObject.layer + 1;
         foreach (Effect e in user.attackEffects) {projectile.effects.Add(EffectController.instance.GetEffect(e));}
 	}
 

@@ -69,7 +69,8 @@ public abstract class CirclerEnemy : TeamingEnemy
         // transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         CirclerController.CalculateSpot(this, focusPos, obstacleLayer, transform.position);
         targetPos = CirclerController.CalculateTargetPosition(myNumber, focusPos);
-        MoveSmallTowardsPoint(targetPos, moveSpeed * 5, ForceMode2D.Force);
+        ai.SetDestination(targetPos);
+        // MoveSmallTowardsPoint(targetPos, moveSpeed * 5, ForceMode2D.Force);
     }
 
     protected override void Wander() 

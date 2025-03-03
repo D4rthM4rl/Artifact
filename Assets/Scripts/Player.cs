@@ -78,6 +78,7 @@ public class Player : Character
             // Instantiate the weapon as a child of the player’s rigidbody transform.
             weapon = Instantiate(newWeapon, rb.transform);
             weapon.transform.localPosition = new Vector3(.5f, 0, 0);
+            weapon.layer = 8; // Player layer
             weapons[numWeapons] = weapon;
 
             // Remove the WeaponItemController script from the instantiated weapon.

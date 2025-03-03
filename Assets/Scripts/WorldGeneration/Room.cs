@@ -53,7 +53,7 @@ public class Room : MonoBehaviour
         }
 
         foreach (Enemy e in GetComponentsInChildren<Enemy>()) {
-            e.currState = CharacterState.inactive;
+            // e.currState = CharacterState.inactive;
             enemiesInRoom.Add(e);
         }
 

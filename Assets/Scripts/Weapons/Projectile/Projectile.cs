@@ -18,13 +18,14 @@ public class Projectile : MonoBehaviour
 
     public List<Effect> effects = new List<Effect>();
     public HashSet<GameObject> canAttack;
-    protected ContactFilter2D contactFilter;
+    LayerMask mask;
+    SphereCollider col;
 
     // Start is called before the first frame update
     void Start()
     {
         StartCoroutine(DeathDelay());
-        gameObject.layer = 11;
+        // Layer should be setup by shooter in ProjectileWeapon
 
         foreach (Effect effect in effects)
         {
@@ -40,23 +41,39 @@ public class Projectile : MonoBehaviour
         }
         transform.localScale = new Vector2(size, size);
 
-        // Configure the ContactFilter2D
-        contactFilter = new ContactFilter2D();
-        contactFilter.useLayerMask = true; // Enable layer mask filtering
-
         // Set the layer mask to the layer(s) you want to check for overlap
-        LayerMask mask = LayerMask.GetMask("Character", "Player", "Wall");
-        contactFilter.SetLayerMask(mask);
+        // mask = LayerMask.GetMask("Character", "Player", "Environment");
+        col = gameObject.GetComponent<SphereCollider>();
+        Physics.IgnoreCollision(col, sender.gameObject.GetComponent<Collider>());
     }
 
     void Update() {
-        // List<Collider> results = new List<Collider>();
-		// GetComponent<Collider>().OverlapCollider(contactFilter, results);
+        // int maxColliders = 10;
+        // Collider[] results = new Collider[maxColliders];
+        // Physics.OverlapSphereNonAlloc(col.center + transform.position, col.radius, results);
 		// foreach (Collider collider in results)
         // {
-		// 	// Debug.Log(collider);
-        //     if (collider.gameObject != null && (canAttack.Contains(collider.gameObject) || 
-        //         (sender is Player && !collider.GetComponent<Player>())) || collider.gameObject.layer == 7)
+        //     // Debug.Log("Projectile collision with " + collider.gameObject);
+        //     // if (collider.gameObject.tag == "Environment" || sender == null || sender.gameObject == null) 
+        //     // {
+        //     //     Destroy(this.gameObject);
+        //     // }
+        //     // else if ((sender is Player || sender.willAttack.Contains(collider.gameObject)) && sender.gameObject != collider.gameObject && collider.gameObject.GetComponent<Character>()) 
+        //     // {
+        //     //     Character character = collider.gameObject.GetComponent<Character>();
+        //     //     HitCharacter(character, damage * sender.attackDamageModifier);
+
+        //     //     Destroy(this.gameObject);
+        //     // }
+        //     // else
+        //     // {
+        //     //     Debug.Log("Ignoring collision with " + collider.gameObject.tag);
+        //     //     // Physics.IgnoreCollision(collider, col);
+        //     // }
+        //     if (collider == null || collider.gameObject == null || collider.gameObject == gameObject) continue;
+		// 	Debug.Log(collider.gameObject);
+        //     if ((canAttack.Contains(collider.gameObject) || (sender is Player && !collider.GetComponent<Player>()))
+        //      || collider.gameObject.layer == 7)
         //     {
         //         gameObject.layer = 10;
         //     }
@@ -79,22 +96,24 @@ public class Projectile : MonoBehaviour
         targetRb.AddForce(knockbackDirection * sender.knockbackModifier, ForceMode.Impulse);
     }
 
-    void OnCollisionEnter(Collision col)
+    void OnCollisionEnter(Collision collision)
     {
-        if (col.gameObject.tag == "Wall" || sender == null || sender.gameObject == null) 
+        // Debug.Log("Projectile collision with " + collision.gameObject.tag);
+        if (collision.gameObject.tag == "Environment" || sender == null || sender.gameObject == null) 
         {
             Destroy(this.gameObject);
         }
-        else if ((sender is Player || sender.willAttack.Contains(col.gameObject)) && sender.gameObject != col.gameObject && col.gameObject.GetComponent<Character>()) 
+        else if ((sender is Player || sender.willAttack.Contains(collision.gameObject)) && sender.gameObject != collision.gameObject && collision.gameObject.GetComponent<Character>()) 
         {
-            Character character = col.gameObject.GetComponent<Character>();
+            Character character = collision.gameObject.GetComponent<Character>();
             HitCharacter(character, damage * sender.attackDamageModifier);
 
             Destroy(this.gameObject);
         }
         else
         {
-            // Debug.Log("Ignoring collision with " + col.gameObject.tag);
+            // Debug.Log("Ignoring collision with " + collision.gameObject.tag);
+            // Physics.IgnoreCollision(collision.collider, col);
         }
     }
 

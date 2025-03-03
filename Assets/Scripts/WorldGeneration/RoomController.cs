@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.AI.Navigation;
+using Unity.AI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.AI;
 
 /// <summary>
 /// Class of info that makes up a room to be generated
@@ -67,6 +70,13 @@ public class RoomController : MonoBehaviour
     /// Has removed all unnecessary doors 
     /// </summary>
     bool doorsRemoved = false;
+    bool navMeshesBuilt = false;
+
+    void Awake()
+    {
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
 
     void Start()
     {
@@ -98,6 +108,26 @@ public class RoomController : MonoBehaviour
                     room.SetupDoors();
                 }
             }
+            if (!navMeshesBuilt)
+            {
+                navMeshesBuilt = true;
+                foreach (GameObject i in GameObject.FindGameObjectsWithTag("Environment"))
+                {
+                    NavMeshSurface surface = i.AddComponent<NavMeshSurface>();
+                    // surface.buildHeightMesh = true;
+                    surface.agentTypeID = 0;
+                    surface.BuildNavMesh();
+                }
+                foreach (Enemy agent in FindObjectsOfType<Enemy>())
+                {
+                    agent.ai = agent.gameObject.AddComponent<NavMeshAgent>();
+                    agent.ai.agentTypeID = 0;
+                    agent.ai.updateRotation = false;
+                    agent.ai.updateUpAxis = false;
+                    agent.ai.speed = agent.moveSpeed;
+                    agent.ai.angularSpeed = agent.moveSpeed * 10;
+                }
+            }
             return;
         }
 
@@ -105,12 +135,6 @@ public class RoomController : MonoBehaviour
         isLoadingRoom = true;
         
         StartCoroutine(LoadRoomRoutine(currentLoadRoomData));
-    }
-
-    void Awake()
-    {
-        instance = this;
-        DontDestroyOnLoad(gameObject);
     }
 
     /// <summary>
@@ -271,7 +295,7 @@ public class RoomController : MonoBehaviour
         if (prevRoom != null) {
             foreach (Enemy enemy in prevRoom.enemiesInRoom)
             {
-                enemy.currState = CharacterState.inactive;
+                // enemy.currState = CharacterState.inactive;
             }
         }
         CameraController.instance.currRoom = room;
