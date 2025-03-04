@@ -20,7 +20,7 @@ public abstract class CirclerEnemy : TeamingEnemy
         }   
         EnemyUpdate();
         focusPos = focus.transform.position;
-        if (Vector2.Distance(transform.position, focusPos) <= meleeRange * attackSizeModifier && !cooldownAttack && willAttack.Contains(focus))
+        if (Vector3.Distance(transform.position, focusPos) <= meleeRange * attackSizeModifier && !cooldownAttack && willAttack.Contains(focus))
             {
                 currState = CharacterState.attack;
                 Attack();
@@ -64,7 +64,7 @@ public abstract class CirclerEnemy : TeamingEnemy
     protected override void Follow() 
     {
         // Make the enemy face the focus (or not)
-        Vector2 direction = (focusPos - transform.position).normalized;
+        Vector3 direction = (focusPos - transform.position).normalized;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         // transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         CirclerController.CalculateSpot(this, focusPos, obstacleLayer, transform.position);
@@ -214,7 +214,7 @@ public abstract class CirclerEnemy : TeamingEnemy
             Collider2D[] obstacles = Physics2D.OverlapCircleAll(from, circleRadius, obstacleLayer);
             foreach (var obstacle in obstacles)
             {
-                if (Vector2.Distance(obstacle.transform.position, from) < 0.2f)
+                if (Vector3.Distance(obstacle.transform.position, from) < 0.2f)
                 {
                     return false;
                 }

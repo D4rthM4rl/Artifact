@@ -120,13 +120,14 @@ public abstract class Enemy : Character
     public float cooldown;
 
     // For AI/Pathfinding
-    private Vector3 lastTargetPoint;
     private int checksToPoint = 0;
     private Vector3[] lastLocations = new Vector3[3];
-    private int unstuckTries = 0;
-    private Collider2D territory;
+    private Collider territory;
     private bool drawLinesOfSight = false;
     protected bool drawFocus = true;
+	public NavMeshAgent ai;
+    /// <summary>Whether to recalculate </summary>
+    protected bool destinationRecalculate = true;
 
     /// <summary>Possible <see cref="Action"/>s for an enemy to take</summary>
     public List<Action> possibleActions = new List<Action>();
@@ -136,6 +137,7 @@ public abstract class Enemy : Character
     public Vector3 focusPos;
     /// <summary>Position of where I'm moving to because of focus and state</summary>
     public Vector3 targetPos;
+
 
     [System.NonSerialized]
     public bool dead = false;
@@ -148,7 +150,6 @@ public abstract class Enemy : Character
     [System.NonSerialized]
     public Rigidbody rb;
     protected System.Random random;
-	public NavMeshAgent ai;
 
 	/// <summary>Initializes enemy data</summary>
 	void Start()
@@ -157,7 +158,8 @@ public abstract class Enemy : Character
         lastLocations[1] = transform.position;
         lastLocations[2] = transform.position;
         random = GameController.seededRandom;
-        foreach (Effect e in attackEffects) {
+        foreach (Effect e in attackEffects) 
+        {
             if (e.particles == null) e.particles = EffectController.instance.GetParticles(e.type, e.level);
         }
         // player = GameObject.FindGameObjectWithTag("Player");
@@ -198,7 +200,7 @@ public abstract class Enemy : Character
             Character character = collider.gameObject.GetComponent<Character>();
             if (character != null && character.currState != CharacterState.inactive && collider != GetComponent<Collider>())
             {
-                float proximityPriority = 1.01f - (.1f + Vector2.Distance(transform.position, character.transform.position)) / (.1f + range);
+                float proximityPriority = 1.01f - (.1f + Vector3.Distance(transform.position, character.transform.position)) / (.1f + range);
                 float lineOfSightPriority = CanSeeTarget(character.transform.position, obstacleLayer) ? 1 : .2f;
                 bool relationshipFound = false;
                 // Look at relationship with each character
@@ -219,7 +221,7 @@ public abstract class Enemy : Character
             {  
                 ItemController item = collider.gameObject.GetComponent<ItemController>();
                 // Debug.Log("Item found: " + item.item.name);
-                float proximityPriority = 1.01f - (.1f + Vector2.Distance(transform.position, item.transform.position)) / (.1f + range);
+                float proximityPriority = 1.01f - (.1f + Vector3.Distance(transform.position, item.transform.position)) / (.1f + range);
                 float lineOfSightPriority = CanSeeTarget(item.transform.position, obstacleLayer) ? 1 : .2f;
                 bool relationshipFound = false;
                 // Could change this to use ItemRelationships
@@ -301,8 +303,8 @@ public abstract class Enemy : Character
         {
             angle = i * (360f / totalChecks) * Mathf.Deg2Rad;
             direction = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0).normalized;
-            if (Physics2D.Raycast(transform.position, direction, distCheck, obstacleLayer))
-            {newPoint = Physics2D.Raycast(transform.position, direction, distCheck, obstacleLayer).point;}
+            if (Physics.Raycast(transform.position, direction, out RaycastHit hit, distCheck, obstacleLayer))
+            {newPoint = hit.point;}
             else
             {newPoint = transform.position + (direction * distCheck);}
             float distance = Vector3.Distance(newPoint, focusPos);
@@ -339,77 +341,15 @@ public abstract class Enemy : Character
     /// <returns>True if I'm in my territory</returns>
     protected virtual bool InTerritory()
     {
-        if (territory == null) 
-        {
-            Debug.LogError("Need a territory collider for this enemy");
-            return false; // Return false if no territory is defined
-        }
-        return territory.OverlapPoint(transform.position);
-        // // Set up a filter that will allow all layers, or you can specify layers to include
-        // ContactFilter2D contactFilter = new ContactFilter2D();
-        // contactFilter.SetLayerMask(Physics2D.AllLayers); // Adjust the layer mask as needed
-        // contactFilter.useTriggers = true; // Include triggers if applicable
-        
-        // // Create an array to hold colliders that overlap
-        // Collider2D[] results = new Collider2D[1]; // We only need to check if one collider overlaps
-        
-        // // Check if the specified collider overlaps with the territory
-        // int overlapCount = territory.OverlapCollider(contactFilter, results);
-        
-        // // Return true if the collider is inside the territory, otherwise false
-        // return overlapCount > 0 && results[0] == collider2d;
+        // if (territory == null) 
+        // {
+        //     Debug.LogError("Need a territory collider for this enemy");
+        //     return false; // Return false if no territory is defined
+        // }
+        return true;
     }
 
     // public void Shoot()
-    
-    /// <summary>
-    /// Moves enemy small distance towards next pathfinding point, don't use on medium/big distances
-    /// </summary>
-    /// <param name="finalDest">Where we want to end up</param>
-    /// <param name="speed">Speed at which to move towards the target</param>
-    /// <param name="forceMode">How to move, impulse or force</param>
-    public void MoveSmallTowardsPoint(Vector3 finalDest, float speed, ForceMode2D forceMode)
-    {
-        // ai.destination = finalDest;
-        // Vector3 point = ai.path.corners[1];
-        // // Calculate direction towards the point
-        // Vector2 direction = (point - transform.position);
-        // // Debug.Log("Move to " + point + " and last one was " + lastTargetPoint + ", " + checksToPoint);
-        // // Debug.Log("lastLocation: " + lastLocations[2] + " - currLocation: " + transform.position + " = " + Vector3.Distance(lastLocations[2], transform.position));
-        // if (Vector2.Distance(lastTargetPoint, point) < .01) checksToPoint++;
-        // else checksToPoint = 0;
-        // if (checksToPoint > 100 && Vector3.Distance(lastLocations[2], transform.position) < .005 && Vector2.Distance(transform.position, destinationSetter.target) > .6 && unstuckTries < 50) 
-        // {
-        //     unstuckTries++;
-        //     Vector2 prev = direction;
-        //     if (direction.x == 0) direction.x = 0.01f;
-        //     if (direction.y == 0) direction.y = 0.01f;
-        //     if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y)) 
-        //     {
-        //         if (unstuckTries % 10 < 5) direction = new Vector2(direction.x/10, direction.y * 10);
-        //         else direction = new Vector2(direction.x/10, -direction.y*10);
-        //     }
-        //     else 
-        //     {
-        //         if (unstuckTries % 10 < 5) direction = new Vector2(direction.x*10, direction.y/10);
-        //         else direction = new Vector2(-direction.x*10, direction.y/10);
-        //     }
-        //     rb.AddForce(direction * (speed * 1f), ForceMode2D.Impulse);
-        //     // Debug.Log("Adding force in direction: " + direction + " Because we want to move in " + prev + ", tries = " + unstuckTries);
-        // }
-        // else
-        // {
-        //     float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        //     // transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-        //     // Apply force towards the player
-        //     rb.AddForce(direction * (speed * 4f), forceMode);
-        //     unstuckTries = Mathf.Max(0, unstuckTries - 10);
-        // }
-        // lastLocations[2] = lastLocations[1];
-        // lastLocations[1] = lastLocations[0];
-        // lastLocations[0] = transform.position;
-        // lastTargetPoint = point;
-    }
 
     /// <summary>Starts cooldown until enemy can attack again</summary>
     protected IEnumerator Cooldown()
@@ -428,34 +368,22 @@ public abstract class Enemy : Character
         cooldownAttack = false;
     }
 
-    /// <summary>Sets up the AI with adjusted penalties based on enemy size</summary>
+    /// <summary>Sets up the AI</summary>
     protected IEnumerator SetupAI()
     {
         while (ai == null) {yield return new WaitForSeconds(0.1f);}
         ai.speed = moveSpeed;
+        ai.angularSpeed = 500;
+        ai.acceleration = 50;
         // ai.constrainInsideGraph = true;
+    }
 
-        ai.SetDestination(GameObject.FindGameObjectWithTag("Player").transform.position);
-
-        // // Calculate penalty based on the collider's size
-        // collider2d = GetComponent<Collider2D>();
-        // if (collider2d != null)
-        // {
-        //     // Determine the penalty multiplier based on the width of the collider
-        //     float sizePenalty = Mathf.Max(collider2d.bounds.size.x, collider2d.bounds.size.y);
-        //     int tagNum = 1;
-        //     while (sizePenalty > 0)
-        //     {
-        //         // Apply a scaled penalty for larger colliders (adjust index based on your setup)
-        //         seeker.tagPenalties[tagNum] = Mathf.CeilToInt(Mathf.Pow(sizePenalty, 1.5f) * 200f); // Adjust the multiplier as needed
-        //         sizePenalty -= 0.5f;
-        //         tagNum++;
-        //     }
-        // }
-        // else
-        // {
-        //     Debug.LogWarning("Collider2D not found on enemy. Tag penalties will not be adjusted.");
-        // }
+    /// <summary>Waits 0.05s before saying we should recalculate the destination</summary>
+    protected IEnumerator CooldownDestinationSet()
+    {
+        destinationRecalculate = false;
+        yield return new WaitForSeconds(0.05f);
+        destinationRecalculate = true;
     }
 
     /// <summary>
@@ -514,25 +442,25 @@ public abstract class Enemy : Character
     /// <returns>True if blocked in 2+ directions</returns>
     public bool IsCornered(LayerMask obstacleLayer)
     {
-        Vector2[] directions = new Vector2[]
+        Vector3[] directions = new Vector3[]
         {
-            Vector2.up,
-            Vector2.down,
-            Vector2.left,
-            Vector2.right
+            Vector3.forward,
+            Vector3.back,
+            Vector3.left,
+            Vector3.right
         };
 
         // Track how many sides are blocked
         int blockedCount = 0;
 
         // Check each direction using raycasts
-        foreach (Vector2 direction in directions)
+        foreach (Vector3 direction in directions)
         {
             // Cast a ray in the direction and check for obstacles
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, 3f, obstacleLayer);
+            bool hit = Physics.Raycast(transform.position, direction, 3f, obstacleLayer);
             
             // If the ray hits something, increment the blocked count
-            if (hit.collider != null)
+            if (hit)
             {
                 blockedCount++;
             }

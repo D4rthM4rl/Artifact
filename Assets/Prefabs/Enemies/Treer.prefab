@@ -104,7 +104,7 @@ MonoBehaviour:
   powerLevel: 7
   health: 100
   maxHealth: 100
-  moveSpeed: 16
+  moveSpeed: 10
   mana: 100
   manaUseModifier: 1
   manaRegenRate: 0.005
@@ -138,13 +138,12 @@ MonoBehaviour:
   meleeDamage: 5
   meleeRange: 2
   cooldown: 1
+  ai: {fileID: 0}
   possibleActions: []
   focus: {fileID: 0}
   focusPos: {x: 0, y: 0, z: 0}
   targetPos: {x: 0, y: 0, z: 0}
   cooldownAttack: 0
-  ai: {fileID: 0}
-  m_PathCalculate: 0
 --- !u!54 &-3759097973891496029
 Rigidbody:
   m_ObjectHideFlags: 0

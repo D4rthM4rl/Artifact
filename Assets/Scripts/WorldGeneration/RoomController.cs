@@ -100,6 +100,8 @@ public class RoomController : MonoBehaviour
         if (isLoadingRoom) {
             return;
         }
+        // When we're done loading rooms probably, might run more than once so
+        // if we want to do something only once, we can set a bool to true
         if (loadRoomQueue.Count == 0) {
             if (!doorsRemoved) { // This method of removing doors waits til the end so it's kinda late/slow 
                 doorsRemoved = true;
@@ -111,22 +113,7 @@ public class RoomController : MonoBehaviour
             if (!navMeshesBuilt)
             {
                 navMeshesBuilt = true;
-                foreach (GameObject i in GameObject.FindGameObjectsWithTag("Environment"))
-                {
-                    NavMeshSurface surface = i.AddComponent<NavMeshSurface>();
-                    // surface.buildHeightMesh = true;
-                    surface.agentTypeID = 0;
-                    surface.BuildNavMesh();
-                }
-                foreach (Enemy agent in FindObjectsOfType<Enemy>())
-                {
-                    agent.ai = agent.gameObject.AddComponent<NavMeshAgent>();
-                    agent.ai.agentTypeID = 0;
-                    agent.ai.updateRotation = false;
-                    agent.ai.updateUpAxis = false;
-                    agent.ai.speed = agent.moveSpeed;
-                    agent.ai.angularSpeed = agent.moveSpeed * 10;
-                }
+                SetupPathfinding();
             }
             return;
         }
@@ -322,5 +309,26 @@ public class RoomController : MonoBehaviour
         }
     }
 
-
+    /// <summary>
+    /// Setup navmeshes and pathfinding for all rooms
+    /// </summary>
+    private void SetupPathfinding()
+    {
+        foreach (GameObject i in GameObject.FindGameObjectsWithTag("Environment"))
+        {
+            NavMeshSurface surface = i.AddComponent<NavMeshSurface>();
+            // surface.buildHeightMesh = true;
+            surface.agentTypeID = 0;
+            surface.BuildNavMesh();
+        }
+        foreach (Enemy agent in FindObjectsOfType<Enemy>())
+        {
+            agent.ai = agent.gameObject.AddComponent<NavMeshAgent>();
+            agent.ai.agentTypeID = 0;
+            agent.ai.updateRotation = false;
+            agent.ai.updateUpAxis = false;
+            agent.ai.speed = agent.moveSpeed;
+            agent.ai.angularSpeed = agent.moveSpeed * 10;
+        }
+    }
 }

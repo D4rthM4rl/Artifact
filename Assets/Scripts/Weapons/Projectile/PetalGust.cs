@@ -10,7 +10,7 @@ public class PetalGust : ProjectileWeapon
         float rate = cooldown * user.attackRateModifier;
         if (Input.GetButton("Fire1") && Time.time > canFire && isSelected && user.UseMana(manaUse))
         {
-			Vector2 target = Vector2.zero;
+			Vector3 target = Vector3.zero;
 			if (user is Player) 
 			{
 				target = (Camera.main.ScreenToWorldPoint(Input.mousePosition));
@@ -24,7 +24,7 @@ public class PetalGust : ProjectileWeapon
         }
 	}
 
-    protected override IEnumerator Fire(Vector2 direction)
+    protected override IEnumerator Fire(Vector3 direction)
     {
         inUse = true;
 		int numProjectiles = Random.Range(minNumProjectilesInFire, maxNumProjectilesInFire);

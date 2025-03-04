@@ -52,7 +52,7 @@ public class InfinityItem : SpecialTrait
                     Rigidbody2D rb = col.GetComponent<Rigidbody2D>();
                     if (rb != null)
                     {
-                        Vector2 knockbackDirection = -(transform.position - rb.transform.position).normalized;
+                        Vector3 knockbackDirection = -(transform.position - rb.transform.position).normalized;
                         // Could unnormalize it I think, so that it's stronger the closer you get as an upgrade
                         rb.AddForce(knockbackDirection * pushBackForce, ForceMode2D.Impulse);
                     }

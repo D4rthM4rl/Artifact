@@ -15,7 +15,7 @@ public abstract class RangedEnemy : Enemy
 
     protected override void Attack() {
         // // GameObject bullet = Instantiate(bulletPrefab, firepoint.position, firepoint.rotation);
-        // Vector2 direction = (focusPos - transform.position).normalized;
+        // Vector4 direction = (focusPos - transform.position).normalized;
         // GameObject bullet = Instantiate(bulletPrefab, transform.position + (Vector3)direction * 0.5f, Quaternion.identity) as GameObject;
         // bullet.tag = "Enemy";
         // bullet.layer = 10; // Enemy attack

@@ -11,9 +11,9 @@ public class GrassDash : Dash
         cooldownTime = 0;
     }
 
-    protected override void DoDash(Vector2 direction)
+    protected override void DoDash(Vector3 direction)
     {
-        gameObject.GetComponent<Rigidbody2D>().AddForce(force * direction * 10 * Time.fixedDeltaTime, ForceMode2D.Impulse);
+        gameObject.GetComponent<Rigidbody>().AddForce(force * direction * 10 * Time.fixedDeltaTime, ForceMode.Impulse);
         SpawnGrasses();
     }
 

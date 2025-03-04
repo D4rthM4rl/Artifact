@@ -8,8 +8,6 @@ public class ChargingEnemy : Enemy
 	public bool charging = false;
 	[System.NonSerialized]
 	public float maxSpeed = 0;
-	[System.NonSerialized]
-	public Vector2 chargingDir;
 	protected int timeSeeing = 0;
 
 	void Start()
@@ -23,7 +21,7 @@ public class ChargingEnemy : Enemy
 		// Debug.Log(currState);
 		EnemyUpdate();
 		focusPos = focus.transform.position;
-        if (Vector2.Distance(focusPos, transform.position) <= meleeRange * attackSizeModifier && willAttack.Contains(focus) && !cooldownAttack)
+        if (Vector3.Distance(focusPos, transform.position) <= meleeRange * attackSizeModifier && willAttack.Contains(focus) && !cooldownAttack)
         {
             Attack();
             currState = CharacterState.attack;
@@ -71,31 +69,39 @@ public class ChargingEnemy : Enemy
 
 	protected override void Follow()
 	{
+		if (destinationRecalculate)
+		{
+			ai.SetDestination(targetPos);
+			StartCoroutine(CooldownDestinationSet());
+		}
+		else return;
+
 		if (charging)
 		{
+			ai.angularSpeed = 50;
+			ai.speed = moveSpeed * 3;
+			ai.acceleration = 100;
 			if (rb.velocity.magnitude < (3 + 0.1 * moveSpeed) && maxSpeed > (5 + 0.01 * moveSpeed))
 			{
 				charging = false;
 				// Debug.Log("Stop");
 			}
 			timeSeeing = 0;
-			if (chargingDir != (Vector2)(focusPos - transform.position))
-			{
-				chargingDir += 0.1f * (Vector2)(focusPos - transform.position);
-			}
-			rb.AddForce(chargingDir.normalized * moveSpeed * 0.5f, ForceMode.Impulse);
 			maxSpeed = Mathf.Max(maxSpeed, rb.velocity.magnitude);
 			// Debug.Log(rb.velocity.magnitude + " (" + rb.velocity.x + "," + rb.velocity.y + ")");
 		}
 		else
 		{
+			ai.angularSpeed = 500;
+			ai.speed = moveSpeed;
+			ai.acceleration = 50;
 			if (CanSeeTarget(focusPos, obstacleLayer))
 			{
 				if (timeSeeing > 100) 
 				{
 					maxSpeed = 0;
 					charging = true;
-					chargingDir = focusPos - transform.position;
+					ai.SetDestination(focusPos);
 				}
 				else
 				{
@@ -106,7 +112,6 @@ public class ChargingEnemy : Enemy
 			{
 				timeSeeing = 0;
 				targetPos = focusPos;
-				MoveSmallTowardsPoint(targetPos, moveSpeed, ForceMode2D.Force);
 			}
 		}
 	}

@@ -6,15 +6,13 @@ using Unity.AI;
 
 public class SmartFollowEnemy : Enemy
 {
-    public bool m_PathCalculate = false;
     private void Start() {EnemyStart();}
 
     void FixedUpdate() {
         if (currState == CharacterState.inactive) return;
         EnemyUpdate();
-        // focusPos = focus.GetComponent<Collider2D>().ClosestPoint(transform.position);
         focusPos = focus.transform.position;
-        if (Vector2.Distance(focusPos, transform.position) <= meleeRange * attackSizeModifier && !cooldownAttack && willAttack.Contains(focus))
+        if (Vector3.Distance(focusPos, transform.position) <= meleeRange * attackSizeModifier && !cooldownAttack && willAttack.Contains(focus))
         {
             Attack();
             currState = CharacterState.attack;
@@ -63,22 +61,13 @@ public class SmartFollowEnemy : Enemy
     /// <summary>Moves towards </summary>
     protected override void Follow()
     {
-        // if (followDistance)
-        targetPos = focusPos;
-
         // Debug.Log(ai.SetDestination(targetPos));
-        if (!ai.hasPath && m_PathCalculate)
+        if (destinationRecalculate)
         {
-            ai.destination = transform.position;
-            m_PathCalculate = false;
-        }
-        else
-        {
+            targetPos = focusPos;
             ai.destination = targetPos;
-            m_PathCalculate = true;
-            transform.position = ai.nextPosition;
+            StartCoroutine(CooldownDestinationSet());
         }
-        // MoveSmallTowardsPoint(targetPos, moveSpeed, ForceMode2D.Force);
     }
 
     /// <summary>

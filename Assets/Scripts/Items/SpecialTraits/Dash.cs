@@ -52,10 +52,10 @@ public abstract class Dash : SpecialTrait
         if (gameObject.GetComponent<Player>() != null)
         {
             // Check each direction input
-            StartCoroutine(CheckForPlayerDash(KeyCode.W, Vector2.up));
-            StartCoroutine(CheckForPlayerDash(KeyCode.A, Vector2.left));
-            StartCoroutine(CheckForPlayerDash(KeyCode.S, Vector2.down));
-            StartCoroutine(CheckForPlayerDash(KeyCode.D, Vector2.right));
+            StartCoroutine(CheckForPlayerDash(KeyCode.W, Vector3.forward));
+            StartCoroutine(CheckForPlayerDash(KeyCode.A, Vector3.left));
+            StartCoroutine(CheckForPlayerDash(KeyCode.S, Vector3.back));
+            StartCoroutine(CheckForPlayerDash(KeyCode.D, Vector3.right));
         }
         else
         {
@@ -66,7 +66,7 @@ public abstract class Dash : SpecialTrait
     /// <summary>Check whether key has been double tapped to dash</summary>
     /// <param name="key">Which key is being checked</param>
     /// <param name="direction">Direction to dash in</param>
-    private IEnumerator CheckForPlayerDash(KeyCode key, Vector2 direction)
+    private IEnumerator CheckForPlayerDash(KeyCode key, Vector3 direction)
     {
         if (Input.GetKeyDown(key))
         {
@@ -114,7 +114,7 @@ public abstract class Dash : SpecialTrait
         {
             if ((c.currState == CharacterState.follow || c.currState == CharacterState.flee) && Vector3.Distance(c.targetPos, transform.position) > 5)
             {
-                Vector2 direction = (c.targetPos - transform.position).normalized;
+                Vector3 direction = (c.targetPos - transform.position).normalized;
                 timeLeftDashing = duration;
                 while (timeLeftDashing > 0)
                 {
@@ -131,7 +131,7 @@ public abstract class Dash : SpecialTrait
     /// Do the dash in the direction
     /// </summary>
     /// <param name="direction">Direction to dash in</param>
-    protected abstract void DoDash(Vector2 direction);
+    protected abstract void DoDash(Vector3 direction);
 
     /// <summary>
     /// Start a cooldown until it can dash again

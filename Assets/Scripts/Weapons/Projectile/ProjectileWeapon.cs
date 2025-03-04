@@ -25,36 +25,61 @@ public abstract class ProjectileWeapon : Weapon
 	{
 		// transform.position = holdPoint.transform.position;
         float rate = cooldown * user.attackRateModifier;
-        if (Input.GetButton("Fire1") && Time.time > canFire && isSelected && user.UseMana(manaUse))
+        if (Time.time > canFire && isSelected && user.UseMana(manaUse))
         {
 			Vector3 direction = Vector3.zero;
 			if (user is Player) 
 			{
-				// Cast a ray from screen point
-				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+				if (Input.GetButton("Fire1"))
+				{
+					// Cast a ray from screen point
+					Plane plane = new Plane(Vector3.back, transform.position);
+					Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+					// RaycastHit hit;
+					// // Hit ground
+					// if (Physics.Raycast(ray, out hit)) {
+					// 	// Find the direction from the player to the hit point
+					// 	direction = hit.point - transform.position;
+					// }
+					// else {
+						// If you didn’t hit anything, just use the ray’s direction
+						// Determine the point along the ray that hits the plane.
+						if (plane.Raycast(ray, out float distance))
+						{
+							// Get the point where the ray intersects the plane.
+							Vector3 hitPoint = ray.GetPoint(distance);
 
-				// Save the info
-				RaycastHit hit;
-
-				// Hit ground
-				if (Physics.Raycast(ray, out hit)) {
-					// Find the direction from the player to the hit point
-					direction = hit.point - transform.position;
+							// Determine the direction from the player to the hit point.
+							direction = hitPoint - transform.position;
+						}
+					// }
+					direction.Normalize();
+					StartCoroutine(Fire(direction));
+					canFire = Time.time + rate;
+				} else {
+					direction = Vector3.zero;
+					if (Input.GetButton("LeftFire")) direction += Vector3.left;
+					if (Input.GetButton("RightFire")) direction += Vector3.right;
+					if (Input.GetButton("UpFire")) direction += Vector3.up;
+					if (Input.GetButton("DownFire")) direction += Vector3.down;
+					if (direction != Vector3.zero)
+					{
+						direction.Normalize();
+						StartCoroutine(Fire(direction));
+						canFire = Time.time + rate;
+					}
 				}
-				else {
-					// If you didn’t hit anything, just use the ray’s direction
-					direction = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-				}
-				// direction = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - firepoint.position).normalized;
 			}
 			else 
+			{
 				direction = ((user as Enemy).focusPos - firepoint.position).normalized;
-            StartCoroutine(Fire(direction));
-            canFire = Time.time + rate;
+				StartCoroutine(Fire(direction));
+				canFire = Time.time + rate;
+			}
         }
 	}
 
-	protected virtual IEnumerator Fire(Vector2 direction)
+	protected virtual IEnumerator Fire(Vector3 direction)
     {
         inUse = true;
 		int numProjectiles = Random.Range(minNumProjectilesInFire, maxNumProjectilesInFire + 1);

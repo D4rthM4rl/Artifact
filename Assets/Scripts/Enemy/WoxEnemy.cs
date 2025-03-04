@@ -21,7 +21,7 @@ public class WoxEnemy : CirclerEnemy
         }
         EnemyUpdate();
         focusPos = focus.transform.position;
-        if (Vector2.Distance(transform.position, focusPos) <= CirclerController.circleRadius + 2 && !cooldownAttack && willAttack.Contains(focus))
+        if (Vector3.Distance(transform.position, focusPos) <= CirclerController.circleRadius + 2 && !cooldownAttack && willAttack.Contains(focus))
         {
             currState = CharacterState.attack;
             Attack();
@@ -52,7 +52,7 @@ public class WoxEnemy : CirclerEnemy
     protected override void Attack()
     {
         // GameObject bullet = Instantiate(bulletPrefab, firepoint.position, firepoint.rotation);
-        Vector2 direction = (focusPos - transform.position).normalized;
+        Vector3 direction = (focusPos - transform.position).normalized;
         GameObject bulletObject = Instantiate(bulletPrefab, transform.position + (Vector3)direction * 0.5f, Quaternion.identity) as GameObject;
         Projectile bullet = bulletObject.GetComponent<Projectile>();
         bullet.sender = this;

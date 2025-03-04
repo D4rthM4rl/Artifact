@@ -10,7 +10,7 @@ public class SpriteBillboard : MonoBehaviour
     {
         if (lockXZ)
         {
-            // transform.LookAt(Camera.main.transform);
+            transform.LookAt(Camera.main.transform);
             transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
         }
         else

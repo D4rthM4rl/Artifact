@@ -11,9 +11,8 @@ GameObject:
   - component: {fileID: 7286877016765189211}
   - component: {fileID: -998985282404200799}
   - component: {fileID: 3477187138778615701}
-  - component: {fileID: 4701083511624220049}
   - component: {fileID: 104566586}
-  - component: {fileID: 5290166019312888988}
+  - component: {fileID: 8441501791241215001}
   m_Layer: 9
   m_Name: Gnarled Boar
   m_TagString: Enemy
@@ -97,6 +96,7 @@ MonoBehaviour:
   meleeDamage: 1
   meleeRange: 2
   cooldown: 1
+  ai: {fileID: 0}
   possibleActions: []
   focus: {fileID: 0}
   focusPos: {x: 0, y: 0, z: 0}
@@ -154,33 +154,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!50 &4701083511624220049
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 899038197541312450}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 10
-  m_LinearDrag: 0.1
-  m_AngularDrag: 1
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 1
-  m_Constraints: 4
 --- !u!114 &104566586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,62 +169,30 @@ MonoBehaviour:
   items:
   - gameObject: {fileID: 7648637220969931695, guid: 042919984f8ef4b3894c0424b509360d, type: 3}
     weight: 1
---- !u!60 &5290166019312888988
-PolygonCollider2D:
+--- !u!54 &8441501791241215001
+Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 899038197541312450}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 5
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 3.8125, y: 2.3125}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 1.4872625, y: 0.04632348}
-      - {x: 1.9233514, y: 0.3286764}
-      - {x: 1.3523008, y: 0.9424811}
-      - {x: 0.966617, y: 1.1838057}
-      - {x: -0.62733644, y: 0.9168287}
-      - {x: -1.3746917, y: 0.70958245}
-      - {x: -1.6411763, y: 0.19574255}
-      - {x: -1.9148008, y: -0.5063921}
-      - {x: -1.7507325, y: -0.9692493}
-      - {x: -0.7819307, y: -0.7503924}
-      - {x: -0.27331612, y: -1.1648006}
-      - {x: -0.05161284, y: -0.5359225}
-      - {x: 0.7918289, y: -0.685958}
-      - {x: 1.0760313, y: -0.95958245}
-  m_UseDelaunayMesh: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1

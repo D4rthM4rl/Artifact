@@ -501,7 +501,7 @@ public abstract class Character : MonoBehaviour
         other.TakeDamage(damage, false);
         other.ReceiveEffect(other.attackEffects);
         other.attackedBy.Add(other.species); 
-        Vector2 knockbackDirection = (other.transform.position - transform.position).normalized;
+        Vector3 knockbackDirection = (other.transform.position - transform.position).normalized;
         if (other is Enemy) StartCoroutine((other as Enemy).Alert(other.gameObject));
 
         // Apply knockback force to what I'm hitting

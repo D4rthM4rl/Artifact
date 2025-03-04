@@ -13,8 +13,8 @@ public class Projectile : MonoBehaviour
 
     public Character sender;
 
-    private Vector2 lastPos;
-    private Vector2 currPos;
+    private Vector3 lastPos;
+    private Vector3 currPos;
 
     public List<Effect> effects = new List<Effect>();
     public HashSet<GameObject> canAttack;
@@ -39,7 +39,7 @@ public class Projectile : MonoBehaviour
             var shape = ps.shape;
             shape.radius = 0.3f * size;
         }
-        transform.localScale = new Vector2(size, size);
+        transform.localScale = new Vector3(size, size, size);
 
         // Set the layer mask to the layer(s) you want to check for overlap
         // mask = LayerMask.GetMask("Character", "Player", "Environment");
@@ -88,7 +88,7 @@ public class Projectile : MonoBehaviour
         other.TakeDamage(damage, false);
         other.ReceiveEffect(sender.attackEffects);
         other.attackedBy.Add(sender.species); 
-        Vector2 knockbackDirection = (other.transform.position - transform.position).normalized;
+        Vector3 knockbackDirection = (other.transform.position - transform.position).normalized;
         if (other is Enemy) StartCoroutine((other as Enemy).Alert(other.gameObject));
 
         // Apply knockback force to what I'm hitting
