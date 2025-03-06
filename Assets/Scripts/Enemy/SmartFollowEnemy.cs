@@ -58,7 +58,7 @@ public class SmartFollowEnemy : Enemy
         // GetComponent<Rigidbody2D>().AddForce(transform.right * (speed * 0.2f));
     }
 
-    /// <summary>Moves towards </summary>
+    /// <summary>Moves towards focus</summary>
     protected override void Follow()
     {
         // Debug.Log(ai.SetDestination(targetPos));

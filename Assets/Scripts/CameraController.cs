@@ -10,6 +10,7 @@ public class CameraController : MonoBehaviour
     public float moveSpeedOnRoomChange;
     private GameObject player;
     private Vector3 targetPos;
+    private Vector3 offset;
 
 
     void Awake()
@@ -21,6 +22,7 @@ public class CameraController : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        offset = new Vector3(0, 5, -12);
     }
 
     // Update is called once per frame
@@ -37,8 +39,7 @@ public class CameraController : MonoBehaviour
 
         // If we wanted to use it by each room
         // Vector3 targetPos = GetCameraTargetPosition();
-
-        Vector3 targetPos = new Vector3(player.transform.position.x, 5, -12 + player.transform.position.z);
+        Vector3 targetPos = offset + new Vector3(player.transform.position.x, 0, player.transform.position.z);
 
         // transform.position = Vector3.MoveTowards(transform.position, targetPos, Time.deltaTime * moveSpeedOnRoomChange);
         transform.position = targetPos;
