@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class WeaponItemController : MonoBehaviour
 {
@@ -29,6 +30,12 @@ public class WeaponItemController : MonoBehaviour
         if (collision.gameObject.GetComponent<Player>()) 
         {
             GameObject obj = this.gameObject;
+            Light light = obj.GetComponent<Light>();
+            if (light) 
+            {
+                Destroy(GetComponent<UniversalAdditionalLightData>());
+                Destroy(light);
+            }
             Player player = collision.gameObject.GetComponent<Player>();
             
             player.AddWeapon(obj);

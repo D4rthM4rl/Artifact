@@ -11,7 +11,8 @@ public class CameraController : MonoBehaviour
     private GameObject player;
     private Vector3 targetPos;
     private Vector3 offset;
-
+    private bool fogOn = false;
+    private bool togglingFog = false;
 
     void Awake()
     {
@@ -40,10 +41,39 @@ public class CameraController : MonoBehaviour
         // If we wanted to use it by each room
         // Vector3 targetPos = GetCameraTargetPosition();
         Vector3 targetPos = offset + new Vector3(player.transform.position.x, 0, player.transform.position.z);
+        // Just to demonstrate fog
+        if (Input.GetButton("Fire2") && !togglingFog)
+        {
+            StartCoroutine(toggleFog());
+        } // Guns and stuff aren't occluded by fog because they don't have the right sprite material
 
         // transform.position = Vector3.MoveTowards(transform.position, targetPos, Time.deltaTime * moveSpeedOnRoomChange);
         transform.position = targetPos;
         transform.LookAt(player.transform.position);
+    }
+
+    private IEnumerator toggleFog()
+    {
+        togglingFog = true;
+        if (!fogOn)
+        {
+            while (RenderSettings.fogDensity < 0.15f)
+            {
+                fogOn = true;
+                RenderSettings.fogDensity += 0.002f;
+                yield return new WaitForSeconds(0.1f);
+            }
+        }
+        else 
+        {
+            while (RenderSettings.fogDensity > 0)
+            {
+                fogOn = false;
+                RenderSettings.fogDensity -= 0.002f;
+                yield return new WaitForSeconds(0.1f);
+            }
+        }
+        togglingFog = false;
     }
 
     Vector3 GetCameraTargetPosition()
