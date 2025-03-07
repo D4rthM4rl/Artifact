@@ -10,39 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2ddedf47210284ba5b2b3f1b25b2c5fc, type: 3}
-  m_Name: Ruins
+  m_Name: Summit
   m_EditorClassIdentifier: 
-  worldName: Ruins
+  worldName: Summit
   numberOfCrawlers: 4
   canRetrace: 0
   iterationMin: 10
-  iterationMax: 15
+  iterationMax: 20
   roomTypes:
-  - type: L
-    weight: 1
-    coordinates:
-    - {x: 0, y: 1}
-    - {x: 0, y: 2}
-    - {x: 1, y: 0}
-    - {x: 0, y: 0}
-  - type: 2x3
-    weight: 1
-    coordinates:
-    - {x: 0, y: 0}
-    - {x: 0, y: 1}
-    - {x: 0, y: 2}
-    - {x: 1, y: 0}
-    - {x: 1, y: 1}
-    - {x: 1, y: 2}
-  - type: Empty
-    weight: 10
-    coordinates:
-    - {x: 0, y: 0}
   - type: Start
     weight: 0
     coordinates:
     - {x: 0, y: 0}
   - type: End
     weight: 0
+    coordinates:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+  - type: Item1
+    weight: 1
     coordinates:
     - {x: 0, y: 0}

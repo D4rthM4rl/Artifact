@@ -26,13 +26,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 644215565910494029}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &-6682886652239015337
 MonoBehaviour:
@@ -46,8 +46,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad9031e5e5730497fa641f74ec804411, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: e9a396371e9e54822bbbb4605687b4da, type: 2}
-  newTrait: []
+  item:
+    name: Grass dash shoes
+    description: Make you dash and adds slow grass under it
+    rarity: 0
+    itemImage: {fileID: 21300000, guid: 5917c1eb5872e4a2fbb5b272cbee7ac7, type: 3}
+  heal:
+    amount: 0
+    timeSpan: 0
+  maxHealthChange:
+    amount: 0
+    multiplier: 0
+  moveSpeedChange:
+    amount: 0
+    multiplier: 0
+  attackDamageChange:
+    amount: 0
+    multiplier: 0
+  attackRateChange:
+    amount: 0
+    multiplier: 0
+  attackSizeChange:
+    amount: 0
+    multiplier: 0
+  special: 1
+  newTrait: {fileID: 0}
+  effects: []
 --- !u!212 &5581152898858423328
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -68,7 +92,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: af69f958c7ad9440abeb7d5da8c7bb44, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -89,7 +113,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 7bf9a51c3988243fcb96da5a11b7e6aa, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5917c1eb5872e4a2fbb5b272cbee7ac7, type: 3}
   m_Color: {r: 0.013375282, g: 1, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0

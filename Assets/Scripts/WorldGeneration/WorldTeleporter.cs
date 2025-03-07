@@ -7,7 +7,7 @@ public class WorldTeleporter : MonoBehaviour
     public WorldGenerationData world;
     public bool open;
 
-    void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerEnter(Collider other)
     {
         if (open)
         {
@@ -16,7 +16,7 @@ public class WorldTeleporter : MonoBehaviour
                 //Need it to wait or we cause issues
                 WorldGenerator.instance.worldGenerationData = this.world;
                 RoomController.instance.UnloadAllRooms();
-                GameObject.FindGameObjectWithTag("Player").transform.position = Vector3.zero;
+                GameObject.FindGameObjectWithTag("Player").transform.position = new Vector3(0, 0.5f, 0);
                 WorldGenerator.instance.GenerateWorld();
             }
         }

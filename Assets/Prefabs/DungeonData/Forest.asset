@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2ddedf47210284ba5b2b3f1b25b2c5fc, type: 3}
-  m_Name: Grassroot Bluffs
+  m_Name: Forest
   m_EditorClassIdentifier: 
-  worldName: Grassroot Bluffs
+  worldName: Forest
   numberOfCrawlers: 4
   canRetrace: 0
   iterationMin: 10
@@ -27,19 +27,19 @@ MonoBehaviour:
     coordinates:
     - {x: 0, y: 0}
   - type: Item
-    weight: 1
+    weight: 2
     coordinates:
     - {x: 0, y: 0}
   - type: End
     weight: 0
     coordinates:
     - {x: 0, y: 0}
-  - type: Enemy
-    weight: 5
+  - type: Enemy 1
+    weight: 2
     coordinates:
     - {x: 0, y: 0}
   - type: Enemy 2
-    weight: 5
+    weight: 1
     coordinates:
     - {x: 0, y: 0}
     - {x: 0, y: 1}

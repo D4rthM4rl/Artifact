@@ -60,8 +60,8 @@ public abstract class ProjectileWeapon : Weapon
 					direction = Vector3.zero;
 					if (Input.GetButton("LeftFire")) direction += Vector3.left;
 					if (Input.GetButton("RightFire")) direction += Vector3.right;
-					if (Input.GetButton("UpFire")) direction += Vector3.up;
-					if (Input.GetButton("DownFire")) direction += Vector3.down;
+					if (Input.GetButton("UpFire")) direction += Vector3.forward;
+					if (Input.GetButton("DownFire")) direction += Vector3.back;
 					if (direction != Vector3.zero)
 					{
 						direction.Normalize();

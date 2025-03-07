@@ -102,8 +102,8 @@ MonoBehaviour:
   description: Tree deer
   holdPoint: {fileID: 0}
   powerLevel: 7
-  health: 100
-  maxHealth: 100
+  health: 30
+  maxHealth: 30
   moveSpeed: 10
   mana: 100
   manaUseModifier: 1
@@ -116,12 +116,20 @@ MonoBehaviour:
   knockbackModifier: 3
   defense: 1
   currState: 2
-  relationships: []
+  relationships:
+  - name: Player
+    priority: 0
+    behavior:
+      whenAttack: 03000000
+      whenFollow: 03000000
+      whenFlee: 
+      followDist: 0
+      fleeDist: 0
   itemRelationships: []
   defaultBehavior:
     whenAttack: 01000000
-    whenFollow: 03000000
-    whenFlee: 00000000
+    whenFollow: 00000000
+    whenFlee: 
     followDist: 0
     fleeDist: 0
   itemDefaultBehavior:

@@ -67,11 +67,11 @@ MonoBehaviour:
   defense: 1
   currState: 0
   relationships:
-  - name: 
-    priority: 0
+  - name: Player
+    priority: 1
     behavior:
-      whenAttack: 
-      whenFollow: 
+      whenAttack: 03000000
+      whenFollow: 03000000
       whenFlee: 
       followDist: 0
       fleeDist: 0

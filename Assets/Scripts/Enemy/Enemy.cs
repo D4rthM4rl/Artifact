@@ -120,7 +120,6 @@ public abstract class Enemy : Character
     public float cooldown;
 
     // For AI/Pathfinding
-    private int checksToPoint = 0;
     private Vector3[] lastLocations = new Vector3[3];
     private Collider territory;
     private bool drawLinesOfSight = false;

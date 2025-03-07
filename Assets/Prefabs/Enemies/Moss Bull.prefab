@@ -139,23 +139,15 @@ MonoBehaviour:
     priority: 2
     behavior:
       whenAttack: 03000000
-      whenFollow: 
-      whenFlee: 
-      followDist: 0
-      fleeDist: 0
-  - name: 
-    priority: 0
-    behavior:
-      whenAttack: 03000000
-      whenFollow: 
+      whenFollow: 03000000
       whenFlee: 
       followDist: 0
       fleeDist: 0
   itemRelationships: []
   defaultBehavior:
-    whenAttack: 
-    whenFollow: 
-    whenFlee: 00000000
+    whenAttack: 01000000
+    whenFollow: 00000000
+    whenFlee: 
     followDist: 0
     fleeDist: 9
   itemDefaultBehavior:

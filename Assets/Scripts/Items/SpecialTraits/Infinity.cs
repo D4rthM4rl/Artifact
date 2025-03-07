@@ -12,7 +12,11 @@ public class InfinityItem : SpecialTrait
 
     void Start()
     {
-        particles = gameObject.AddComponent<ParticleSystem>();
+        particles = gameObject.GetComponent<ParticleSystem>();
+        if (particles == null)
+        {
+            particles = gameObject.AddComponent<ParticleSystem>();
+        }
         var e = particles.emission;
         e.rateOverTime = 0;
         // // var shape = e.shape;

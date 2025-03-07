@@ -224,7 +224,7 @@ public class RoomController : MonoBehaviour
             // SceneManager.UnloadSceneAsync(roomName);
             SceneManager.MergeScenes(SceneManager.GetSceneByName(roomName), SceneManager.GetSceneByName("Player Scene"));
         }
-        for(int i = transform.childCount - 1; i >= 0; i--)
+        for (int i = transform.childCount - 1; i >= 0; i--)
         {
             Destroy(transform.GetChild(i).gameObject);
         }

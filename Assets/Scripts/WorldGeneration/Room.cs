@@ -137,10 +137,10 @@ public class Room : MonoBehaviour
     /// </summary>
     void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        Vector3 roomCenter = GetRoomCenter();
-        if (isRegular) Gizmos.DrawWireCube(roomCenter, new Vector3(xWidth, 100, zWidth));
-        else Gizmos.DrawWireCube(new Vector3(roomCenter.x + RoomController.xWidth/2, 0, roomCenter.z + RoomController.zWidth), new Vector3(xWidth, 10, zWidth));
+        // Gizmos.color = Color.red;
+        // Vector3 roomCenter = GetRoomCenter();
+        // if (isRegular) Gizmos.DrawWireCube(roomCenter, new Vector3(xWidth, 100, zWidth));
+        // else Gizmos.DrawWireCube(new Vector3(roomCenter.x + RoomController.xWidth/2, 0, roomCenter.z + RoomController.zWidth), new Vector3(xWidth, 10, zWidth));
     }
 
     /// <summary>
