@@ -220,7 +220,7 @@ public class RoomController : MonoBehaviour
         foreach (RoomInfo room in allRooms)
         {
             string roomName = currentWorldName + " - " + room.name;
-            Debug.Log("Trying to unload" + roomName);
+            // Debug.Log("Trying to unload" + roomName);
             // SceneManager.UnloadSceneAsync(roomName);
             SceneManager.MergeScenes(SceneManager.GetSceneByName(roomName), SceneManager.GetSceneByName("Player Scene"));
         }
