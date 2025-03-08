@@ -21,8 +21,8 @@ public abstract class SpecialTile : MonoBehaviour
         Destroy(this.gameObject, lifetime);
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
-        if (other.GetComponent<Rigidbody2D>() == null) return;
+    private void OnTriggerEnter(Collider other) {
+        if (other.GetComponent<Rigidbody>() == null) return;
         if (useBlacklist) {
             if (!blacklistedObjects.Contains(other.gameObject) && affectedThings.Add(other.gameObject)) ApplyEffect(other.gameObject);
         } else {
@@ -30,8 +30,8 @@ public abstract class SpecialTile : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit2D(Collider2D other) {
-        if (other.GetComponent<Rigidbody2D>() == null) return;
+    private void OnTriggerExit(Collider other) {
+        if (other.GetComponent<Rigidbody>() == null) return;
         if (affectedThings.Remove(other.gameObject)) UndoEffect(other.gameObject);
     }
 

@@ -120,7 +120,6 @@ public abstract class Enemy : Character
     public float cooldown;
 
     // For AI/Pathfinding
-    private Vector3[] lastLocations = new Vector3[3];
     private Collider territory;
     private bool drawLinesOfSight = false;
     protected bool drawFocus = true;
@@ -153,9 +152,6 @@ public abstract class Enemy : Character
 	/// <summary>Initializes enemy data</summary>
 	void Start()
     {
-        lastLocations[0] = transform.position;
-        lastLocations[1] = transform.position;
-        lastLocations[2] = transform.position;
         random = GameController.seededRandom;
         foreach (Effect e in attackEffects) 
         {
@@ -165,7 +161,7 @@ public abstract class Enemy : Character
         itemSpawner = gameObject.GetComponent<ItemSpawner>();
         rb = GetComponent<Rigidbody>();
         rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
-        obstacleLayer = LayerMask.GetMask("Wall");
+        obstacleLayer = LayerMask.GetMask("Environment");
         StartCoroutine(SetupAI());
     }
 
@@ -288,39 +284,52 @@ public abstract class Enemy : Character
     /// <summary>Move away from the focus</summary>
     public virtual void Flee() 
     {
-        // Make the enemy face the target
         int totalChecks = 16;
         Vector3 bestPoint = focusPos;
         float farthestDistance = 0;
         Vector3 newPoint = focusPos;
-        // The greater the distCheck, the smaller chance of getting cornered.
         int distCheck = 10;
-        float angle = 0;
-        Vector3 direction;
+        float angle;
         Vector3 bestDirection = Vector3.zero;
+
         for (int i = 0; i < totalChecks; i++)
         {
+            // Compute the angle in radians
             angle = i * (360f / totalChecks) * Mathf.Deg2Rad;
-            direction = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0).normalized;
+
+            // Create a horizontal direction on the XZ plane
+            Vector3 horizontalDir = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle));
+
+            // Add a small downward tilt (adjust the magnitude as needed)
+            Vector3 direction = horizontalDir;
+            direction.y = -0.3f; // Low angle downward
+            direction.Normalize();
+
+            // Cast the ray using the modified direction
             if (Physics.Raycast(transform.position, direction, out RaycastHit hit, distCheck, obstacleLayer))
-            {newPoint = hit.point;}
+            {
+                newPoint = hit.point;
+            }
             else
-            {newPoint = transform.position + (direction * distCheck);}
+            {
+                newPoint = transform.position + direction * distCheck;
+            }
+
+            // Check which point is farthest from the focus position
             float distance = Vector3.Distance(newPoint, focusPos);
-            if (distance > farthestDistance) 
+            if (distance > farthestDistance)
             {
                 bestPoint = newPoint;
                 farthestDistance = distance;
                 bestDirection = direction;
-
-                // Debug.Log("From " + bestPoint + " to " + focusPos + " is a new farthest distance: " + farthestDistance);
             }
         }
-        if (drawFocus) Debug.DrawLine(transform.position, bestPoint, Color.magenta);
-        // rb.AddForce(bestDirection * moveSpeed * 0.05f, ForceMode2D.Impulse);
+
+        if (drawFocus) 
+            Debug.DrawLine(transform.position, bestPoint, Color.magenta);
+
         targetPos = bestPoint;
         ai.SetDestination(bestPoint);
-        // MoveSmallTowardsPoint(targetPos, moveSpeed, ForceMode2D.Force);
     }
     
     /// <summary>

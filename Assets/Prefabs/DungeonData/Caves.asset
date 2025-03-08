@@ -17,6 +17,10 @@ MonoBehaviour:
   canRetrace: 0
   iterationMin: 10
   iterationMax: 15
+  xRoomWidth: 20
+  zRoomWidth: 20
+  yChangeTowardsEnd: -1
+  wallsSeparateRooms: 0
   roomTypes:
   - type: Start
     weight: 0
@@ -30,3 +34,4 @@ MonoBehaviour:
     weight: 0
     coordinates:
     - {x: 0, y: 0}
+  randomDecorations: []

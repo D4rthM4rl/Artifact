@@ -60,17 +60,16 @@ public class RoomController : MonoBehaviour
     /// Queue of rooms which we can use to unload them
     /// </summary>
     Queue<RoomInfo> allRooms = new Queue<RoomInfo>();
-    /// <summary>
-    /// List of rooms which are already loaded
-    /// </summary>
-    public List<Room> loadedRooms = new List<Room>();
+
+    public Dictionary<Vector2Int, Room> loadedRoomDict = new Dictionary<Vector2Int, Room>();
 
     bool isLoadingRoom = false;
     /// <summary>
     /// Has removed all unnecessary doors 
     /// </summary>
-    bool doorsRemoved = false;
-    bool navMeshesBuilt = false;
+    
+    /// <summary> Has added stuff to generated rooms </summary>
+    bool hasPostProcessed = false;
 
     void Awake()
     {
@@ -103,17 +102,18 @@ public class RoomController : MonoBehaviour
         // When we're done loading rooms probably, might run more than once so
         // if we want to do something only once, we can set a bool to true
         if (loadRoomQueue.Count == 0) {
-            if (!doorsRemoved) { // This method of removing doors waits til the end so it's kinda late/slow 
-                doorsRemoved = true;
-                foreach (Room room in loadedRooms)
+            if (!hasPostProcessed) {
+                hasPostProcessed = true;
+                // Not as easy to do this per room, so we'll do it all at once
+                foreach (GameObject i in GameObject.FindGameObjectsWithTag("Environment"))
                 {
-                    room.SetupDoors();
+                    NavMeshSurface surface = i.AddComponent<NavMeshSurface>();
+                    // surface.buildHeightMesh = true;
+                    surface.agentTypeID = 0;
+                    surface.BuildNavMesh();
                 }
-            }
-            if (!navMeshesBuilt)
-            {
-                navMeshesBuilt = true;
-                SetupPathfinding();
+                PostProcessRooms(WorldGenerator.instance.endRoomCoords, 0);
+                GameObject.FindGameObjectWithTag("Player").transform.position += loadedRoomDict[WorldGenerator.instance.endRoomCoords].transform.position.y * Vector3.up;
             }
             return;
         }
@@ -125,6 +125,31 @@ public class RoomController : MonoBehaviour
     }
 
     /// <summary>
+    /// Process rooms after they've been loaded using BFS recursively
+    /// </summary>
+    /// <param name="roomCoords"></param>
+    /// <param name="depth"></param>
+    private void PostProcessRooms(Vector2Int roomCoords, int depth)
+    {
+        if (!loadedRoomDict.ContainsKey(roomCoords)) return;
+        Room room = loadedRoomDict[roomCoords];
+        if (!room.postProcessed)
+        {
+            Debug.Log("Post processing room at " + roomCoords);
+            room.postProcessed = true;
+            WorldGenerationData data = WorldGenerator.instance.worldGenerationData;
+            if (data.yChangeTowardsEnd != 0) room.gameObject.transform.localPosition -= data.yChangeTowardsEnd * Vector3.up * depth;
+            room.SetupDoors();
+            room.SetupPathfinding();
+            room.Decorate(data.randomDecorations);
+            PostProcessRooms(roomCoords + Vector2Int.left, depth + 1);
+            PostProcessRooms(roomCoords + Vector2Int.up, depth + 1);
+            PostProcessRooms(roomCoords + Vector2Int.right, depth + 1);
+            PostProcessRooms(roomCoords + Vector2Int.down, depth + 1);
+        }
+    }
+
+    /// <summary>
     /// Loads a room starting at certain coords or stops if room exists at that location.
     /// Enqueues this new room to be loaded by <see cref="LoadRoomRoutine"/>
     /// </summary>
@@ -132,9 +157,9 @@ public class RoomController : MonoBehaviour
     /// <param name="x">Starting x coord</param>
     /// <param name="z">Starting z coord</param>
     /// <param name="coords">Coordinate pairs that new room will take up</param>
-    public void LoadRoom (string name, int x, int z, List<Vector2Int> coords)
+    public void LoadRoom(string name, int x, int z, List<Vector2Int> coords)
     {
-        if (FindRoom(x, z) != null) {
+        if (loadedRoomDict.ContainsKey(new Vector2Int(x, z))) {
             return;
         }
 
@@ -196,7 +221,11 @@ public class RoomController : MonoBehaviour
             //     CameraController.instance.currRoom = room;
             // }
 
-            loadedRooms.Add(room);
+            for (int i = 0; i < room.coordinatePairs.Count; i++)
+            {
+                Vector2Int coord = room.coordinatePairs[i];
+                loadedRoomDict.Add(new Vector2Int(coord.x + room.startX, coord.y + room.startZ), room);
+            }
         // } else {
         //     Debug.Log("Room exists, destroying this one");
         //     Destroy(room.gameObject);
@@ -211,12 +240,12 @@ public class RoomController : MonoBehaviour
     {
         // Debug.Log("TRYING TO UNLOAD ROOM ROUTINE at " + info.startX + ", " + info.startY);
         // Debug.Log(SceneManager.sceneCount);
-        for (int i = 1; i < SceneManager.sceneCount; i++)
-        {
+        // for (int i = 1; i < SceneManager.sceneCount; i++)
+        // {
             // Debug.Log(SceneManager.GetSceneAt(i).name + "exists in the scenes");
             // SceneManager.GetSceneAt(i);
             // SceneManager.UnloadSceneAsync(i);
-        }
+        // }
         foreach (RoomInfo room in allRooms)
         {
             string roomName = currentWorldName + " - " + room.name;
@@ -230,33 +259,9 @@ public class RoomController : MonoBehaviour
         }
         isLoadingRoom = false;
         allRooms.Clear();
-        loadedRooms.Clear();
+        loadedRoomDict.Clear();
         loadRoomQueue.Clear();
-        doorsRemoved = false;
-    }
-
-    /// <summary>
-    /// Returns room at given coordinates or null if nothing found there
-    /// </summary>
-    /// <param name="x">X coord to check</param>
-    /// <param name="z">Z coord to check</param>
-    /// <returns> Returns null if room not found</returns>
-    public Room FindRoom (int x, int z)
-    {
-        // Debug.Log("Finding (" + x + ", " + z + ")");
-        foreach (Room r in loadedRooms)
-        {
-            foreach (Vector2Int v in r.finalCoords)
-            {
-                // Debug.Log(v.x + " " + v.y);
-                if (v.x == x && v.y == z) {
-                    // Debug.Log("Found");
-                    return r;
-                }
-            }
-        }
-        // Debug.Log("Not found");
-        return null;
+        hasPostProcessed = false;
     }
 
     /// <summary>
@@ -266,7 +271,7 @@ public class RoomController : MonoBehaviour
     /// <returns>The coordinate relative to the room it's in</returns>
     public Vector2Int FindRelativeCoord(Vector2Int coord)
     {
-        Room r = FindRoom(coord.x, coord.y);
+        Room r = loadedRoomDict[new Vector2Int(coord.x, coord.y)];
         return new Vector2Int(coord.x - r.startX, coord.y - r.startZ);
     }
 
@@ -306,29 +311,6 @@ public class RoomController : MonoBehaviour
         if (!currRoom.IsCleared())
         {
             StartCoroutine(currRoom.UnclearRoom());
-        }
-    }
-
-    /// <summary>
-    /// Setup navmeshes and pathfinding for all rooms
-    /// </summary>
-    private void SetupPathfinding()
-    {
-        foreach (GameObject i in GameObject.FindGameObjectsWithTag("Environment"))
-        {
-            NavMeshSurface surface = i.AddComponent<NavMeshSurface>();
-            // surface.buildHeightMesh = true;
-            surface.agentTypeID = 0;
-            surface.BuildNavMesh();
-        }
-        foreach (Enemy agent in FindObjectsOfType<Enemy>())
-        {
-            agent.ai = agent.gameObject.AddComponent<NavMeshAgent>();
-            agent.ai.agentTypeID = 0;
-            agent.ai.updateRotation = false;
-            agent.ai.updateUpAxis = false;
-            agent.ai.speed = agent.moveSpeed;
-            agent.ai.angularSpeed = agent.moveSpeed * 10;
         }
     }
 }

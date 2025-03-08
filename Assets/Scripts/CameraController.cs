@@ -40,7 +40,8 @@ public class CameraController : MonoBehaviour
 
         // If we wanted to use it by each room
         // Vector3 targetPos = GetCameraTargetPosition();
-        Vector3 targetPos = offset + new Vector3(player.transform.position.x, 0, player.transform.position.z);
+        // Vector3 targetPos = offset + new Vector3(player.transform.position.x, 0, player.transform.position.z);
+        Vector3 targetPos = offset + player.transform.position;
         // Just to demonstrate fog
         if (Input.GetButton("Fire2") && !togglingFog)
         {
@@ -57,6 +58,7 @@ public class CameraController : MonoBehaviour
         togglingFog = true;
         if (!fogOn)
         {
+            RenderSettings.fog = true;
             while (RenderSettings.fogDensity < 0.15f)
             {
                 fogOn = true;
@@ -72,6 +74,7 @@ public class CameraController : MonoBehaviour
                 RenderSettings.fogDensity -= 0.002f;
                 yield return new WaitForSeconds(0.1f);
             }
+            RenderSettings.fog = false;
         }
         togglingFog = false;
     }

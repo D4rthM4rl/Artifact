@@ -30,6 +30,7 @@ public class WorldGenerator : MonoBehaviour
     /// All coordinates used by any room being spawned
     /// </summary>
     private List<Vector2Int> coordinatesTakenSoFar = new List<Vector2Int>();
+    public Vector2Int endRoomCoords;
 
     private void Awake() {
         instance = this;
@@ -56,6 +57,8 @@ public class WorldGenerator : MonoBehaviour
     public void GenerateWorld()
     {
         RoomController.instance.currentWorldName = worldGenerationData.worldName;
+        RoomController.xWidth = worldGenerationData.xRoomWidth;
+        RoomController.zWidth = worldGenerationData.zRoomWidth;
         dungeonRooms = DungeonCrawlerController.GenerateDungeon(worldGenerationData, random, actualSeed);
         SpawnRooms(dungeonRooms);
     }
@@ -131,9 +134,9 @@ public class WorldGenerator : MonoBehaviour
             }
         }
 
-        Vector2Int finalCoords = GenerateEndCoords(farX, farZ);
-        coordinatesTakenSoFar.Add(finalCoords);
-        RoomController.instance.LoadRoom("End", finalCoords.x, finalCoords.y, new List<Vector2Int>(){Vector2Int.zero});
+        endRoomCoords = GenerateEndCoords(farX, farZ);
+        coordinatesTakenSoFar.Add(endRoomCoords);
+        RoomController.instance.LoadRoom("End", endRoomCoords.x, endRoomCoords.y, new List<Vector2Int>(){Vector2Int.zero});
         dungeonRooms.Clear();
         coordinatesTakenSoFar.Clear();
     }
@@ -168,7 +171,7 @@ public class WorldGenerator : MonoBehaviour
     /// </summary>
     /// <param name="farX">Farthest away a room is in x</param>
     /// <param name="farZ">Farthest away a room is in y</param>
-    /// <returns></returns>
+    /// <returns>Coordinate pair for final (farthest) room</returns>
     private Vector2Int GenerateEndCoords(int farX, int farZ)
     {
         int xDisplace = 0;

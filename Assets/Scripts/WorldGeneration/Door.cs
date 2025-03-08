@@ -94,21 +94,21 @@ public class Door : MonoBehaviour
 
     public Room GetRight(int startX, int startZ)
     {
-        return RoomController.instance.FindRoom(startX + xOffset + 1, startZ + zOffset);
+        return RoomController.instance.loadedRoomDict[new Vector2Int(startX + xOffset + 1, startZ + zOffset)];
     }
 
     public Room GetLeft(int startX, int startZ)
     {
-        return RoomController.instance.FindRoom(startX + xOffset - 1, startZ + zOffset);
+        return RoomController.instance.loadedRoomDict[new Vector2Int(startX + xOffset - 1, startZ + zOffset)];
     }
 
     public Room GetTop(int startX, int startZ)
     {
-        return RoomController.instance.FindRoom(startX + xOffset, startZ + zOffset + 1);
+        return RoomController.instance.loadedRoomDict[new Vector2Int(startX + xOffset, startZ + zOffset + 1)];
     }
 
     public Room GetBottom(int startX, int startZ)
     {
-        return RoomController.instance.FindRoom(startX + xOffset, startZ + zOffset - 1);
+        return RoomController.instance.loadedRoomDict[new Vector2Int(startX + xOffset, startZ + zOffset - 1)];
     }
 }

@@ -8,7 +8,7 @@ public class DoorTeleporter : MonoBehaviour
     public Door connection;
     public bool open;
 
-    void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerEnter(Collider other)
     {
         if (open)
         {

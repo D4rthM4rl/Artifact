@@ -17,6 +17,10 @@ MonoBehaviour:
   canRetrace: 0
   iterationMin: 10
   iterationMax: 20
+  xRoomWidth: 15
+  zRoomWidth: 15
+  yChangeTowardsEnd: 0
+  wallsSeparateRooms: 0
   roomTypes:
   - type: Start
     weight: 0
@@ -33,3 +37,11 @@ MonoBehaviour:
     weight: 1
     coordinates:
     - {x: 0, y: 0}
+  randomDecorations:
+  - decoration: {fileID: 6432962546663608872, guid: b286c39a6bb254d2ba4bc64abfbaeab6, type: 3}
+    obstructing: 0
+    size: {x: 1, y: 0.5, z: 0}
+    clumpTotalMin: 0
+    clumpTotalMax: 3
+    clumpSizeMin: 1
+    clumpSizeMax: 4

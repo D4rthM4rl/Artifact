@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: -1106753158820768916}
   - component: {fileID: 2190262382471269210}
   - component: {fileID: -3759097973891496029}
+  - component: {fileID: 5526549256401616693}
   m_Layer: 9
   m_Name: Treer
   m_TagString: Enemy
@@ -179,3 +180,26 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!136 &5526549256401616693
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4011699788165011499}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.61
+  m_Height: 2.1875
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: -1106753158820768916}
   - component: {fileID: -5299484730195686495}
   - component: {fileID: 7055005396349234296}
+  - component: {fileID: 204133441865409162}
   m_Layer: 9
   m_Name: Wox
   m_TagString: Enemy
@@ -146,6 +147,7 @@ MonoBehaviour:
   meleeDamage: 2
   meleeRange: 0
   cooldown: 2
+  ai: {fileID: 0}
   possibleActions: []
   focus: {fileID: 0}
   focusPos: {x: 0, y: 0, z: 0}
@@ -182,3 +184,26 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!136 &204133441865409162
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4011699788165011499}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.6328125
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}

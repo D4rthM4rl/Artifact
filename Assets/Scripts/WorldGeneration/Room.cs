@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.AI.Navigation;
 using UnityEngine;
-using UnityEngine.Tilemaps;
+using UnityEngine.AI;
 
 public class Room : MonoBehaviour
 {
@@ -23,12 +24,13 @@ public class Room : MonoBehaviour
     /// </summary>
     public List<Vector2Int> finalCoords = new List<Vector2Int>();
 
-    /// <summary>
-    /// True if it's just a basic 1x1 coordinate rectangle
-    /// </summary>
+    /// <summary>True if it's just a basic 1x1 coordinate rectangle</summary>
     public bool isRegular = true;
 
     public Dictionary<Vector2Int, List<Door>> doors = new Dictionary<Vector2Int, List<Door>>();
+
+    [HideInInspector]
+    public bool postProcessed = false;
 
     /// <summary>
     /// Add all doors and enemies to room to remove and make inactive/active respectively
@@ -132,6 +134,48 @@ public class Room : MonoBehaviour
         } 
     }
 
+    /// <summary>Add world/room decorations to this room</summary>
+    public void Decorate(List<Decoration> decorations)
+    {
+        Dictionary<Vector3, Decoration> positionsTaken = new Dictionary<Vector3, Decoration>();
+        foreach (Decoration d in decorations)
+        {
+            Debug.Log("Decorating with " + d.decoration.name);
+            Vector3 pos;
+            for (int i = 0; i < Random.Range(d.clumpTotalMin, d.clumpTotalMax); i++)
+            {
+                for (int j = 0; j < Random.Range(d.clumpSizeMin, d.clumpSizeMax); j++)
+                {
+                    pos = new Vector3(Random.Range(-xWidth/2, xWidth/2), 0, Random.Range(-zWidth/2, zWidth/2));
+                    if (positionsTaken.ContainsKey(pos + d.size)) continue;
+                    GameObject dec = Instantiate(d.decoration, pos + Vector3.up + transform.position, Quaternion.identity, transform);
+                    for (float x = d.size.x; x > 0; x -= .5f)
+                    {
+                        for (float z = d.size.z; z > 0; z -= .5f)
+                        {
+                            if (positionsTaken.ContainsKey(pos + new Vector3(x, 0, z))) continue;
+                            positionsTaken.Add(pos + new Vector3(x, 0, z), d);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /// <summary>Setup navmeshes and pathfinding for all rooms</summary>
+    public void SetupPathfinding()
+    {
+        foreach (Enemy agent in enemiesInRoom)
+        {
+            agent.ai = agent.gameObject.AddComponent<NavMeshAgent>();
+            agent.ai.agentTypeID = 0;
+            agent.ai.updateRotation = false;
+            agent.ai.updateUpAxis = false;
+            agent.ai.speed = agent.moveSpeed;
+            agent.ai.angularSpeed = agent.moveSpeed * 10;
+        }
+    }
+
     /// <summary>
     /// Draws a red box outlining where the rooms is
     /// </summary>
@@ -220,7 +264,7 @@ public class Room : MonoBehaviour
     /// Room is entered
     /// </summary>
     /// <param name="other">What entered the room</param>
-    void OnTriggerEnter2D(Collider2D other) 
+    void OnTriggerEnter(Collider other) 
     {
         if (other.tag == "Player") {
             RoomController.instance.OnPlayerEnterRoom(this);

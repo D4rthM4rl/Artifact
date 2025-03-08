@@ -44,8 +44,8 @@ public class InfinityItem : SpecialTrait
         var e = particles.emission;
 
         if (user.mana > 0.01) {
-            Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, slowdownRadius);
-            foreach (Collider2D col in colliders)
+            Collider[] colliders = Physics.OverlapSphere(transform.position, slowdownRadius);
+            foreach (Collider col in colliders)
             {
                 // Check if the collider belongs to an enemy or a bullet
                 if (col.tag == "Enemy")
@@ -53,12 +53,12 @@ public class InfinityItem : SpecialTrait
                     e.rateOverTime = 16;
                     user.UseMana(0.01f);
                     // Slow down the enemy or bullet
-                    Rigidbody2D rb = col.GetComponent<Rigidbody2D>();
+                    Rigidbody rb = col.GetComponent<Rigidbody>();
                     if (rb != null)
                     {
                         Vector3 knockbackDirection = -(transform.position - rb.transform.position).normalized;
                         // Could unnormalize it I think, so that it's stronger the closer you get as an upgrade
-                        rb.AddForce(knockbackDirection * pushBackForce, ForceMode2D.Impulse);
+                        rb.AddForce(knockbackDirection * pushBackForce, ForceMode.Impulse);
                     }
                     // If the object doesn't have a Rigidbody, may need to handle slowdown differently
                 }
