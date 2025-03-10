@@ -59,14 +59,32 @@ public class Player : Character
         rb.AddForce(movement * moveSpeed * 20 * Time.fixedDeltaTime, ForceMode.Impulse);
 
         // Determine look direction from player to mouse world position.
-        Vector3 lookDir = mouseWorldPos - transform.position;
-        lookDir.y = 0; // Keep rotation strictly horizontal.
-        if (lookDir.sqrMagnitude > 0.001f)
-        {   
-            // Optionally, compute an angle (in degrees) for animator parameters.
-            float angle = Mathf.Atan2(lookDir.x, lookDir.z) * Mathf.Rad2Deg;
-            animator.SetFloat("mouseang", angle);
+        // Vector3 lookDir = mouseWorldPos - transform.position;
+        // lookDir.y = 0; // Keep rotation strictly horizontal.
+        float angle = 0;
+        Plane plane = new Plane(Vector3.up, transform.position);
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); ;
+        if (plane.Raycast(ray, out float distance))
+        {
+            // Get the point where the ray intersects the plane.
+            Vector3 hitPoint = ray.GetPoint(distance);
+
+            // Determine the direction from the player to the hit point.
+            Vector3 direction = hitPoint - transform.position;
+            angle = Mathf.Atan2(direction.z, direction.x) * Mathf.Rad2Deg ;
+            Debug.Log(hitPoint + " to " + transform.position + " is " + angle + " degrees");
         }
+        if (angle >= -90 && angle <= 90)
+        {
+            GetComponent<SpriteRenderer>().flipX = true;
+            // holdPoint.transform.localPosition = new Vector3(-holdX, holdPoint.transform.localPosition.y,0);
+        }
+        else
+        {
+            GetComponent<SpriteRenderer>().flipX = false;
+            // holdPoint.transform.localPosition = new Vector3(holdX, holdPoint.transform.localPosition.y,0);
+        }
+        animator.SetFloat("mouseang", angle);
     }
 
     public void AddWeapon(GameObject newWeapon)

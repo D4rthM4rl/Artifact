@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class ChargingEnemy : Enemy
 {
-	[System.NonSerialized]
-	public bool charging = false;
+	private bool charging = false;
 	[System.NonSerialized]
 	public float maxSpeed = 0;
 	protected int timeSeeing = 0;
@@ -69,18 +68,18 @@ public class ChargingEnemy : Enemy
 
 	protected override void Follow()
 	{
-		if (destinationRecalculate)
+		if (destinationRecalculate && !charging)
 		{
-			ai.SetDestination(targetPos);
+			targetPos = focusPos;
+            ai.destination = targetPos;
 			StartCoroutine(CooldownDestinationSet());
 		}
-		else return;
 
 		if (charging)
 		{
-			ai.angularSpeed = 50;
 			ai.speed = moveSpeed * 3;
 			ai.acceleration = 100;
+			ai.autoBraking = false;
 			if (rb.velocity.magnitude < (3 + 0.1 * moveSpeed) && maxSpeed > (5 + 0.01 * moveSpeed))
 			{
 				charging = false;
@@ -92,12 +91,11 @@ public class ChargingEnemy : Enemy
 		}
 		else
 		{
-			ai.angularSpeed = 500;
 			ai.speed = moveSpeed;
 			ai.acceleration = 50;
 			if (CanSeeTarget(focusPos, obstacleLayer))
 			{
-				if (timeSeeing > 100) 
+				if (timeSeeing > 100)
 				{
 					maxSpeed = 0;
 					charging = true;

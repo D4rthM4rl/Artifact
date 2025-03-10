@@ -51,7 +51,7 @@ public class InfinityItem : SpecialTrait
                 if (col.tag == "Enemy")
                 {
                     e.rateOverTime = 16;
-                    user.UseMana(0.01f);
+                    user.UseMana(0.01f * (Time.deltaTime * 1000));
                     // Slow down the enemy or bullet
                     Rigidbody rb = col.GetComponent<Rigidbody>();
                     if (rb != null)

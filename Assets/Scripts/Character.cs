@@ -470,8 +470,8 @@ public abstract class Character : MonoBehaviour
         {
             // if (timeSinceManaUsed >= .2f)
             // {
-                mana = Mathf.Clamp(mana + Mathf.Pow(manaRegenTime, 1.3f) / 10000 * manaRegenRate, 0, 100);
-                manaRegenTime++;
+                mana = Mathf.Clamp(mana + Mathf.Pow(manaRegenTime, 1.3f) / 1 * manaRegenRate * Time.deltaTime, 0, 100);
+                manaRegenTime += Time.deltaTime * 25;
                 UpdateMana(mana);
             // } else timeSinceManaUsed += Time.deltaTime;
         }

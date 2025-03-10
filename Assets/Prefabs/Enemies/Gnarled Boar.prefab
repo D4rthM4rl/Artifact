@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 104566586}
   - component: {fileID: 8441501791241215001}
   - component: {fileID: -4484783151035998138}
-  - component: {fileID: -2319558797316563409}
   m_Layer: 9
   m_Name: Gnarled Boar
   m_TagString: Enemy
@@ -54,9 +53,9 @@ MonoBehaviour:
     doesn't have very good traction so it can't turn very well.
   holdPoint: {fileID: 0}
   powerLevel: 1
-  health: 200
-  maxHealth: 200
-  moveSpeed: 10
+  health: 10
+  maxHealth: 10
+  moveSpeed: 5
   mana: 100
   manaUseModifier: 1
   manaRegenRate: 0.005
@@ -221,16 +220,3 @@ CapsuleCollider:
   m_Height: 3.88
   m_Direction: 0
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-2319558797316563409
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 899038197541312450}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5f998e2e2b9647858c61f1f7758500c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lockXZ: 1

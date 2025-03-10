@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 3477187138778615701}
   - component: {fileID: 104566586}
   - component: {fileID: 1303425118}
-  - component: {fileID: -2390897899708893415}
   - component: {fileID: -225270787728629661}
   - component: {fileID: -5564395607548687143}
   m_Layer: 9
@@ -171,19 +170,6 @@ MonoBehaviour:
   focusPos: {x: 0, y: 0, z: 0}
   targetPos: {x: 0, y: 0, z: 0}
   cooldownAttack: 0
---- !u!114 &-2390897899708893415
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 899038197541312450}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5f998e2e2b9647858c61f1f7758500c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lockXZ: 1
 --- !u!54 &-225270787728629661
 Rigidbody:
   m_ObjectHideFlags: 0

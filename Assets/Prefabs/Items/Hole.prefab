@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1926388632493762019}
-  - component: {fileID: 1926388632493762020}
   - component: {fileID: 1926388632493762021}
   - component: {fileID: 1926388632493762018}
   m_Layer: 5
@@ -26,30 +25,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1926388632493762022}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &1926388632493762020
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1926388632493762022}
-  m_Enabled: 0
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.54767764
 --- !u!212 &1926388632493762021
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -117,10 +100,11 @@ MonoBehaviour:
   item:
     name: Hole
     description: Is either OP item or teleports player randomly
+    rarity: 0
     itemImage: {fileID: -2413806693520163455, guid: cfba61da16028426e8a4cefc95877667, type: 3}
-  healthChange:
-    amount: 4
-    timeSpan: 3
+  heal:
+    amount: 0
+    timeSpan: 0
   maxHealthChange:
     amount: 0
     multiplier: 1
@@ -138,3 +122,4 @@ MonoBehaviour:
     multiplier: 1
   special: 0
   newTrait: {fileID: 0}
+  effects: []
