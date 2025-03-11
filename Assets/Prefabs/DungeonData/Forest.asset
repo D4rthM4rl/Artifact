@@ -31,7 +31,7 @@ MonoBehaviour:
     coordinates:
     - {x: 0, y: 0}
   - type: Item
-    weight: 2
+    weight: 4
     coordinates:
     - {x: 0, y: 0}
   - type: End

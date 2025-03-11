@@ -140,7 +140,6 @@ public class Room : MonoBehaviour
         Dictionary<Vector3, Decoration> positionsTaken = new Dictionary<Vector3, Decoration>();
         foreach (Decoration d in decorations)
         {
-            Debug.Log("Decorating with " + d.decoration.name);
             Vector3 pos;
             for (int i = 0; i < Random.Range(d.clumpTotalMin, d.clumpTotalMax); i++)
             {
@@ -163,8 +162,12 @@ public class Room : MonoBehaviour
     }
 
     /// <summary>Setup navmeshes and pathfinding for all rooms</summary>
-    public void SetupPathfinding()
+    public IEnumerator SetupPathfinding()
     {
+        while (!RoomController.instance.hasPostProcessed)
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
         foreach (Enemy agent in enemiesInRoom)
         {
             agent.ai = agent.gameObject.AddComponent<NavMeshAgent>();

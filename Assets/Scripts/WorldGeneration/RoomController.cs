@@ -64,12 +64,9 @@ public class RoomController : MonoBehaviour
     public Dictionary<Vector2Int, Room> loadedRoomDict = new Dictionary<Vector2Int, Room>();
 
     bool isLoadingRoom = false;
-    /// <summary>
-    /// Has removed all unnecessary doors 
-    /// </summary>
     
     /// <summary> Has added stuff to generated rooms </summary>
-    bool hasPostProcessed = false;
+    public bool hasPostProcessed = false;
 
     void Awake()
     {
@@ -83,9 +80,7 @@ public class RoomController : MonoBehaviour
         // LoadRoom("Empty", 1, 0);
     }
 
-    /// <summary>
-    /// Calls <see cref="UpdateRoomQueue"/> every frame
-    /// </summary>
+    /// <summary> Calls <see cref="UpdateRoomQueue"/> every frame</summary>
     private void Update() {
         UpdateRoomQueue();
     }
@@ -103,7 +98,9 @@ public class RoomController : MonoBehaviour
         // if we want to do something only once, we can set a bool to true
         if (loadRoomQueue.Count == 0) {
             if (!hasPostProcessed) {
-                hasPostProcessed = true;
+                PostProcessRooms(WorldGenerator.instance.endRoomCoords, 0);
+                // Debug.Log("Setting player height to " + loadedRoomDict[Vector2Int.zero].transform.position.y);
+                GameObject.FindGameObjectWithTag("Player").transform.position += loadedRoomDict[Vector2Int.zero].transform.position.y * Vector3.up;
                 // Not as easy to do this per room, so we'll do it all at once
                 foreach (GameObject i in GameObject.FindGameObjectsWithTag("Environment"))
                 {
@@ -112,8 +109,7 @@ public class RoomController : MonoBehaviour
                     surface.agentTypeID = 0;
                     surface.BuildNavMesh();
                 }
-                PostProcessRooms(WorldGenerator.instance.endRoomCoords, 0);
-                GameObject.FindGameObjectWithTag("Player").transform.position += loadedRoomDict[WorldGenerator.instance.endRoomCoords].transform.position.y * Vector3.up;
+                hasPostProcessed = true;
             }
             return;
         }
@@ -124,23 +120,20 @@ public class RoomController : MonoBehaviour
         StartCoroutine(LoadRoomRoutine(currentLoadRoomData));
     }
 
-    /// <summary>
-    /// Process rooms after they've been loaded using BFS recursively
-    /// </summary>
-    /// <param name="roomCoords"></param>
-    /// <param name="depth"></param>
+    /// <summary>Process rooms after they've been loaded using BFS recursively</summary>
+    /// <param name="roomCoords">Vector (x,z) coordinates of room to process</param>
+    /// <param name="depth">How far from the final room this is (BFS depth)</param>
     private void PostProcessRooms(Vector2Int roomCoords, int depth)
     {
         if (!loadedRoomDict.ContainsKey(roomCoords)) return;
         Room room = loadedRoomDict[roomCoords];
         if (!room.postProcessed)
         {
-            Debug.Log("Post processing room at " + roomCoords);
             room.postProcessed = true;
             WorldGenerationData data = WorldGenerator.instance.worldGenerationData;
-            if (data.yChangeTowardsEnd != 0) room.gameObject.transform.localPosition -= data.yChangeTowardsEnd * Vector3.up * depth;
+            if (data.yChangeTowardsEnd != 0) room.gameObject.transform.position -= data.yChangeTowardsEnd * Vector3.up * depth;
             room.SetupDoors();
-            room.SetupPathfinding();
+            StartCoroutine(room.SetupPathfinding());
             room.Decorate(data.randomDecorations);
             PostProcessRooms(roomCoords + Vector2Int.left, depth + 1);
             PostProcessRooms(roomCoords + Vector2Int.up, depth + 1);

@@ -161,6 +161,7 @@ MonoBehaviour:
   enemiesInRoom: []
   finalCoords: []
   isRegular: 1
+  postProcessed: 0
 --- !u!4 &199668405
 Transform:
   m_ObjectHideFlags: 0
@@ -361,7 +362,7 @@ MonoBehaviour:
   - gameObject: {fileID: 644215565910494029, guid: 9970b69d5fbe243849e263a89891602c, type: 3}
     weight: 1
   - gameObject: {fileID: 8987096016504022776, guid: 02ed2df05bf664572b5f20766cad3a8f, type: 3}
-    weight: 1
+    weight: 2
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

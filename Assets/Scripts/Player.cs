@@ -72,7 +72,7 @@ public class Player : Character
             // Determine the direction from the player to the hit point.
             Vector3 direction = hitPoint - transform.position;
             angle = Mathf.Atan2(direction.z, direction.x) * Mathf.Rad2Deg ;
-            Debug.Log(hitPoint + " to " + transform.position + " is " + angle + " degrees");
+            // Debug.Log(hitPoint + " to " + transform.position + " is " + angle + " degrees");
         }
         if (angle >= -90 && angle <= 90)
         {
