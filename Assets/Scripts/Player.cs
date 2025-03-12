@@ -30,6 +30,7 @@ public class Player : Character
     {
         // Collect movement input: horizontal (x) and vertical (z) axes.
         movement = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+        RegenMana();
 
         // Cast a ray from screen point
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -50,7 +51,6 @@ public class Player : Character
 
         // Use the movement magnitude to control a running animation.
         animator.SetFloat("Speed", movement.magnitude);
-        RegenMana();
     }  
 
     void FixedUpdate()

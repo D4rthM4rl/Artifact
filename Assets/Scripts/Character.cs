@@ -468,14 +468,19 @@ public abstract class Character : MonoBehaviour
     protected virtual void RegenMana() {
         if (mana < 100)
         {
-            // if (timeSinceManaUsed >= .2f)
-            // {
-            Debug.Log("Mana regen time = " + manaRegenTime + " + "  + Time.deltaTime);
-            Debug.Log("Mana = " + mana + " + " + Mathf.Pow(manaRegenTime, 1.3f) + " * " + manaRegenRate / 400);
-            mana = Mathf.Clamp(mana + Mathf.Pow(manaRegenTime, 1.3f) * manaRegenRate / 400, 0, 100);
+            // Store the previous elapsed time
+            float previousTime = manaRegenTime;
+
+            // Increment elapsed time using the actual time passed
             manaRegenTime += Time.deltaTime;
+
+            // Compute the exact amount regenerated over this frame
+            float regenIncrement = (Mathf.Pow(manaRegenTime, 2.3f) - Mathf.Pow(previousTime, 2.3f)) / 2.3f * (manaRegenRate / 1);
+
+            // Update mana, clamping to ensure it stays within bounds
+            mana = Mathf.Clamp(mana + regenIncrement, 0, 100);
             UpdateMana(mana);
-            // } else timeSinceManaUsed += Time.deltaTime;
+
         }
     }
 
