@@ -136,6 +136,8 @@ public abstract class Enemy : Character
     /// <summary>Position of where I'm moving to because of focus and state</summary>
     public Vector3 targetPos;
 
+    private bool aiIsSetup = false;
+
 
     [System.NonSerialized]
     public bool dead = false;
@@ -168,7 +170,7 @@ public abstract class Enemy : Character
     /// <summary>Calls <see cref="Start"/></summary>
     public void EnemyStart() {Start();}
 
-    /// <summary>Looks at surroundings and determines what to do</summary>
+    /// <summary>Looks at surroundings and determines what to do and update speed</summary>
     protected void EnemyUpdate()
     {
         if (dead || currState == CharacterState.inactive) return;
@@ -243,13 +245,21 @@ public abstract class Enemy : Character
                 if (ai) ai.enabled = false; 
                 return;
             case(CharacterState.wander): 
-                if (ai) ai.enabled = true; 
+                
                 break;
             case(CharacterState.follow):
-                if (ai) ai.enabled = true; 
+                if (ai) 
+                {
+                    ai.enabled = true;
+                    ai.speed = moveSpeed;
+                }
                 break;
             case(CharacterState.flee):
-                if (ai) ai.enabled = true; 
+                if (ai) 
+                {
+                    ai.enabled = true;
+                    ai.speed = moveSpeed;
+                }
                 break;
             case(CharacterState.attack):
                 break;
@@ -384,6 +394,7 @@ public abstract class Enemy : Character
         ai.angularSpeed = 500;
         ai.acceleration = 50;
         // ai.constrainInsideGraph = true;
+        aiIsSetup = true;
     }
 
     /// <summary>Waits 0.05s before saying we should recalculate the destination</summary>

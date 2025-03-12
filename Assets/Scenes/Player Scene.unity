@@ -1604,7 +1604,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6867962777532244375, guid: c640dcd8d28bd45b7a322bebd074680f, type: 3}
       propertyPath: manaRegenRate
-      value: 0.05
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

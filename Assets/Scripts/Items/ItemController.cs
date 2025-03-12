@@ -91,7 +91,8 @@ public class ItemController : MonoBehaviour
             }
             foreach (Effect e in effects) {c.AddAttackEffect(e);}
 
-            if (newTrait != null) {c.gameObject.AddComponent(newTrait.GetType());}
+            // if (newTrait != null) {c.gameObject.AddComponent(newTrait.GetType());}
+            if (gameObject.GetComponent<SpecialTrait>()) {c.gameObject.AddComponent(gameObject.GetComponent<SpecialTrait>().GetType());}
             Destroy(gameObject);
         }
     }

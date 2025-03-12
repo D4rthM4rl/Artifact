@@ -157,7 +157,7 @@ public abstract class Character : MonoBehaviour
     /// <summary>How fast I regen mana</summary>
     public float manaRegenRate = 0.005f;
     /// <summary>How long I have been regenerating mana</summary>
-    protected float manaRegenTime = 0f;
+    protected float manaRegenTime = 1f;
     /// <summary>How fast I attack</summary>
     public float attackRateModifier = 1f;
     /// <summary>How big my attacks are</summary>
@@ -284,7 +284,7 @@ public abstract class Character : MonoBehaviour
         {
             // timeSinceManaUsed = 0;
             mana -= amount;
-            manaRegenTime = 0;
+            manaRegenTime = 1;
             UpdateMana(mana);
             return true;
         } else return false;
@@ -470,9 +470,11 @@ public abstract class Character : MonoBehaviour
         {
             // if (timeSinceManaUsed >= .2f)
             // {
-                mana = Mathf.Clamp(mana + Mathf.Pow(manaRegenTime * 2, 1.4f) * manaRegenRate * Time.deltaTime, 0, 100);
-                manaRegenTime += Time.deltaTime;
-                UpdateMana(mana);
+            Debug.Log("Mana regen time = " + manaRegenTime + " + "  + Time.deltaTime);
+            Debug.Log("Mana = " + mana + " + " + Mathf.Pow(manaRegenTime, 1.3f) + " * " + manaRegenRate / 400);
+            mana = Mathf.Clamp(mana + Mathf.Pow(manaRegenTime, 1.3f) * manaRegenRate / 400, 0, 100);
+            manaRegenTime += Time.deltaTime;
+            UpdateMana(mana);
             // } else timeSinceManaUsed += Time.deltaTime;
         }
     }

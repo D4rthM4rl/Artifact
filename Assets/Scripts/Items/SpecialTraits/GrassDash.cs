@@ -13,14 +13,15 @@ public class GrassDash : Dash
 
     protected override void DoDash(Vector3 direction)
     {
-        gameObject.GetComponent<Rigidbody>().AddForce(force * direction * 10 * Time.fixedDeltaTime, ForceMode.Impulse);
+        gameObject.GetComponent<Rigidbody>().AddForce(force * direction * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
         SpawnGrasses();
     }
 
     private void SpawnGrasses()
     {
         if (Random.Range(0, 5) > 0) {
-            SlowGrass grassTile = Instantiate(grass, gameObject.transform.position, Quaternion.identity).GetComponent<SlowGrass>();
+            SlowGrass grassTile = Instantiate(grass, gameObject.transform.position + 
+                Vector3.down * .45f, Quaternion.Euler(90, 0, 0)).GetComponent<SlowGrass>();
             grassTile.blacklistedObjects.Add(gameObject);
             grassTile.lifetime = grassLifetime;
         }
