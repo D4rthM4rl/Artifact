@@ -44,4 +44,5 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Summit/Summit - End.unity
     guid: 79b6c4504e67a4db391bcab580df0380
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: a4e5e2ae1b1904acfab9f5a5c1e2f395, type: 2}

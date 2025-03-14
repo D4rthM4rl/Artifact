@@ -1175,6 +1175,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currRoom: {fileID: 0}
   moveSpeedOnRoomChange: 100
+  transparentMat: {fileID: 2100000, guid: dbd7db2f20544435aa8cc589ff05b4ff, type: 2}
 --- !u!1 &1374432616
 GameObject:
   m_ObjectHideFlags: 0

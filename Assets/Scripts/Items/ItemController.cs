@@ -9,6 +9,7 @@ public class Item
     public string description;
     public int rarity;
     public Sprite itemImage;
+    public Color tint = Color.white;
 }
 
 [System.Serializable]
@@ -59,6 +60,7 @@ public class ItemController : MonoBehaviour
     {
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         sr.sprite = item.itemImage;
+        if (GetComponent<Renderer>()) GetComponent<Renderer>().material.SetColor("_BaseColor", item.tint);
         Destroy(GetComponent<Collider>());
         SphereCollider collider = gameObject.AddComponent<SphereCollider>();
         collider.isTrigger = true;

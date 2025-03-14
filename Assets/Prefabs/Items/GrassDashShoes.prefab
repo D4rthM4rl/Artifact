@@ -50,7 +50,8 @@ MonoBehaviour:
     name: Grass dash shoes
     description: Make you dash and adds slow grass under it
     rarity: 0
-    itemImage: {fileID: 21300000, guid: 5917c1eb5872e4a2fbb5b272cbee7ac7, type: 3}
+    itemImage: {fileID: 21300000, guid: 7bf9a51c3988243fcb96da5a11b7e6aa, type: 3}
+    tint: {r: 0.0082166195, g: 1, b: 0, a: 1}
   heal:
     amount: 0
     timeSpan: 0
@@ -113,7 +114,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 5917c1eb5872e4a2fbb5b272cbee7ac7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7bf9a51c3988243fcb96da5a11b7e6aa, type: 3}
   m_Color: {r: 0.013375282, g: 1, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
