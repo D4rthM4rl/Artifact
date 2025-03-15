@@ -67,6 +67,9 @@ public class WeatherSystem : MonoBehaviour
     private float checkInterval = 2f; // Check for new characters every 2 seconds
     private float lastCheckTime = 0f;
     
+    // Summit level weather control
+    private bool inSummitLevel = false;
+    
     private void Awake()
     {
         // Singleton pattern
@@ -110,11 +113,22 @@ public class WeatherSystem : MonoBehaviour
     {
         while (true)
         {
+            // If we're in the summit level, don't change the weather
+            if (inSummitLevel)
+            {
+                yield return new WaitForSeconds(1f);
+                continue;
+            }
+            
             float weatherDuration = Random.Range(minWeatherDuration, maxWeatherDuration);
             yield return new WaitForSeconds(weatherDuration);
             
-            // Choose a new weather type
-            ChangeToRandomWeather();
+            // Only choose a new weather if we're not in the summit level
+            if (!inSummitLevel)
+            {
+                // Choose a new weather type
+                ChangeToRandomWeather();
+            }
         }
     }
     
@@ -427,6 +441,43 @@ public class WeatherSystem : MonoBehaviour
                 ApplySnowEffectToAllCharacters();
                 
             lastCheckTime = Time.time;
+        }
+        
+        // If in summit level but weather is not snow, force it back to snow
+        if (inSummitLevel && currentWeather != WeatherType.Snow)
+        {
+            SetWeather(WeatherType.Snow);
+        }
+    }
+    
+    // Set up snow specifically for the summit level
+    public void ForceSummitSnow(bool isInSummit)
+    {
+        inSummitLevel = isInSummit;
+        
+        if (inSummitLevel)
+        {
+            // Stop random weather changes
+            StopAllCoroutines();
+            
+            // Force snow weather
+            SetWeather(WeatherType.Snow);
+            
+            Debug.Log("Summit level detected: forcing snow weather");
+        }
+        else
+        {
+            // Restore random weather if we're not in the summit level anymore
+            if (currentWeather == WeatherType.Snow)
+            {
+                // Clear the forced snow
+                ClearCurrentWeather();
+            }
+            
+            // Restart the weather change coroutine
+            StartCoroutine(RandomWeatherChange());
+            
+            Debug.Log("Leaving summit level: restoring normal weather patterns");
         }
     }
 }
