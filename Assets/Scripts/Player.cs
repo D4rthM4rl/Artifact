@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Player : Character
 {
+    public bool paused;
+
     // Animator still communicates with your 3D model’s animation controller.
     Animator animator;
 
@@ -28,6 +30,12 @@ public class Player : Character
 
     void Update()
     {
+        // If escape is pressed, pause the game by stopping time
+        if (Input.GetButtonDown("Pause")) {
+            Time.timeScale = paused ? 1 : 0;
+            paused = !paused;
+        }
+
         // Collect movement input: horizontal (x) and vertical (z) axes.
         movement = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
         RegenMana();

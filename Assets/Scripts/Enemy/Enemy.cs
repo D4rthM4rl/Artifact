@@ -122,7 +122,7 @@ public abstract class Enemy : Character
     // For AI/Pathfinding
     private Collider territory;
     private bool drawLinesOfSight = false;
-    protected bool drawFocus = true;
+    protected bool drawFocus = false;
 	public NavMeshAgent ai;
     /// <summary>Whether to recalculate </summary>
     protected bool destinationRecalculate = true;
