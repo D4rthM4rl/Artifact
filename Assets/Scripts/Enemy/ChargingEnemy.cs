@@ -90,47 +90,53 @@ public class ChargingEnemy : Enemy
             StartCoroutine(CooldownDestinationSet());
         }
 
-        if (charging)
-        {
-            ai.speed = moveSpeed * chargeSpeedMultiplier;
-            ai.acceleration = chargeAcceleration;
-            ai.autoBraking = false;
-            
-            float minStopSpeed = minChargingSpeed + speedPerMoveSpeed * moveSpeed;
-            float requiredMaxSpeed = baseStopSpeed + stopSpeedPerMoveSpeed * moveSpeed;
-            
-            if (rb.velocity.magnitude < minStopSpeed && maxSpeed > requiredMaxSpeed)
-            {
-                charging = false;
-            }
-            timeSeeing = 0;
-            maxSpeed = Mathf.Max(maxSpeed, rb.velocity.magnitude);
-        }
-        else
-        {
-            ai.speed = moveSpeed;
-            ai.acceleration = 50;
-            if (CanSeeTarget(focusPos, obstacleLayer))
-            {
-                if (timeSeeing > requiredSightFrames)
-                {
-                    maxSpeed = 0;
-                    charging = true;
-                    ai.SetDestination(focusPos);
-                }
-                else
-                {
-                    timeSeeing++;
-                }
-            }
-            else
-            {
-                timeSeeing = 0;
-                targetPos = focusPos;
-            }
-        }
-    }
 
+		if (charging)
+		{
+			ai.speed = moveSpeed * 3;
+			ai.acceleration = 100;
+			ai.autoBraking = false;
+			// Debug.Log("Max speed: " + maxSpeed);
+			// Debug.Log("Curr speed: " + rb.velocity.magnitude);
+			Vector3 toDest = ai.destination - transform.position;
+			toDest.y = 0;
+			// Debug.DrawLine(transform.position, (transform.position + toDest).normalized * range, Color.black);
+			if ((rb.velocity.magnitude < (1 + 0.1 * moveSpeed) && maxSpeed > (5 + 0.01 * moveSpeed)) ||
+			  Vector3.Distance(transform.position, ai.destination) < meleeRange && 
+			  !Physics.Raycast(transform.position, toDest, range, 9))
+			{
+				charging = false;
+				// Debug.Log("Stop");
+			}
+			timeSeeing = 0;
+			maxSpeed = Mathf.Max(maxSpeed, rb.velocity.magnitude);
+			// Debug.Log(rb.velocity.magnitude + " (" + rb.velocity.x + "," + rb.velocity.y + ")");
+		}
+		else
+		{
+			ai.speed = moveSpeed;
+			ai.acceleration = 50;
+			if (CanSeeTarget(focusPos, obstacleLayer))
+			{
+				if (timeSeeing > 100)
+				{
+					maxSpeed = 0;
+					charging = true;
+					ai.SetDestination(focusPos);
+				}
+				else
+				{
+					timeSeeing++;
+					// ai.SetDestination(focusPos);
+				}
+			}
+			else
+			{
+				timeSeeing = 0;
+				// ai.SetDestination(focusPos);
+			}
+		}
+	}
     protected override void Wander()
     {
         
