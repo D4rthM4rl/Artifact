@@ -20,9 +20,7 @@ public class SmartFollowEnemy : Enemy
         switch(currState)
         {
             case(CharacterState.inactive):
-            Follow();
-                // return;
-                break;
+                return;
             case(CharacterState.wander): 
                 Wander();
                 break;
@@ -47,15 +45,16 @@ public class SmartFollowEnemy : Enemy
     /// </summary>
     protected override void Wander()
     {
-        // if (!chooseDir)
-        // {   
-        //     // If our seeded random isn't generated yet, we have to wait for it
-        //     if (random == null) {random = GameController.seededRandom;}
-        //     else {Debug.Log("Random found");StartCoroutine(ChooseDirection());}
-        // }
-
-        // // Apply force towards the direction
-        // GetComponent<Rigidbody2D>().AddForce(transform.right * (speed * 0.2f));
+        // TODO: Implement wandering behavior for SmartFollowEnemy
+        /*
+        if (ai != null && destinationRecalculate)
+        {
+            Vector3 randomPosition = transform.position + Random.insideUnitSphere * 5f;
+            randomPosition.z = transform.position.z; // Keep same z position
+            
+            ai.destination = randomPosition;
+            StartCoroutine(CooldownDestinationSet());
+        }*/
     }
 
     /// <summary>Moves towards focus</summary>

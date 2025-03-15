@@ -51,6 +51,13 @@ public class WeatherSystem : MonoBehaviour
     private Color originalAmbientColor;
     private Light directionalLight;
     private float originalLightIntensity;
+
+    // Rain effects on characters
+    [Range(0.5f, 1f)]
+    public float rainSpeedModifier = 0.8f; // Characters move at 80% speed in rain
+    private List<Character> affectedCharacters = new List<Character>();
+    private float checkInterval = 2f; // Check for new characters every 2 seconds
+    private float lastCheckTime = 0f;
     
     private void Awake()
     {
@@ -162,6 +169,12 @@ public class WeatherSystem : MonoBehaviour
             CameraController.instance.ClearWeatherFog();
         }
         
+        // Remove rain effects from all characters if it was raining
+        if (currentWeather == WeatherType.Rain)
+        {
+            RemoveRainEffectFromAllCharacters();
+        }
+        
         // Restore original lighting
         RestoreLighting();
     }
@@ -224,6 +237,9 @@ public class WeatherSystem : MonoBehaviour
             // Start special tile effects
             StartCoroutine(SpawnSpecialTilesDuringRain());
             
+            // Apply rain effect to all characters
+            ApplyRainEffectToAllCharacters();
+            
             Debug.Log("Weather changed to rain");
         }
     }
@@ -279,6 +295,45 @@ public class WeatherSystem : MonoBehaviour
                     Instantiate(slowGrassPrefab, randomPosition, Quaternion.identity);
                 }
             }
+        }
+    }
+
+    // Apply rain effect to all characters
+    private void ApplyRainEffectToAllCharacters()
+    {
+        Character[] characters = FindObjectsOfType<Character>();
+        foreach (Character character in characters)
+        {
+            if (!affectedCharacters.Contains(character))
+            {
+                // Apply rain speed modifier
+                character.ChangeMoveSpeed(rainSpeedModifier, true);
+                affectedCharacters.Add(character);
+            }
+        }
+    }
+    
+    // Remove rain effect from all affected characters
+    private void RemoveRainEffectFromAllCharacters()
+    {
+        foreach (Character character in affectedCharacters)
+        {
+            if (character != null) // Check if character still exists
+            {
+                // Reverse the rain speed modifier
+                character.ChangeMoveSpeed(1f / rainSpeedModifier, true);
+            }
+        }
+        affectedCharacters.Clear();
+    }
+
+    private void Update()
+    {
+        // Periodically check for new characters during rain
+        if (currentWeather == WeatherType.Rain && Time.time > lastCheckTime + checkInterval)
+        {
+            ApplyRainEffectToAllCharacters();
+            lastCheckTime = Time.time;
         }
     }
 }

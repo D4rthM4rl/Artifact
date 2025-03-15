@@ -16,9 +16,9 @@ public enum EnemyType
 /// <summary>
 /// What makes an enemy attack, <br/>
 /// Cornered: Will attack only if it believes it's cornered <br/>
-/// Territorial: Will attack if you get close enough, won't wander much if at all <br/>
-/// Territorial: Will attack if you get close enough, won't wander much if at all <br/>
-/// Aggressive: Will seek out to attack
+/// AttackedFirst: Will attack if it was attacked first <br/>
+/// InTerritory: Will attack if you get close enough to its territory <br/>
+/// Always: Will seek out to attack in any circumstance
 /// </summary>
 [System.Serializable]
 public enum WhenAttack

@@ -78,6 +78,10 @@ public abstract class CirclerEnemy : TeamingEnemy
         // Implement the wandering logic
     }
 
+    /// <summary>
+    /// Sets the focus for this circler enemy and shares it with other team members
+    /// </summary>
+    /// <param name="focus">GameObject to focus on</param>
     protected override void SetFocus(GameObject focus)
     {
         if (CirclerController.focus == null || resetFocus)
@@ -85,17 +89,12 @@ public abstract class CirclerEnemy : TeamingEnemy
             CirclerController.focus = focus;
             StartCoroutine(ResetFocusTimer(3));
         }
-        // Debug.Log(CirclerController.focus);
+        
         this.focus = CirclerController.focus;
-        if (drawFocus) {
-            if (currState == CharacterState.flee)
-            {
-                Debug.DrawLine(transform.position, this.focus.transform.position, Color.cyan);
-            }
-            else
-            {
-                Debug.DrawLine(transform.position, this.focus.transform.position, Color.white);
-            }
+        if (drawFocus) 
+        {
+            Color lineColor = currState == CharacterState.flee ? Color.cyan : Color.white;
+            Debug.DrawLine(transform.position, this.focus.transform.position, lineColor);
         }
     }
 

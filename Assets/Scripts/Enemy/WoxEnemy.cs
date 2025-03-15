@@ -6,6 +6,10 @@ public class WoxEnemy : CirclerEnemy
 {  
     public GameObject bulletPrefab;
     public int teamsize = 0;
+    [SerializeField]
+    private float projectileSpeed = 5f;
+    [SerializeField]
+    private float bulletSpawnOffset = 0.5f;
 
     void FixedUpdate()
     {
@@ -49,11 +53,13 @@ public class WoxEnemy : CirclerEnemy
         }
     }
 
+    /// <summary>
+    /// Attacks the target by firing a projectile in their direction
+    /// </summary>
     protected override void Attack()
     {
-        // GameObject bullet = Instantiate(bulletPrefab, firepoint.position, firepoint.rotation);
         Vector3 direction = (focusPos - transform.position).normalized;
-        GameObject bulletObject = Instantiate(bulletPrefab, transform.position + (Vector3)direction * 0.5f, Quaternion.identity) as GameObject;
+        GameObject bulletObject = Instantiate(bulletPrefab, transform.position + direction * bulletSpawnOffset, Quaternion.identity) as GameObject;
         Projectile bullet = bulletObject.GetComponent<Projectile>();
         bullet.sender = this;
         bullet.size = attackSizeModifier;
@@ -61,7 +67,7 @@ public class WoxEnemy : CirclerEnemy
         bullet.knockback = knockbackModifier;
         bullet.canAttack = willAttack;
         Rigidbody2D bulletrb = bullet.GetComponent<Rigidbody2D>();
-        bulletrb.AddForce(direction * 5, ForceMode2D.Impulse);
+        bulletrb.AddForce(direction * projectileSpeed, ForceMode2D.Impulse);
         StartCoroutine(Cooldown());
     }
 }
