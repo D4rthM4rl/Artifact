@@ -22,6 +22,12 @@ public class CameraController : MonoBehaviour
     private bool fogOn = false;
     private bool togglingFog = false;
 
+    // Fog weather properties
+    private Color originalFogColor;
+    private float originalFogDensity;
+    private bool originalFogState;
+    private FogMode originalFogMode;
+
     public Material transparentMat;
     // Dictionary to store original materials so we can revert them later.
     private Dictionary<Renderer, Material> originalMats = new Dictionary<Renderer, Material>();
@@ -42,6 +48,18 @@ public class CameraController : MonoBehaviour
         currentDistance = offset.magnitude;
         currentElevation = Mathf.Asin(offset.y / currentDistance) * Mathf.Rad2Deg;
         currentAzimuth = Mathf.Atan2(offset.x, offset.z) * Mathf.Rad2Deg;
+        
+        // Store original fog settings
+        StoreFogSettings();
+    }
+
+    // Store the original fog settings
+    private void StoreFogSettings()
+    {
+        originalFogColor = RenderSettings.fogColor;
+        originalFogDensity = RenderSettings.fogDensity;
+        originalFogState = RenderSettings.fog;
+        originalFogMode = RenderSettings.fogMode;
     }
 
     // LateUpdate is used so that camera movement occurs after player movement
@@ -49,6 +67,38 @@ public class CameraController : MonoBehaviour
     {
         UpdatePosition();
         HandleObstructions();
+    }
+    
+    // Weather-based fog control methods
+    public void SetWeatherFog(Color fogColor, float fogDensity, float intensity)
+    {
+        // Save original settings if not already saved
+        if (!fogOn)
+        {
+            StoreFogSettings();
+        }
+
+        // Apply weather fog settings
+        RenderSettings.fog = true;
+        RenderSettings.fogMode = FogMode.Exponential;
+        RenderSettings.fogColor = fogColor;
+        RenderSettings.fogDensity = fogDensity * Mathf.Clamp01(intensity);
+        fogOn = true;
+        
+        // Log for debugging
+        Debug.Log($"Weather fog set: Density={RenderSettings.fogDensity}, Intensity={intensity}");
+    }
+    
+    public void ClearWeatherFog()
+    {
+        // Restore original fog settings
+        RenderSettings.fogColor = originalFogColor;
+        RenderSettings.fogDensity = originalFogDensity;
+        RenderSettings.fogMode = originalFogMode;
+        RenderSettings.fog = originalFogState;
+        fogOn = false;
+        
+        Debug.Log("Weather fog cleared");
     }
 
     void UpdatePosition()
@@ -97,16 +147,11 @@ public class CameraController : MonoBehaviour
             currentDistance * Mathf.Cos(radAzimuth) * Mathf.Cos(radElev)
         );
 
+        // Remove manual fog toggle
         // If we wanted to use it by each room
         // Vector3 targetPos = GetCameraTargetPosition();
         // Vector3 targetPos = offset + new Vector3(player.transform.position.x, 0, player.transform.position.z);
-        // Just to demonstrate fog
-        if (Input.GetButton("Fire2") && !togglingFog)
-        {
-            StartCoroutine(toggleFog());
-        } // Guns and stuff aren't occluded by fog because they don't have the right sprite material
 
-        // transform.position = Vector3.MoveTowards(transform.position, targetPos, Time.deltaTime * moveSpeedOnRoomChange);
         Vector3 targetPos = offset + player.transform.position;
         transform.position = targetPos;
         transform.LookAt(player.transform.position);
@@ -173,39 +218,6 @@ public class CameraController : MonoBehaviour
             }
             originalMats.Remove(rend);
         }
-    }
-
-    private IEnumerator toggleFog()
-    {
-        togglingFog = true;
-        if (!fogOn)
-        {
-            RenderSettings.fog = true;
-            RenderSettings.fogMode = FogMode.Linear;
-            RenderSettings.fogStartDistance = 15;
-            RenderSettings.fogEndDistance = 30;
-
-            // while (RenderSettings.fogDensity < 0.13f)
-            // {
-                fogOn = true;
-            //     RenderSettings.fogDensity += 0.002f;
-            //     yield return new WaitForSeconds(0.1f);
-            // }
-        }
-        else 
-        {
-            // while (RenderSettings.fogDensity > 0)
-            // {
-                fogOn = false;
-            //     RenderSettings.fogDensity -= 0.002f;
-            //     yield return new WaitForSeconds(0.1f);
-            // }
-            RenderSettings.fog = false;
-            // RenderSettings.fogStartDistance = 15;
-            // RenderSettings.fogEndDistance = 30;
-        }
-        yield return new WaitForSeconds(1f);
-        togglingFog = false;
     }
 
     Vector3 GetCameraTargetPosition()
