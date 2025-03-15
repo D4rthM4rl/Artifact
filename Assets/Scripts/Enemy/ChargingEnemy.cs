@@ -8,21 +8,19 @@ public class ChargingEnemy : Enemy
     [System.NonSerialized]
     public float maxSpeed = 0;
     protected int timeSeeing = 0;
-    
+	
+	/// <summary>How much faster it charges than the normal move speed</summary>
     [SerializeField]
-    private float chargeSpeedMultiplier = 3f;
+    private const float chargeSpeedMultiplier = 3f;
+	/// <summary>How fast it accelerates when charging</summary>
     [SerializeField]
-    private float chargeAcceleration = 100f;
+    private const float chargeAcceleration = 100f;
+	/// <summary>Min speed to consider ending the "charge"</summary>
     [SerializeField]
-    private float minChargingSpeed = 3f;
+    private const float minChargingSpeed = 3f;
+
     [SerializeField]
-    private float speedPerMoveSpeed = 0.1f;
-    [SerializeField]
-    private float baseStopSpeed = 5f;
-    [SerializeField]
-    private float stopSpeedPerMoveSpeed = 0.01f;
-    [SerializeField]
-    private int requiredSightFrames = 100;
+    private const int requiredSightFrames = 100;
 
     void Start()
     {
@@ -93,8 +91,8 @@ public class ChargingEnemy : Enemy
 
 		if (charging)
 		{
-			ai.speed = moveSpeed * 3;
-			ai.acceleration = 100;
+			ai.speed = moveSpeed * chargeSpeedMultiplier;
+			ai.acceleration = chargeAcceleration;
 			ai.autoBraking = false;
 			// Debug.Log("Max speed: " + maxSpeed);
 			// Debug.Log("Curr speed: " + rb.velocity.magnitude);

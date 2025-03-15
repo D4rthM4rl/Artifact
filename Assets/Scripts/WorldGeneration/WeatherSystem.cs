@@ -58,13 +58,14 @@ public class WeatherSystem : MonoBehaviour
     private Light directionalLight;
     private float originalLightIntensity;
 
-    // Rain effects on characters
+
     [Range(0.5f, 1f)]
     public float rainSpeedModifier = 0.8f; // Characters move at 80% speed in rain
     [Range(0.5f, 1f)]
     public float snowSpeedModifier = 0.7f; // Characters move at 70% speed in snow
+
     private List<Character> affectedCharacters = new List<Character>();
-    private float checkInterval = 2f; // Check for new characters every 2 seconds
+    private float checkInterval = 3f; // Check for new characters every 2 seconds
     private float lastCheckTime = 0f;
     
     private void Awake()
@@ -152,7 +153,10 @@ public class WeatherSystem : MonoBehaviour
         SetWeather(WeatherType.Sunny);
     }
     
-    // Set a specific weather type
+    /// <summary>
+    /// Sets the weather to the given type
+    /// </summary>
+    /// <param name="weatherType">The type of weather to set to</param>
     public void SetWeather(WeatherType weatherType)
     {
         ClearCurrentWeather();
@@ -381,6 +385,8 @@ public class WeatherSystem : MonoBehaviour
             {
                 // Apply rain speed modifier
                 character.ChangeMoveSpeed(rainSpeedModifier, true);
+                Rigidbody rb = character.GetComponent<Rigidbody>();
+                if (rb) rb.drag = rb.drag * rainDragModifier;
                 affectedCharacters.Add(character);
             }
         }
@@ -410,6 +416,8 @@ public class WeatherSystem : MonoBehaviour
             {
                 // Reverse the rain speed modifier
                 character.ChangeMoveSpeed(1f / rainSpeedModifier, true);
+                Rigidbody rb = character.GetComponent<Rigidbody>();
+                if (rb) rb.drag = rb.drag / rainDragModifier;
             }
         }
         affectedCharacters.Clear();
