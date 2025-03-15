@@ -101,12 +101,15 @@ public class RoomController : MonoBehaviour
             // Find the weather prefabs in Resources folder
             weatherSystem.rainSystemPrefab = Resources.Load<GameObject>("RainSystem");
             weatherSystem.fogSystemPrefab = Resources.Load<GameObject>("FogSystem");
+            weatherSystem.snowSystemPrefab = Resources.Load<GameObject>("SnowSystem");
             
             // Find the SlowGrass prefab in Resources folder
             weatherSystem.slowGrassPrefab = Resources.Load<GameObject>("SlowGrass");
             
             // Validate prefabs
-            bool weatherPrefabsFound = weatherSystem.rainSystemPrefab != null || weatherSystem.fogSystemPrefab != null;
+            bool weatherPrefabsFound = weatherSystem.rainSystemPrefab != null || 
+                                       weatherSystem.fogSystemPrefab != null ||
+                                       weatherSystem.snowSystemPrefab != null;
             
             if (!weatherPrefabsFound)
             {

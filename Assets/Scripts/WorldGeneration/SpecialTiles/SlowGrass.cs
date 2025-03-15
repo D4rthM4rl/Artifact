@@ -8,19 +8,35 @@ public class SlowGrass : SpecialTile<SlowGrass>
     
     private void Awake()
     {
-        // If spawned by rain, adjust appearance and lifetime
+        // If spawned by rain or snow, adjust appearance and lifetime
         WeatherSystem weatherSystem = FindObjectOfType<WeatherSystem>();
-        if (weatherSystem != null && weatherSystem.currentWeather == WeatherType.Rain)
+        if (weatherSystem != null)
         {
-            isRainSpawned = true;
-            lifetime = 10f; // Longer lifetime for rain-spawned grass
-            
-            // Add a blue tint to indicate it's rain-created
-            MeshRenderer renderer = GetComponentInChildren<MeshRenderer>();
-            if (renderer != null)
+            if (weatherSystem.currentWeather == WeatherType.Rain)
             {
-                Material material = renderer.material;
-                material.color = new Color(0.7f, 0.7f, 1f, 0.8f);
+                isRainSpawned = true;
+                lifetime = 10f; // Longer lifetime for rain-spawned grass
+                
+                // Add a blue tint to indicate it's rain-created
+                MeshRenderer renderer = GetComponentInChildren<MeshRenderer>();
+                if (renderer != null)
+                {
+                    Material material = renderer.material;
+                    material.color = new Color(0.7f, 0.7f, 1f, 0.8f);
+                }
+            }
+            else if (weatherSystem.currentWeather == WeatherType.Snow)
+            {
+                isRainSpawned = true; // Reuse the same flag for snow
+                lifetime = 15f; // Even longer lifetime for snow-spawned grass
+                
+                // Add a white/blue tint to indicate it's snow-created
+                MeshRenderer renderer = GetComponentInChildren<MeshRenderer>();
+                if (renderer != null)
+                {
+                    Material material = renderer.material;
+                    material.color = new Color(0.9f, 0.9f, 1f, 0.8f);
+                }
             }
         }
     }
