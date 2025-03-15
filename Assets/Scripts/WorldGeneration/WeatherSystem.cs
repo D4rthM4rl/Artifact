@@ -6,7 +6,8 @@ public enum WeatherType
 {
     Sunny,
     Rain,
-    Fog
+    Fog,
+    Snow
 }
 
 public class WeatherSystem : MonoBehaviour
@@ -16,6 +17,7 @@ public class WeatherSystem : MonoBehaviour
     // The prefabs for different weather systems
     public GameObject rainSystemPrefab;
     public GameObject fogSystemPrefab;
+    public GameObject snowSystemPrefab;
     
     // Currently active weather effect
     private GameObject activeWeatherEffect;
@@ -34,7 +36,9 @@ public class WeatherSystem : MonoBehaviour
     public float rainProbability = 0.4f;
     [Range(0f, 1f)]
     public float fogProbability = 0.3f;
-    // Sunny probability is calculated as 1 - (rainProbability + fogProbability)
+    [Range(0f, 1f)]
+    public float snowProbability = 0f;
+    // Sunny probability is calculated as 1 - (rainProbability + fogProbability + snowProbability)
     
     // Special tile effects during weather
     public GameObject slowGrassPrefab; // Prefab for SlowGrass tile
@@ -47,18 +51,19 @@ public class WeatherSystem : MonoBehaviour
     // Lighting settings
     [Range(0f, 1f)]
     public float rainLightIntensityMultiplier = 0.6f; // How dark it gets during rain
+    [Range(0f, 1f)]
+    public float snowLightIntensityMultiplier = 0.8f; // How bright it gets during snow
     private float originalAmbientIntensity;
     private Color originalAmbientColor;
     private Light directionalLight;
     private float originalLightIntensity;
 
-    // Rain effects on characters
-    /// <summary>Characters have their speed multiplied by this in the rain</summary>
-    [Range(0.5f, 1.5f)]
-    public float rainSpeedModifier = 1.1f;
-    /// <summary>Characters have their drag multiplied by this in the rain</summary>
-    [Range(0.3f, 1.3f)]
-    public float rainDragModifier = 0.7f; 
+
+    [Range(0.5f, 1f)]
+    public float rainSpeedModifier = 0.8f; // Characters move at 80% speed in rain
+    [Range(0.5f, 1f)]
+    public float snowSpeedModifier = 0.7f; // Characters move at 70% speed in snow
+
     private List<Character> affectedCharacters = new List<Character>();
     private float checkInterval = 3f; // Check for new characters every 2 seconds
     private float lastCheckTime = 0f;
@@ -121,18 +126,31 @@ public class WeatherSystem : MonoBehaviour
         ClearCurrentWeather();
         
         float random = Random.value;
-        if (random < rainProbability)
+        float totalProb = 0f;
+        
+        totalProb += rainProbability;
+        if (random < totalProb)
         {
             SetWeather(WeatherType.Rain);
+            return;
         }
-        else if (random < rainProbability + fogProbability)
+        
+        totalProb += fogProbability;
+        if (random < totalProb)
         {
             SetWeather(WeatherType.Fog);
+            return;
         }
-        else
+        
+        totalProb += snowProbability;
+        if (random < totalProb)
         {
-            SetWeather(WeatherType.Sunny);
+            SetWeather(WeatherType.Snow);
+            return;
         }
+        
+        // If we get here, it's sunny
+        SetWeather(WeatherType.Sunny);
     }
     
     /// <summary>
@@ -151,6 +169,9 @@ public class WeatherSystem : MonoBehaviour
                 break;
             case WeatherType.Fog:
                 StartFog();
+                break;
+            case WeatherType.Snow:
+                StartSnow();
                 break;
             case WeatherType.Sunny:
                 // Nothing to do for sunny weather
@@ -177,7 +198,7 @@ public class WeatherSystem : MonoBehaviour
         }
         
         // Remove rain effects from all characters if it was raining
-        if (currentWeather == WeatherType.Rain)
+        if (currentWeather == WeatherType.Rain || currentWeather == WeatherType.Snow)
         {
             RemoveRainEffectFromAllCharacters();
         }
@@ -219,6 +240,28 @@ public class WeatherSystem : MonoBehaviour
         }
         
         Debug.Log("Restored original lighting");
+    }
+    
+    // Brighten the lighting for snow effect
+    private void BrightenLightingForSnow()
+    {
+        // Increase ambient light intensity for snow
+        RenderSettings.ambientIntensity = originalAmbientIntensity * snowLightIntensityMultiplier;
+        
+        // Slightly tint the ambient color to be whiter/cooler
+        Color snowAmbientColor = originalAmbientColor;
+        snowAmbientColor.r *= 1.1f;
+        snowAmbientColor.g *= 1.1f;
+        snowAmbientColor.b *= 1.2f;
+        RenderSettings.ambientLight = snowAmbientColor;
+        
+        // Brighten the sun if we found it
+        if (directionalLight != null)
+        {
+            directionalLight.intensity = originalLightIntensity * snowLightIntensityMultiplier;
+        }
+        
+        Debug.Log("Brightened lighting for snow effect");
     }
     
     // Start raining
@@ -264,6 +307,33 @@ public class WeatherSystem : MonoBehaviour
         else
         {
             Debug.LogWarning("CameraController not found. Cannot create fog effect.");
+        }
+    }
+    
+    // Start snowing
+    public void StartSnow()
+    {
+        if (snowSystemPrefab != null)
+        {
+            print("Starting snow");
+            currentWeather = WeatherType.Snow;
+            activeWeatherEffect = Instantiate(snowSystemPrefab);
+            
+            // Set particle system intensity
+            var particleSystems = activeWeatherEffect.GetComponentsInChildren<ParticleSystem>();
+            foreach (var ps in particleSystems)
+            {
+                var emission = ps.emission;
+                emission.rateOverTimeMultiplier = emission.rateOverTimeMultiplier * weatherIntensity;
+            }
+            
+            // Brighten the lighting during snow
+            BrightenLightingForSnow();
+            
+            // Apply snow effect to all characters
+            ApplySnowEffectToAllCharacters();
+            
+            Debug.Log("Weather changed to snow");
         }
     }
     
@@ -322,6 +392,21 @@ public class WeatherSystem : MonoBehaviour
         }
     }
     
+    // Apply snow effect to all characters
+    private void ApplySnowEffectToAllCharacters()
+    {
+        Character[] characters = FindObjectsOfType<Character>();
+        foreach (Character character in characters)
+        {
+            if (!affectedCharacters.Contains(character))
+            {
+                // Apply snow speed modifier
+                character.ChangeMoveSpeed(snowSpeedModifier, true);
+                affectedCharacters.Add(character);
+            }
+        }
+    }
+    
     // Remove rain effect from all affected characters
     private void RemoveRainEffectFromAllCharacters()
     {
@@ -340,10 +425,15 @@ public class WeatherSystem : MonoBehaviour
 
     private void Update()
     {
-        // Periodically check for new characters during rain
-        if (currentWeather == WeatherType.Rain && Time.time > lastCheckTime + checkInterval)
+        // Periodically check for new characters during rain or snow
+        if ((currentWeather == WeatherType.Rain || currentWeather == WeatherType.Snow) && 
+            Time.time > lastCheckTime + checkInterval)
         {
-            ApplyRainEffectToAllCharacters();
+            if (currentWeather == WeatherType.Rain)
+                ApplyRainEffectToAllCharacters();
+            else if (currentWeather == WeatherType.Snow)
+                ApplySnowEffectToAllCharacters();
+                
             lastCheckTime = Time.time;
         }
     }
