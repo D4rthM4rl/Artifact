@@ -1495,7 +1495,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 240672679cb974d46aaef64aa8200158, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currRoom: {fileID: 0}
   hasPostProcessed: 0
+  enableWeatherEffects: 1
 --- !u!4 &2115090179
 Transform:
   m_ObjectHideFlags: 0
