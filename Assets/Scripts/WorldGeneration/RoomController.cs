@@ -67,12 +67,6 @@ public class RoomController : MonoBehaviour
     
     /// <summary> Has added stuff to generated rooms </summary>
     public bool hasPostProcessed = false;
-    
-    /// <summary> Reference to the weather system </summary>
-    private WeatherSystem weatherSystem;
-    
-    /// <summary> Should weather effects be enabled </summary>
-    public bool enableWeatherEffects = true;
 
     void Awake()
     {
@@ -83,42 +77,7 @@ public class RoomController : MonoBehaviour
     void Start()
     {
         // Initialize the weather system
-        InitializeWeatherSystem();
-    }
-
-    /// <summary>
-    /// Initialize the weather system
-    /// </summary>
-    void InitializeWeatherSystem()
-    {
-        // Find or create the weather system
-        weatherSystem = FindObjectOfType<WeatherSystem>();
-        if (weatherSystem == null && enableWeatherEffects)
-        {
-            GameObject weatherSystemObj = new GameObject("WeatherSystem");
-            weatherSystem = weatherSystemObj.AddComponent<WeatherSystem>();
-            
-            // Find the weather prefabs in Resources folder
-            weatherSystem.rainSystemPrefab = Resources.Load<GameObject>("RainSystem");
-            weatherSystem.fogSystemPrefab = Resources.Load<GameObject>("FogSystem");
-            weatherSystem.snowSystemPrefab = Resources.Load<GameObject>("SnowSystem");
-            
-            // Find the SlowGrass prefab in Resources folder
-            weatherSystem.slowGrassPrefab = Resources.Load<GameObject>("SlowGrass");
-            
-            // Validate prefabs
-            bool weatherPrefabsFound = weatherSystem.rainSystemPrefab != null || 
-                                       weatherSystem.fogSystemPrefab != null ||
-                                       weatherSystem.snowSystemPrefab != null;
-            
-            if (!weatherPrefabsFound)
-            {
-                Debug.LogWarning("No weather system prefabs found in Resources folder. Weather effects will be disabled.");
-                enableWeatherEffects = false;
-            }
-            
-            weatherSystem.Initialize();
-        }
+        
     }
 
     /// <summary> Calls <see cref="UpdateRoomQueue"/> every frame</summary>
@@ -140,6 +99,8 @@ public class RoomController : MonoBehaviour
         if (loadRoomQueue.Count == 0) {
             if (!hasPostProcessed) {
                 PostProcessRooms(WorldGenerator.instance.endRoomCoords, 0);
+                // Start our weather for the world
+                WeatherController.instance.StartWeather();
                 // Debug.Log("Setting player height to " + loadedRoomDict[Vector2Int.zero].transform.position.y);
                 GameObject.FindGameObjectWithTag("Player").transform.position += loadedRoomDict[Vector2Int.zero].transform.position.y * Vector3.up;
                 // Not as easy to do this per room, so we'll do it all at once
@@ -151,14 +112,8 @@ public class RoomController : MonoBehaviour
                     surface.BuildNavMesh();
                 }
                 
-                // Start weather effects when world generation is complete
-                if (enableWeatherEffects && weatherSystem != null)
-                {
-                    // Choose a random weather type based on probabilities
-                    weatherSystem.ChangeToRandomWeather();
-                }
-                
                 hasPostProcessed = true;
+                // TODO: Make a screen show up but then go away here
             }
             return;
         }
@@ -298,12 +253,6 @@ public class RoomController : MonoBehaviour
         for (int i = transform.childCount - 1; i >= 0; i--)
         {
             Destroy(transform.GetChild(i).gameObject);
-        }
-        
-        // Stop any weather effects when unloading the world
-        if (weatherSystem != null && weatherSystem.currentWeather != WeatherType.Sunny)
-        {
-            weatherSystem.StopWeather();
         }
         
         isLoadingRoom = false;

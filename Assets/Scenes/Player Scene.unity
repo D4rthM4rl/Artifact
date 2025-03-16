@@ -325,6 +325,58 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b865850e8c8bf401fbd0e528bf6ec955, type: 3}
+--- !u!1 &422050031
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 422050032}
+  - component: {fileID: 422050033}
+  m_Layer: 0
+  m_Name: Weather Controller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &422050032
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 422050031}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &422050033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 422050031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f79ed2bcc353d44338de5378c400e1b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rainSystemPrefab: {fileID: 0}
+  fogSystemPrefab: {fileID: 0}
+  snowSystemPrefab: {fileID: 0}
+  currentWeather: {fileID: 0}
+  enableWeatherEffects: 0
+  fogColor: {r: 0.76, g: 0.76, b: 0.76, a: 1}
+  fogDensity: 0.02
+  directionalLight: {fileID: 0}
 --- !u!1 &449795681
 GameObject:
   m_ObjectHideFlags: 0
@@ -1311,6 +1363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad2eb133709c04175b17b7e46972c8db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weatherController: {fileID: 0}
   particleMaterial: {fileID: 2100000, guid: 73c63f60b3a7a4ab0bf5da1e6f068f46, type: 2}
   defaultMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   litMaterial: {fileID: 2100000, guid: 15870835698e3443c89e6f1e192b6b96, type: 2}
@@ -1497,7 +1550,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currRoom: {fileID: 0}
   hasPostProcessed: 0
-  enableWeatherEffects: 1
 --- !u!4 &2115090179
 Transform:
   m_ObjectHideFlags: 0
@@ -1628,3 +1680,4 @@ SceneRoots:
   - {fileID: 5460932307283392690}
   - {fileID: 2054123576}
   - {fileID: 2115090179}
+  - {fileID: 422050032}

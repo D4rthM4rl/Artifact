@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2ddedf47210284ba5b2b3f1b25b2c5fc, type: 3}
-  m_Name: Forest
+  m_Name: Summit
   m_EditorClassIdentifier: 
-  worldName: Forest
+  worldName: Summit
   numberOfCrawlers: 4
   canRetrace: 0
   iterationMin: 10
-  iterationMax: 15
+  iterationMax: 20
   xRoomWidth: 20
   zRoomWidth: 20
   yChangeTowardsEnd: 0
@@ -26,31 +26,25 @@ MonoBehaviour:
     weight: 0
     coordinates:
     - {x: 0, y: 0}
-  - type: Empty
-    weight: 1
-    coordinates:
-    - {x: 0, y: 0}
-  - type: Item
-    weight: 4
-    coordinates:
-    - {x: 0, y: 0}
   - type: End
     weight: 0
     coordinates:
     - {x: 0, y: 0}
-  - type: Enemy 1
-    weight: 2
-    coordinates:
-    - {x: 0, y: 0}
-  - type: Enemy 2
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+  - type: Item
     weight: 1
     coordinates:
     - {x: 0, y: 0}
   randomDecorations:
   - decoration: {fileID: 6432962546663608872, guid: b286c39a6bb254d2ba4bc64abfbaeab6, type: 3}
     obstructing: 0
-    size: {x: 1, y: 0.5, z: 0.3}
-    clumpTotalMin: 3
-    clumpTotalMax: 5
-    clumpSizeMin: 2
+    size: {x: 1, y: 0.5, z: 0}
+    clumpTotalMin: 0
+    clumpTotalMax: 3
+    clumpSizeMin: 1
     clumpSizeMax: 4
+  weathers:
+  - weather: {fileID: 11400000, guid: bd23d6690d76c483ebc2a7248f35b3af, type: 2}
+    weight: 0

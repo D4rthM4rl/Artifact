@@ -126,15 +126,15 @@ public class CameraController : MonoBehaviour
         {
             currentElevation = Mathf.Clamp(currentElevation - 0.1f, -89f, 89f);
         }
-        // Zoom in/out by changing the distance by 1 unit at a time.
+        // Zoom in/out by changing the distance by 0.05 units at a time.
         if (Input.GetButton("Zoom In Cam"))
         {
             Debug.Log("Zooming in " + currentDistance);
-            currentDistance = Mathf.Max(1f, currentDistance - 0.1f);
+            currentDistance = Mathf.Max(1f, currentDistance - 0.05f);
         }
         if (Input.GetButton("Zoom Out Cam"))
         {
-            currentDistance = Mathf.Min(300, currentDistance + 0.1f);
+            currentDistance = Mathf.Min(300, currentDistance + 0.05f);
             Debug.Log("Zooming out " + currentDistance);
         }
 

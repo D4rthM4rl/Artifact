@@ -13,6 +13,8 @@ public class GameController : MonoBehaviour
     [System.NonSerialized]
     public static int numItemsSpawned = 0;
 
+    public GameObject weatherController;
+
     public Material particleMaterial;
     public Material defaultMaterial;
     public Material litMaterial;

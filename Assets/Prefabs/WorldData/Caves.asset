@@ -35,3 +35,6 @@ MonoBehaviour:
     coordinates:
     - {x: 0, y: 0}
   randomDecorations: []
+  weathers:
+  - weather: {fileID: 11400000, guid: bc56ab6c6c4d24466bec30d36f12381c, type: 2}
+    weight: 1

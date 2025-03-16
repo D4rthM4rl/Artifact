@@ -44,6 +44,9 @@ public class WorldGenerationData : ScriptableObject
     /// <summary> The types of decorations that will be randomly placed generated in the dungeon randomly</summary>
     [Tooltip("The types of decorations that will be randomly placed generated in the dungeon randomly")]
     public List<Decoration> randomDecorations;
+
+    /// <summary>What weathers are possible here</summary>
+    public List<LocalWeather> weathers;
 }
 
 /// <summary>A type of room, such as an enemy room, and how it generates</summary>
@@ -93,4 +96,13 @@ public struct Decoration
     /// <summary>How many of this decoration maximum can be in a clump</summary>
     [Tooltip("How many of this decoration maximum can be in a clump")]
     public int clumpSizeMax;
+}
+
+
+[System.Serializable]
+public struct LocalWeather
+{
+    public Weather weather;
+    /// <summary>Frequency of this weather in this world relative to others</summary>
+    public int weight;
 }

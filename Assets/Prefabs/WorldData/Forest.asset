@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2ddedf47210284ba5b2b3f1b25b2c5fc, type: 3}
-  m_Name: Summit
+  m_Name: Forest
   m_EditorClassIdentifier: 
-  worldName: Summit
+  worldName: Forest
   numberOfCrawlers: 4
   canRetrace: 0
   iterationMin: 10
-  iterationMax: 20
-  xRoomWidth: 15
-  zRoomWidth: 15
+  iterationMax: 15
+  xRoomWidth: 20
+  zRoomWidth: 20
   yChangeTowardsEnd: 0
   wallsSeparateRooms: 0
   roomTypes:
@@ -26,22 +26,38 @@ MonoBehaviour:
     weight: 0
     coordinates:
     - {x: 0, y: 0}
+  - type: Empty
+    weight: 1
+    coordinates:
+    - {x: 0, y: 0}
+  - type: Item
+    weight: 4
+    coordinates:
+    - {x: 0, y: 0}
   - type: End
     weight: 0
     coordinates:
     - {x: 0, y: 0}
-    - {x: 1, y: 0}
-    - {x: 0, y: 1}
-    - {x: 1, y: 1}
-  - type: Item
+  - type: Enemy 1
+    weight: 2
+    coordinates:
+    - {x: 0, y: 0}
+  - type: Enemy 2
     weight: 1
     coordinates:
     - {x: 0, y: 0}
   randomDecorations:
   - decoration: {fileID: 6432962546663608872, guid: b286c39a6bb254d2ba4bc64abfbaeab6, type: 3}
     obstructing: 0
-    size: {x: 1, y: 0.5, z: 0}
-    clumpTotalMin: 0
-    clumpTotalMax: 3
-    clumpSizeMin: 1
+    size: {x: 1, y: 0.5, z: 0.3}
+    clumpTotalMin: 3
+    clumpTotalMax: 5
+    clumpSizeMin: 2
     clumpSizeMax: 4
+  weathers:
+  - weather: {fileID: 11400000, guid: 95cf8e51d563842efb161a901218ac9a, type: 2}
+    weight: 3
+  - weather: {fileID: 11400000, guid: 4568567b8c3114f4788b1b1ffbf7f12a, type: 2}
+    weight: 2
+  - weather: {fileID: 11400000, guid: 45c0dca09a71c4056866d4f1aa5ae710, type: 2}
+    weight: 1

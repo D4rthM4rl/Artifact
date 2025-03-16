@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: faeac08cc1a6d441591e21a0861fdabe, type: 3}
+  m_Name: Summit Snow
+  m_EditorClassIdentifier: 
+  weatherName: Summit Snow
+  intensity: 2
+  minDuration: 90
+  maxDuration: 240
+  specialBehaviors: []
+  ambientBrightness: 1
+  sunColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  ambientColor: {r: 1, g: 1, b: 1, a: 1}
+  skybox: {fileID: 0}
+  speedModifier: 1
+  dragModifier: 1
+  precipitationColor: {r: 1, g: 1, b: 1, a: 1}
