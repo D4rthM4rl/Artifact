@@ -12,6 +12,11 @@ public class PrecipitationWeather : Weather
 
     public Color precipitationColor = Color.white;
 
+    [Range(0.3f, 3f)]
+    public float particleSize = 0.6f;
+
+    public float precipitationGravity = 1f;
+
     // Special tile effects during weather
     // public GameObject slowGrassPrefab; // Prefab for SlowGrass tile
     // public float specialTileSpawnChance = 0.05f; // Chance to spawn a special tile during rain
@@ -23,11 +28,12 @@ public class PrecipitationWeather : Weather
         
         // Set particle system intensity
         ParticleSystem ps = WeatherController.instance.gameObject.GetComponent<ParticleSystem>();
-        if (ps == null) ps = WeatherController.instance.gameObject.AddComponent<ParticleSystem>();
         var emission = ps.emission;
-        emission.rateOverTimeMultiplier = emission.rateOverTimeMultiplier * intensity;
+        emission.rateOverTimeMultiplier = intensity * 100;
+        emission.enabled = true;
         var psRenderer = WeatherController.instance.gameObject.GetComponent<ParticleSystemRenderer>();
-        psRenderer.material = GameController.instance.particleMaterial;
+        // psRenderer.material = GameController.instance.particleMaterial;
+        psRenderer.material.color = precipitationColor;
         
         // Dim the lighting during rain
         ChangeLighting();

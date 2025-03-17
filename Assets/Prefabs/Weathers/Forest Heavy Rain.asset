@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: faeac08cc1a6d441591e21a0861fdabe, type: 3}
-  m_Name: Forest Rain
+  m_Name: Forest Heavy Rain
   m_EditorClassIdentifier: 
-  weatherName: Forest Rain
-  intensity: 1
-  minDuration: 15
-  maxDuration: 90
+  weatherName: Forest Heavy Rain
+  intensity: 5
+  minDuration: 90
+  maxDuration: 240
   specialBehaviors: []
-  ambientBrightness: 0.8
-  sunColor: {r: 1, g: 0.9523821, b: 0.4481132, a: 1}
-  ambientColor: {r: 1, g: 1, b: 1, a: 1}
+  ambientBrightness: 0.5
+  sunColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  ambientColor: {r: 0.36058205, g: 0.5760649, b: 0.6886792, a: 1}
   skybox: {fileID: 0}
-  speedModifier: 1.1
-  dragModifier: 0.8
-  precipitationColor: {r: 0.21226418, g: 0.5642743, b: 1, a: 1}
+  speedModifier: 2
+  dragModifier: 0.4
+  precipitationColor: {r: 0, g: 0.33439374, b: 1, a: 1}
   particleSize: 0.6
-  precipitationGravity: 1
+  precipitationGravity: 2

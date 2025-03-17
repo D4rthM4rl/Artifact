@@ -61,3 +61,5 @@ MonoBehaviour:
     weight: 2
   - weather: {fileID: 11400000, guid: 45c0dca09a71c4056866d4f1aa5ae710, type: 2}
     weight: 1
+  - weather: {fileID: 11400000, guid: 9cce46ca562b54693852d2efd5e3b6e3, type: 2}
+    weight: 3
