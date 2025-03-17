@@ -29,71 +29,82 @@ public class Player : Character
     }
 
     void Update()
+{
+    // If escape is pressed, pause the game by stopping time
+    if (Input.GetButtonDown("Pause"))
     {
-        // If escape is pressed, pause the game by stopping time
-        if (Input.GetButtonDown("Pause")) {
-            Time.timeScale = paused ? 1 : 0;
-            paused = !paused;
-        }
-
-        // Collect movement input: horizontal (x) and vertical (z) axes.
-        movement = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
-        RegenMana();
-
-        // Cast a ray from screen point
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        // Save the info
-        RaycastHit hit;
-        Vector3 dir;
-
-        // Hit ground
-        if (Physics.Raycast(ray, out hit)) {
-            // Find the direction from the player to the hit point
-            dir = hit.point - transform.position;
-        }
-        else {
-            // If you didn’t hit anything, just use the ray’s direction
-            dir = ray.direction;
-        }
-
-        // Use the movement magnitude to control a running animation.
-        animator.SetFloat("Speed", movement.magnitude);
-    }  
-
-    void FixedUpdate()
-    {
-        // Apply movement physics.
-        rb.AddForce(movement * moveSpeed * 20 * Time.fixedDeltaTime, ForceMode.Impulse);
-
-        // Determine look direction from player to mouse world position.
-        // Vector3 lookDir = mouseWorldPos - transform.position;
-        // lookDir.y = 0; // Keep rotation strictly horizontal.
-        float angle = 0;
-        Plane plane = new Plane(Vector3.up, transform.position);
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); ;
-        if (plane.Raycast(ray, out float distance))
-        {
-            // Get the point where the ray intersects the plane.
-            Vector3 hitPoint = ray.GetPoint(distance);
-
-            // Determine the direction from the player to the hit point.
-            Vector3 direction = hitPoint - transform.position;
-            angle = Mathf.Atan2(direction.z, direction.x) * Mathf.Rad2Deg ;
-            // Debug.Log(hitPoint + " to " + transform.position + " is " + angle + " degrees");
-        }
-        if (angle >= -90 && angle <= 90)
-        {
-            GetComponent<SpriteRenderer>().flipX = true;
-            // holdPoint.transform.localPosition = new Vector3(-holdX, holdPoint.transform.localPosition.y,0);
-        }
-        else
-        {
-            GetComponent<SpriteRenderer>().flipX = false;
-            // holdPoint.transform.localPosition = new Vector3(holdX, holdPoint.transform.localPosition.y,0);
-        }
-        animator.SetFloat("mouseang", angle);
+        Time.timeScale = paused ? 1 : 0;
+        paused = !paused;
     }
+
+    // Get raw input from the player
+    float horizontalInput = Input.GetAxisRaw("Horizontal");
+    float verticalInput = Input.GetAxisRaw("Vertical");
+
+    // Get the camera's forward and right vectors and remove the vertical component.
+    Vector3 camForward = Camera.main.transform.forward;
+    camForward.y = 0;
+    camForward.Normalize();
+
+    Vector3 camRight = Camera.main.transform.right;
+    camRight.y = 0;
+    camRight.Normalize();
+
+    // Create a camera-centric movement vector.
+    movement = (camForward * verticalInput + camRight * horizontalInput).normalized;
+
+    RegenMana();
+
+    // Cast a ray from the screen point to determine the look direction.
+    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+    RaycastHit hit;
+    Vector3 dir;
+
+    if (Physics.Raycast(ray, out hit))
+    {
+        // Determine direction from the player to the hit point.
+        dir = hit.point - transform.position;
+    }
+    else
+    {
+        // If nothing is hit, use the ray's direction.
+        dir = ray.direction;
+    }
+
+    // Set the speed parameter for the animator based on movement magnitude.
+    animator.SetFloat("Speed", movement.magnitude);
+}
+
+void FixedUpdate()
+{
+    // Apply movement physics.
+    rb.AddForce(movement * moveSpeed * 20 * Time.fixedDeltaTime, ForceMode.Impulse);
+
+    // Determine look direction from player to mouse world position.
+    float angle = 0;
+    Plane plane = new Plane(Vector3.up, transform.position);
+    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+    
+    if (plane.Raycast(ray, out float distance))
+    {
+        Vector3 hitPoint = ray.GetPoint(distance);
+        Vector3 direction = hitPoint - transform.position;
+        angle = Mathf.Atan2(direction.z, direction.x) * Mathf.Rad2Deg;
+    }
+
+    // Flip the sprite based on the calculated angle.
+    if (angle >= -90 && angle <= 90)
+    {
+        GetComponent<SpriteRenderer>().flipX = true;
+    }
+    else
+    {
+        GetComponent<SpriteRenderer>().flipX = false;
+    }
+    
+    animator.SetFloat("mouseang", angle);
+}
+
 
     public void AddWeapon(GameObject newWeapon)
     {

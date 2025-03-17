@@ -112,10 +112,12 @@ public class CameraController : MonoBehaviour
         if (Input.GetButtonDown("Move Cam Left"))
         {
             currentAzimuth -= 45f;
+            RotateSpriteObjects(-45);
         }
         if (Input.GetButtonDown("Move Cam Right"))
         {
             currentAzimuth += 45f;
+            RotateSpriteObjects(45);
         }
         // Rotate up/down by 1 degree increments (clamped to avoid extreme angles).
         if (Input.GetButton("Move Cam Up"))
@@ -155,6 +157,26 @@ public class CameraController : MonoBehaviour
         Vector3 targetPos = offset + player.transform.position;
         transform.position = targetPos;
         transform.LookAt(player.transform.position);
+    }
+
+    /// <summary>Rotates sprites to face camera when camera rotates</summary>
+    private void RotateSpriteObjects(int degrees)
+    {
+        // Find all sprite renderers in the scene.
+        SpriteRenderer[] spriteRenderers = FindObjectsOfType<SpriteRenderer>();
+
+        // Iterate over each sprite.
+        foreach (SpriteRenderer sr in spriteRenderers)
+        {
+            // Skip gameobjects tagged as "Wall" or "Floor"
+            // if (sr.gameObject.CompareTag("Wall") || sr.gameObject.CompareTag("Floor"))
+            if (sr.gameObject.CompareTag("Environment") || sr.gameObject.GetComponentInParent<Canvas>()) // UI layer
+                continue;
+
+            // Rotate the sprite to match the camera's Y rotation.
+            // This means the sprite's front will rotate along with the camera.
+            sr.transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y + degrees, 0);
+        }
     }
 
     /// <summary>Makes objects between camera and player transparent</summary>

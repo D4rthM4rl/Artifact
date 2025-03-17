@@ -378,7 +378,7 @@ MonoBehaviour:
   enableWeatherEffects: 0
   fogColor: {r: 0.76, g: 0.76, b: 0.76, a: 1}
   fogDensity: 0.02
-  directionalLight: {fileID: 0}
+  directionalLight: {fileID: 1374432618}
 --- !u!199 &422050034
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -6079,7 +6079,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.6255317, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.8801082, b: 0.5990566, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -6124,7 +6124,7 @@ Light:
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
   m_ColorTemperature: 3721
-  m_UseColorTemperature: 1
+  m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
