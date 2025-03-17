@@ -19,6 +19,15 @@ public abstract class ProjectileWeapon : Weapon
 	void Start()
     {
         holdPoint = user.holdPoint;
+
+        // Ensure material is fully opaque
+        Renderer gunRenderer = GetComponent<Renderer>();
+        if (gunRenderer != null)
+        {
+            Color gunColor = gunRenderer.material.color;
+            gunColor.a = 1f; // Set full opacity
+            gunRenderer.material.color = gunColor;
+        }
     }
 
 	void FixedUpdate()
@@ -55,7 +64,8 @@ public abstract class ProjectileWeapon : Weapon
 					// }
 					direction.Normalize();
 					StartCoroutine(Fire(direction));
-					canFire = Time.time + rate;
+                    RotateWeaponSprite(direction); // Rotate gun to match firing direction
+                    canFire = Time.time + rate;
 				} else {
 					direction = Vector3.zero;
 					if (Input.GetButton("LeftFire")) direction += Vector3.left;
@@ -112,4 +122,13 @@ public abstract class ProjectileWeapon : Weapon
 	public void PWStart() {Start();}
 
 	public void PWFixedUpdate() {FixedUpdate();}
+
+    void RotateWeaponSprite(Vector3 direction)
+    {
+        if (direction != Vector3.zero)
+        {
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg; // Convert to degrees
+            transform.rotation = Quaternion.Euler(0, 0, angle); // Rotate the weapon
+        }
+    }
 }

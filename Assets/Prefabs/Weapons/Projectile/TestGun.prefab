@@ -131,6 +131,7 @@ MonoBehaviour:
     description: Gun
     rarity: 0
     itemImage: {fileID: 21300000, guid: b39809c802759aa4e85125b1931728c9, type: 3}
+    tint: {r: 1, g: 1, b: 1, a: 1}
   weaponPrefab: {fileID: 3392209155486363556}
 --- !u!1001 &8967381392905061616
 PrefabInstance:
@@ -143,6 +144,10 @@ PrefabInstance:
     - target: {fileID: 6008089549209083436, guid: 4419e1da99abc42a2b4a2277a1c12c57, type: 3}
       propertyPath: m_Name
       value: firepoint
+      objectReference: {fileID: 0}
+    - target: {fileID: 6008089549209083436, guid: 4419e1da99abc42a2b4a2277a1c12c57, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 6008089549209083437, guid: 4419e1da99abc42a2b4a2277a1c12c57, type: 3}
       propertyPath: m_RootOrder
