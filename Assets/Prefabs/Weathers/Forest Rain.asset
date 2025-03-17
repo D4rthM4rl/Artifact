@@ -19,7 +19,7 @@ MonoBehaviour:
   specialBehaviors: []
   ambientBrightness: 0.8
   sunColor: {r: 1, g: 0.9523821, b: 0.4481132, a: 1}
-  ambientColor: {r: 1, g: 1, b: 1, a: 1}
+  ambientColor: {r: 0.764151, g: 0.764151, b: 0.764151, a: 1}
   skybox: {fileID: 0}
   speedModifier: 1.1
   dragModifier: 0.8

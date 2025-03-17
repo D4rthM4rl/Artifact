@@ -31,6 +31,8 @@ public class SunWeather : Weather
         if (WeatherController.instance.directionalLight != null)
         {
             WeatherController.instance.directionalLight.intensity = ambientBrightness;
+            WeatherController.instance.directionalLight.color = ambientColor;
+            WeatherController.instance.directionalLight.useColorTemperature = true;
         }
         
         Debug.Log("Sunny light");

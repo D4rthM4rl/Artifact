@@ -63,6 +63,8 @@ public class PrecipitationWeather : Weather
         if (WeatherController.instance.directionalLight != null)
         {
             WeatherController.instance.directionalLight.intensity = ambientBrightness;
+            WeatherController.instance.directionalLight.color = ambientColor;
+            WeatherController.instance.directionalLight.useColorTemperature = false;
         }
         
         Debug.Log("Dimmed lighting for rain effect");

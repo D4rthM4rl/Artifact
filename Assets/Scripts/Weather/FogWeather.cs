@@ -35,7 +35,20 @@ public class FogWeather : Weather
 
 	protected override void ChangeLighting()
 	{
-		// We don't change the lighting
+		RenderSettings.ambientIntensity = ambientBrightness;
+        
+        // Slightly tint the ambient color to be cooler/bluer
+        RenderSettings.ambientLight = ambientColor;
+        
+        // Dim the sun if we found it
+        if (WeatherController.instance.directionalLight != null)
+        {
+            WeatherController.instance.directionalLight.intensity = ambientBrightness;
+            WeatherController.instance.directionalLight.color = ambientColor;
+            WeatherController.instance.directionalLight.useColorTemperature = false;
+        }
+        
+        Debug.Log("Fog light");
 	}
 
 	public override void ApplyEffectToCharacter(Character character)

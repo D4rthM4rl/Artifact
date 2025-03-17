@@ -54,6 +54,20 @@ MonoBehaviour:
     clumpTotalMax: 5
     clumpSizeMin: 2
     clumpSizeMax: 4
+  - decoration: {fileID: 3215248031142602379, guid: a3ec9a69b8b2540e2b8796996ab3b798, type: 3}
+    obstructing: 0
+    size: {x: 1, y: 0.5, z: 0.3}
+    clumpTotalMin: 0
+    clumpTotalMax: 2
+    clumpSizeMin: 1
+    clumpSizeMax: 2
+  - decoration: {fileID: 6364388961972112565, guid: 92faece0213a645768e1499c9a010bea, type: 3}
+    obstructing: 0
+    size: {x: 1, y: 0.5, z: 0.3}
+    clumpTotalMin: 0
+    clumpTotalMax: 3
+    clumpSizeMin: 1
+    clumpSizeMax: 2
   weathers:
   - weather: {fileID: 11400000, guid: 95cf8e51d563842efb161a901218ac9a, type: 2}
     weight: 3
