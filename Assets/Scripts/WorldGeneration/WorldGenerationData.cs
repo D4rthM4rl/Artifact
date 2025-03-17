@@ -34,7 +34,11 @@ public class WorldGenerationData : ScriptableObject
     [Tooltip("How much the y-level of the room changes as you move a room closer to the end")]
     public float yChangeTowardsEnd;
 
+    /// <summary>The color of the door sprite if it's closed but will get opened</summary>
+    [Tooltip("The color of the door sprite if it's closed but will get opened")]
+    public Color doorClosedColor = Color.red;
     /// <summary>Whether the rooms are separated by walls or not</summary>
+    [Tooltip("Whether the rooms are separated by walls or not")]
     public bool wallsSeparateRooms;
 
     /// <summary> The types of rooms that can be generated in the dungeon (randomly or not)</summary>
@@ -46,6 +50,7 @@ public class WorldGenerationData : ScriptableObject
     public List<Decoration> randomDecorations;
 
     /// <summary>What weathers are possible here</summary>
+    [Tooltip("What weathers are possible here")]
     public List<LocalWeather> weathers;
 }
 
@@ -104,5 +109,6 @@ public struct LocalWeather
 {
     public Weather weather;
     /// <summary>Frequency of this weather in this world relative to others</summary>
+    [Tooltip("Frequency of this weather in this world relative to others")]
     public int weight;
 }

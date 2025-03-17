@@ -6445,6 +6445,10 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6867962777532244375, guid: c640dcd8d28bd45b7a322bebd074680f, type: 3}
+      propertyPath: defense
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6867962777532244375, guid: c640dcd8d28bd45b7a322bebd074680f, type: 3}
       propertyPath: species
       value: 
       objectReference: {fileID: 0}
@@ -6458,6 +6462,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6867962777532244375, guid: c640dcd8d28bd45b7a322bebd074680f, type: 3}
       propertyPath: manaRegenRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6867962777532244375, guid: c640dcd8d28bd45b7a322bebd074680f, type: 3}
+      propertyPath: attackDamageModifier
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

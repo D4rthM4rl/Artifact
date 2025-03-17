@@ -190,6 +190,8 @@ public class CameraController : MonoBehaviour
         float distance = direction.magnitude;
         direction.Normalize();
 
+        // TODO: Make camera static in room if world is wall-separated and hide camera-side wall
+
         // Raycast between the camera and player
         Ray ray = new Ray(transform.position, direction);
         RaycastHit[] hits = Physics.RaycastAll(ray, distance);
@@ -206,7 +208,7 @@ public class CameraController : MonoBehaviour
             if (rend != null && 
             hit.transform.gameObject != null 
             && hit.transform.GetComponent<Player>() == null
-             && hit.transform.GetComponent<SpriteRenderer>() == null)
+             )
             {
                 currentObstructions.Add(rend);
                 // If not already modified, store the original color and adjust alpha.

@@ -20,7 +20,8 @@ MonoBehaviour:
   xRoomWidth: 20
   zRoomWidth: 20
   yChangeTowardsEnd: -1
-  wallsSeparateRooms: 0
+  doorClosedColor: {r: 1, g: 0, b: 0, a: 1}
+  wallsSeparateRooms: 1
   roomTypes:
   - type: Start
     weight: 0

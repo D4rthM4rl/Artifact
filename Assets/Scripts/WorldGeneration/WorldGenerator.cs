@@ -57,8 +57,8 @@ public class WorldGenerator : MonoBehaviour
     public void GenerateWorld()
     {
         RoomController.instance.currentWorldName = worldGenerationData.worldName;
-        RoomController.xWidth = worldGenerationData.xRoomWidth;
-        RoomController.zWidth = worldGenerationData.zRoomWidth;
+        RoomController.xWidth = worldGenerationData.xRoomWidth + (worldGenerationData.wallsSeparateRooms ? 10 : 0);
+        RoomController.zWidth = worldGenerationData.zRoomWidth + (worldGenerationData.wallsSeparateRooms ? 10 : 0);
         dungeonRooms = DungeonCrawlerController.GenerateDungeon(worldGenerationData, random, actualSeed);
         SpawnRooms(dungeonRooms);
     }

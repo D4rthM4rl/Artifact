@@ -14,9 +14,7 @@ public class Room : MonoBehaviour
     // public int height;
     private bool cleared = false;
 
-    /// <summary>
-    /// The enemies that spawn into/start in the room
-    /// </summary>
+    /// <summary>The enemies that spawn into/start in the room</summary>
     public List<Enemy> enemiesInRoom = new List<Enemy>();
 
     /// <summary>
@@ -27,6 +25,7 @@ public class Room : MonoBehaviour
     /// <summary>True if it's just a basic 1x1 coordinate rectangle</summary>
     public bool isRegular = true;
 
+    /// <summary>List of doors at each of their offsets from the origin</summary>
     public Dictionary<Vector2Int, List<Door>> doors = new Dictionary<Vector2Int, List<Door>>();
 
     [HideInInspector]
@@ -106,7 +105,7 @@ public class Room : MonoBehaviour
     /// <summary>
     /// Helper for SetupDoors to change a door to what it should be based on its room
     /// </summary>
-    /// <param name="r">Room on other side of door</param>
+    /// <param name="r">Room on other side of door, null if there is none</param>
     /// <param name="d">Door to adjust</param>
     /// <param name="otherRoomOffset">Difference from door's room to other door's room</param>
     private void SetupDoor(Room r, Door d, Door.DoorDirection o, Vector2Int otherRoomOffset)
@@ -179,6 +178,30 @@ public class Room : MonoBehaviour
         }
     }
 
+    /// <summary>Hide</summary>
+    public void HideCamerasideWall()
+    {
+        // Process each wall type
+        // ToggleWallTransparency("Left Wall", hideLeftWall);
+        // ToggleWallTransparency("Right Wall", hideRightWall);
+        // ToggleWallTransparency("Top Wall", hideTopWall);
+        // ToggleWallTransparency("Bottom Wall", hideBottomWall);
+    }
+
+    // Function to toggle wall transparency
+    private void ToggleWallTransparency(string wallTag, bool shouldHide)
+    {
+        GameObject[] walls = GameObject.FindGameObjectsWithTag(wallTag);
+        foreach (GameObject wall in walls)
+        {
+            foreach (Material mat in wall.GetComponentsInChildren<Material>())
+            if (mat != null)
+            {
+                // TODO: Turn transparent
+            }
+        }
+    }
+
     /// <summary>
     /// Draws a red box outlining where the rooms is
     /// </summary>
@@ -247,6 +270,7 @@ public class Room : MonoBehaviour
         }
         // Debug.Log("Unclearing room");
         bool allEnemiesDead = false;
+        if (enemiesInRoom.Count == 0) allEnemiesDead = true;
         while (!allEnemiesDead)
         {
             allEnemiesDead = true;
@@ -258,7 +282,7 @@ public class Room : MonoBehaviour
                     break;
                 }
             }
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.05f);
         }
         ClearRoom();
     }
