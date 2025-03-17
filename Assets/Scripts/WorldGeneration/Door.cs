@@ -56,11 +56,13 @@ public class Door : MonoBehaviour
             
             TilemapCollider2D tiles = doorTiles.GetComponent<TilemapCollider2D>();
             if (tiles) tiles.enabled = false;
-            BoxCollider2D doorCollider = doorObject.GetComponent<BoxCollider2D>();
-            if (!doorCollider) doorCollider = doorObject.AddComponent<BoxCollider2D>();
+            BoxCollider doorCollider = doorObject.GetComponent<BoxCollider>();
+            if (!doorCollider) doorCollider = doorObject.AddComponent<BoxCollider>();
+            SpriteRenderer doorSprite = doorObject.GetComponent<SpriteRenderer>();
+            if (doorSprite) doorSprite.enabled = false;
             doorCollider.isTrigger = true;
             doorCollider.size = new Vector2(0.2f, 0.1f);
-            doorCollider.edgeRadius = 0.3f;
+            // doorCollider.edgeRadius = 0.3f;
         }
     }
 
@@ -77,6 +79,9 @@ public class Door : MonoBehaviour
             
             TilemapCollider2D tiles = doorTiles.GetComponent<TilemapCollider2D>();
             if (tiles) tiles.enabled = true;
+
+            SpriteRenderer doorSprite = doorObject.GetComponent<SpriteRenderer>();
+            if (doorSprite) doorSprite.enabled = true;
         }
     }
 
