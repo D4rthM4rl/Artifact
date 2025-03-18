@@ -43,10 +43,6 @@ MonoBehaviour:
     weight: 2
     coordinates:
     - {x: 0, y: 0}
-  - type: Enemy 2
-    weight: 1
-    coordinates:
-    - {x: 0, y: 0}
   randomDecorations:
   - decoration: {fileID: 6432962546663608872, guid: b286c39a6bb254d2ba4bc64abfbaeab6, type: 3}
     obstructing: 0

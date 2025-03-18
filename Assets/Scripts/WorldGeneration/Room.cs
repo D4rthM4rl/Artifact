@@ -72,6 +72,10 @@ public class Room : MonoBehaviour
             e.currState = CharacterState.inactive;
             enemiesInRoom.Add(e);
         }
+        foreach(EnemySpawner enemySpawner in GetComponentsInChildren<EnemySpawner>())
+        {
+            enemySpawner.room = this;
+        }
 
         RoomController.instance.RegisterRoom(this);
     }
@@ -206,13 +210,19 @@ public class Room : MonoBehaviour
         }
         foreach (Enemy agent in enemiesInRoom)
         {
-            agent.ai = agent.gameObject.AddComponent<NavMeshAgent>();
-            agent.ai.agentTypeID = 0;
-            agent.ai.updateRotation = false;
-            agent.ai.updateUpAxis = false;
-            agent.ai.speed = agent.moveSpeed;
-            agent.ai.angularSpeed = agent.moveSpeed * 10;
+            if (agent.ai != null) continue;
+            SetupPathfinding(agent);
         }
+    }
+
+    public void SetupPathfinding(Enemy agent)
+    {
+        agent.ai = agent.gameObject.AddComponent<NavMeshAgent>();
+        agent.ai.agentTypeID = 0;
+        agent.ai.updateRotation = false;
+        agent.ai.updateUpAxis = false;
+        agent.ai.speed = agent.moveSpeed;
+        agent.ai.angularSpeed = agent.moveSpeed * 10;
     }
 
     /// <summary>

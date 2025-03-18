@@ -48,6 +48,7 @@ public class WorldGenerator : MonoBehaviour
         random = new System.Random(actualSeed);
         GameController.seededRandom = random;
         GameController.itemRandom = new System.Random(random.Next());
+        GameController.enemyRandom = new System.Random(random.Next());
         GenerateWorld();
     }
 

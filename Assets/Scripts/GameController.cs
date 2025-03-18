@@ -10,8 +10,11 @@ public class GameController : MonoBehaviour
     private bool infinityCollected = false;
     public static System.Random seededRandom;
     public static System.Random itemRandom;
+    public static System.Random enemyRandom;
     [System.NonSerialized]
     public static int numItemsSpawned = 0;
+    [System.NonSerialized]
+    public static int numEnemiesSpawned = 0;
 
     public GameObject weatherController;
 
