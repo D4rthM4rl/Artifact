@@ -111,6 +111,7 @@ public class RoomController : MonoBehaviour
                     surface.agentTypeID = 0;
                     surface.BuildNavMesh();
                 }
+                CameraController.instance.FinishWorldInitialization();
                 
                 hasPostProcessed = true;
                 // TODO: Make a screen show up but then go away here
@@ -288,8 +289,8 @@ public class RoomController : MonoBehaviour
                 // enemy.currState = CharacterState.inactive;
             }
         }
-        CameraController.instance.currRoom = room;
         currRoom = room;
+        CameraController.instance.SetCurrRoom(currRoom);
         TeamingEnemy finalTeamer = null;
         foreach (Enemy enemy in currRoom.enemiesInRoom)
         {

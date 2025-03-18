@@ -35,7 +35,14 @@ MonoBehaviour:
     weight: 0
     coordinates:
     - {x: 0, y: 0}
-  randomDecorations: []
+  randomDecorations:
+  - decoration: {fileID: 0}
+    obstructing: 0
+    size: {x: 0, y: 0, z: 0}
+    clumpTotalMin: 0
+    clumpTotalMax: 0
+    clumpSizeMin: 0
+    clumpSizeMax: 0
   weathers:
   - weather: {fileID: 11400000, guid: bc56ab6c6c4d24466bec30d36f12381c, type: 2}
     weight: 1
