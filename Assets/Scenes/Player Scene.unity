@@ -5859,6 +5859,56 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 494b844dd43054bee80e8b6a9699c918, type: 3}
+--- !u!1 &1198591915
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1198591917}
+  - component: {fileID: 1198591916}
+  m_Layer: 0
+  m_Name: Effect Controller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1198591916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1198591915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46fe5b05014a64b9a8a9d1fe58ce8414, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  burn: {fileID: 5657241467008020726, guid: 22b61a9c4fd2a49359592c83d7058032, type: 3}
+  frost: {fileID: 517404345046783080, guid: b164cf4a1d2d948a68ae7cb1937a5010, type: 3}
+  stun: {fileID: 517404345046783080, guid: 8f38a94ed0f8542759af558b1fa762f0, type: 3}
+  radioactive: {fileID: 517404345046783080, guid: e3e1d3826c6674ec2b1dce0ffd6ce809, type: 3}
+  poison: {fileID: 517404345046783080, guid: 6ea0247a8ff974424a2dd206a26d8f5f, type: 3}
+  statChange: {fileID: 517404345046783080, guid: 5d2d7cc82666d46beb4f1b83ba9a8284, type: 3}
+--- !u!4 &1198591917
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1198591915}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1294143140
 GameObject:
   m_ObjectHideFlags: 0
@@ -6437,6 +6487,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4764978548355246244, guid: c640dcd8d28bd45b7a322bebd074680f, type: 3}
+      propertyPath: m_Mass
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4764978548355246244, guid: c640dcd8d28bd45b7a322bebd074680f, type: 3}
       propertyPath: m_CollisionDetection
       value: 1
       objectReference: {fileID: 0}
@@ -6466,7 +6520,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6867962777532244375, guid: c640dcd8d28bd45b7a322bebd074680f, type: 3}
       propertyPath: attackDamageModifier
-      value: 1
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6289549127970173077, guid: c640dcd8d28bd45b7a322bebd074680f, type: 3}
@@ -6489,3 +6543,4 @@ SceneRoots:
   - {fileID: 2054123576}
   - {fileID: 2115090179}
   - {fileID: 422050032}
+  - {fileID: 1198591917}

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2337525162574892315
+--- !u!1 &3459762563624756962
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7515135689224319699}
-  - component: {fileID: 1094920063546545047}
+  - component: {fileID: 3907130836493626068}
+  - component: {fileID: 1584738459425048684}
   m_Layer: 0
   m_Name: Item Spawner
   m_TagString: Untagged
@@ -17,39 +17,39 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7515135689224319699
+--- !u!4 &3907130836493626068
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2337525162574892315}
+  m_GameObject: {fileID: 3459762563624756962}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3, y: 0.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1094920063546545047
+--- !u!114 &1584738459425048684
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2337525162574892315}
+  m_GameObject: {fileID: 3459762563624756962}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 46c82ea99eb1d4a0f9ae90716b8a776c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   items:
-  - gameObject: {fileID: 7177476688595133109, guid: aecba9f0a3b95493e9aa5e5bac126a52, type: 3}
+  - gameObject: {fileID: 7354467632002643285, guid: 4d0367c1d70244f54a1ea364452fe04e, type: 3}
+    weight: 10
+  - gameObject: {fileID: 7354467632002643285, guid: e8dba79630adc4670a8201ffffd030e0, type: 3}
+    weight: 4
+  - gameObject: {fileID: 7354467632002643285, guid: 6837520f5f3984bad9064a680620c621, type: 3}
     weight: 1
-  - gameObject: {fileID: 644215565910494029, guid: 9970b69d5fbe243849e263a89891602c, type: 3}
+  - gameObject: {fileID: 8987096016504022776, guid: 02ed2df05bf664572b5f20766cad3a8f, type: 3}
     weight: 1
-  - gameObject: {fileID: 1651999761680949816, guid: 6840b112f42154b2e9ace5b2f62a9bf1, type: 3}
-    weight: 1
-  - gameObject: {fileID: 3197396453812287293, guid: 44e62b4ab9aa245cea50e3ee6ffdc6f0, type: 3}
-    weight: 3

@@ -43,10 +43,10 @@ SpriteRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5826221604688637305}
   m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
   m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
+  m_StaticShadowCaster: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -55,7 +55,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: af69f958c7ad9440abeb7d5da8c7bb44, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -104,6 +104,7 @@ MonoBehaviour:
     description: So unique
     rarity: 7
     itemImage: {fileID: 21300000, guid: 113c8457630c643959773984cc22276a, type: 3}
+    tint: {r: 1, g: 1, b: 1, a: 1}
   heal:
     amount: 0
     timeSpan: 0
@@ -125,7 +126,7 @@ MonoBehaviour:
   special: 0
   newTrait: {fileID: 0}
   effects:
-  - particles: {fileID: 0}
+  - particles: {fileID: 517404345046783080, guid: b164cf4a1d2d948a68ae7cb1937a5010, type: 3}
     type: 1
     level: 2
     damagePerHalfSec: 0
