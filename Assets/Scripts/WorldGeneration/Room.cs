@@ -28,6 +28,19 @@ public class Room : MonoBehaviour
     /// <summary>List of doors at each of their offsets from the origin</summary>
     public Dictionary<Vector2Int, List<Door>> doors = new Dictionary<Vector2Int, List<Door>>();
 
+    /// <summary>Walls that are on the left (-x) facing the right</summary>
+    [HideInInspector]
+    public List<GameObject> leftWalls = new List<GameObject>();
+    /// <summary>Walls that are on the top (+z) facing the bottom</summary>
+    [HideInInspector]
+    public List<GameObject> topWalls = new List<GameObject>();
+    /// <summary>Walls that are on the right (+x) facing the left</summary>
+    [HideInInspector]
+    public List<GameObject> rightWalls = new List<GameObject>();
+    /// <summary>Walls that are on the bottom (-z) facing the top</summary>
+    [HideInInspector]
+    public List<GameObject> bottomWalls = new List<GameObject>();
+
     [HideInInspector]
     public bool postProcessed = false;
 
@@ -53,12 +66,36 @@ public class Room : MonoBehaviour
             doors[doorOffset].Add(d);
         }
 
+        RegisterWalls();
+
         foreach (Enemy e in GetComponentsInChildren<Enemy>()) {
-            // e.currState = CharacterState.inactive;
+            e.currState = CharacterState.inactive;
             enemiesInRoom.Add(e);
         }
 
         RoomController.instance.RegisterRoom(this);
+    }
+
+    private void RegisterWalls()
+    {
+        foreach (SpriteRenderer sr in GetComponentsInChildren<SpriteRenderer>())
+        {
+                switch(sr.tag)
+                {
+                    case "Left Wall":
+                        leftWalls.Add(sr.gameObject);
+                        break;
+                    case "Top Wall":
+                        topWalls.Add(sr.gameObject);
+                        break;
+                    case "Right Wall":
+                        rightWalls.Add(sr.gameObject);
+                        break;
+                    case "Bottom Wall":
+                        bottomWalls.Add(sr.gameObject);
+                        break;
+                }
+        }
     }
 
     /// <summary>
@@ -175,30 +212,6 @@ public class Room : MonoBehaviour
             agent.ai.updateUpAxis = false;
             agent.ai.speed = agent.moveSpeed;
             agent.ai.angularSpeed = agent.moveSpeed * 10;
-        }
-    }
-
-    /// <summary>Hide</summary>
-    public void HideCamerasideWall()
-    {
-        // Process each wall type
-        // ToggleWallTransparency("Left Wall", hideLeftWall);
-        // ToggleWallTransparency("Right Wall", hideRightWall);
-        // ToggleWallTransparency("Top Wall", hideTopWall);
-        // ToggleWallTransparency("Bottom Wall", hideBottomWall);
-    }
-
-    // Function to toggle wall transparency
-    private void ToggleWallTransparency(string wallTag, bool shouldHide)
-    {
-        GameObject[] walls = GameObject.FindGameObjectsWithTag(wallTag);
-        foreach (GameObject wall in walls)
-        {
-            foreach (Material mat in wall.GetComponentsInChildren<Material>())
-            if (mat != null)
-            {
-                // TODO: Turn transparent
-            }
         }
     }
 

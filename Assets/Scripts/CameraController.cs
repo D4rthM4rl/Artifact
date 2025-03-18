@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-
     public static CameraController instance;
     public Room currRoom;
     public float moveSpeedOnRoomChange;
@@ -32,6 +31,8 @@ public class CameraController : MonoBehaviour
     // Dictionary to store original materials so we can revert them later.
     private Dictionary<Renderer, Material> originalMats = new Dictionary<Renderer, Material>();
 
+    private List<GameObject> hiddenWalls = new List<GameObject>();
+
     void Awake()
     {
         instance = this;
@@ -42,7 +43,7 @@ public class CameraController : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
         // Set an initial offset (for example, 5 units up and 12 units back)
-        offset = new Vector3(0, 5, -12);
+        offset = new Vector3(0, 6, -16);
 
         // Initialize spherical coordinates based on the initial offset.
         currentDistance = offset.magnitude;
@@ -51,6 +52,25 @@ public class CameraController : MonoBehaviour
         
         // Store original fog settings
         StoreFogSettings();
+    }
+
+    /// <summary>
+    /// Called when we start generating a new world
+    /// </summary>
+    public void StartWorldInitialization()
+    {
+
+    }
+
+    /// <summary>
+    /// Called when RoomGenerator is done generating rooms in new world
+    /// </summary>
+    public void FinishWorldInitialization()
+    {
+        if (currRoom != null && currRoom.isRegular)
+        {
+            UpdateWallVisibility();
+        }
     }
 
     // Store the original fog settings
@@ -65,7 +85,7 @@ public class CameraController : MonoBehaviour
     // LateUpdate is used so that camera movement occurs after player movement
     void LateUpdate()
     {
-        UpdatePosition();
+        GetCameraTargetPosition();
         HandleObstructions();
     }
     
@@ -101,12 +121,11 @@ public class CameraController : MonoBehaviour
         Debug.Log("Weather fog cleared");
     }
 
-    void UpdatePosition()
+    /// <summary>
+    /// Updates the offset (from the player)
+    /// </summary>
+    private void UpdateFreeCamOffset()
     {
-        // if (currRoom == null) {
-        //     return;
-        // }
-
         // --- Handle Camera Input for Orbiting and Zooming ---
         // Rotate left/right by 45 degree increments.
         if (Input.GetButtonDown("Move Cam Left"))
@@ -131,13 +150,11 @@ public class CameraController : MonoBehaviour
         // Zoom in/out by changing the distance by 0.05 units at a time.
         if (Input.GetButton("Zoom In Cam"))
         {
-            Debug.Log("Zooming in " + currentDistance);
             currentDistance = Mathf.Max(1f, currentDistance - 0.05f);
         }
         if (Input.GetButton("Zoom Out Cam"))
         {
             currentDistance = Mathf.Min(300, currentDistance + 0.05f);
-            Debug.Log("Zooming out " + currentDistance);
         }
 
         // Recalculate offset based on the spherical coordinate values.
@@ -148,15 +165,43 @@ public class CameraController : MonoBehaviour
             currentDistance * Mathf.Sin(radElev),
             currentDistance * Mathf.Cos(radAzimuth) * Mathf.Cos(radElev)
         );
+    }
 
-        // Remove manual fog toggle
-        // If we wanted to use it by each room
-        // Vector3 targetPos = GetCameraTargetPosition();
-        // Vector3 targetPos = offset + new Vector3(player.transform.position.x, 0, player.transform.position.z);
-
-        Vector3 targetPos = offset + player.transform.position;
-        transform.position = targetPos;
-        transform.LookAt(player.transform.position);
+    /// <summary>
+    /// Updates the offset (from the room center) and updates the wall transparencies
+    /// </summary>
+    private void UpdateFixedRoomCamOffset()
+    {
+        if (Input.GetButtonDown("Move Cam Left"))
+        {
+            currentAzimuth -= 45f;
+            RotateSpriteObjects(-45);
+            UpdateWallVisibility();
+        }
+        if (Input.GetButtonDown("Move Cam Right"))
+        {
+            currentAzimuth += 45f;
+            RotateSpriteObjects(45);
+            UpdateWallVisibility();
+        }
+        // Rotate up/down by 1 degree increments (clamped to avoid extreme angles).
+        if (Input.GetButton("Move Cam Up"))
+        {
+            currentElevation = Mathf.Clamp(currentElevation + 0.1f, -89f, 89f);
+        }
+        if (Input.GetButton("Move Cam Down"))
+        {
+            currentElevation = Mathf.Clamp(currentElevation - 0.1f, -89f, 89f);
+        }
+        // Zoom in/out by changing the distance by 0.05 units at a time.
+        if (Input.GetButton("Zoom In Cam"))
+        {
+            currentDistance = Mathf.Max(1f, currentDistance - 0.05f);
+        }
+        if (Input.GetButton("Zoom Out Cam"))
+        {
+            currentDistance = Mathf.Min(300, currentDistance + 0.05f);
+        }
     }
 
     /// <summary>Rotates sprites to face camera when camera rotates</summary>
@@ -170,13 +215,37 @@ public class CameraController : MonoBehaviour
         {
             // Skip gameobjects tagged as "Wall" or "Floor"
             // if (sr.gameObject.CompareTag("Wall") || sr.gameObject.CompareTag("Floor"))
-            if (sr.gameObject.CompareTag("Environment") || sr.gameObject.GetComponentInParent<Canvas>()) // UI layer
+            if (sr.gameObject.CompareTag("Environment") || sr.gameObject.GetComponentInParent<Canvas>() // UI layer
+             || sr.tag.Contains(" Wall"))
                 continue;
 
             // Rotate the sprite to match the camera's Y rotation.
             // This means the sprite's front will rotate along with the camera.
             sr.transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y + degrees, 0);
         }
+    }
+
+    /// <summary>Hides (turns sprite renderers off) of walls that could be between player and camera</summary>
+    private void UpdateWallVisibility()
+    {
+        if (currRoom == null) return;
+
+        // Unhide previously hidden walls
+        SetWallsVisibility(hiddenWalls, true);
+        hiddenWalls.Clear();
+
+        // Compute the horizontal direction from the azimuth
+        float radAzimuth = currentAzimuth * Mathf.Deg2Rad;
+        Vector2 horizontalDir2D = new Vector2(Mathf.Sin(radAzimuth), Mathf.Cos(radAzimuth));
+
+        //Determine which walls to hide based on azimuth direction
+        if (Mathf.Abs(horizontalDir2D.x) > 0.5f) // Threshold to allow corners
+            hiddenWalls.AddRange(horizontalDir2D.x > 0 ? currRoom.rightWalls : currRoom.leftWalls);
+        if (Mathf.Abs(horizontalDir2D.y) > 0.5f) // Threshold to allow corners
+            hiddenWalls.AddRange(horizontalDir2D.y > 0 ? currRoom.topWalls : currRoom.bottomWalls);
+
+        // Hide new walls
+        SetWallsVisibility(hiddenWalls, false);
     }
 
     /// <summary>Makes objects between camera and player transparent</summary>
@@ -191,6 +260,7 @@ public class CameraController : MonoBehaviour
         direction.Normalize();
 
         // TODO: Make camera static in room if world is wall-separated and hide camera-side wall
+
 
         // Raycast between the camera and player
         Ray ray = new Ray(transform.position, direction);
@@ -207,8 +277,8 @@ public class CameraController : MonoBehaviour
             Renderer rend = hit.collider.GetComponent<Renderer>();
             if (rend != null && 
             hit.transform.gameObject != null 
-            && hit.transform.GetComponent<Player>() == null
-             )
+              && hit.transform.GetComponent<Player>() == null
+              && hit.transform.GetComponent<SpriteRenderer>() == null)
             {
                 currentObstructions.Add(rend);
                 // If not already modified, store the original color and adjust alpha.
@@ -244,21 +314,78 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    Vector3 GetCameraTargetPosition()
+    /// <summary>
+    /// Find and set camera's angle and position of where it should be depending on
+    /// whether we're in a room with walls and fixing camera to the room or follow player
+    /// </summary>
+    /// <returns>Where the camera should be/move towards</returns>
+    private Vector3 GetCameraTargetPosition()
     {
         Vector3 targetPos;
-        if (currRoom == null) {
-            return Vector3.zero;
-        } else if (currRoom.isRegular)
+        if (currRoom == null || !WorldGenerator.instance.worldGenerationData.wallsSeparateRooms) 
         {
-            targetPos = currRoom.GetRoomCenter();
-            targetPos.z = transform.position.z;
-        } else {
-            targetPos = player.transform.position;
-            targetPos.z = transform.position.z;
+            UpdateFreeCamOffset();
+            targetPos = offset + player.transform.position;
+            transform.position = targetPos;
+            transform.LookAt(player.transform.position);
+        } 
+        else if (currRoom.isRegular)
+        {
+            UpdateFixedRoomCamOffset();
+
+            // Get the center of the room
+            Vector3 roomCenter = currRoom.GetRoomCenter();
+
+            // Convert spherical coordinates (azimuth, elevation, distance) to Cartesian position
+            float radAzimuth = currentAzimuth * Mathf.Deg2Rad;
+            float radElevation = currentElevation * Mathf.Deg2Rad;
+
+            float horizontalDistance = currentDistance * Mathf.Cos(radElevation);
+            float yOffset = currentDistance * Mathf.Sin(radElevation);
+
+            // Calculate camera position
+            targetPos = new Vector3(
+                roomCenter.x + horizontalDistance * Mathf.Sin(radAzimuth),
+                roomCenter.y + yOffset,
+                roomCenter.z + horizontalDistance * Mathf.Cos(radAzimuth)
+            );
+
+            // Make the camera look at the room center (slightly above for a better view)
+            Vector3 lookTarget = roomCenter + Vector3.up * 2f; // Adjust upward tilt as needed
+            transform.position = targetPos;
+            transform.LookAt(lookTarget);
         }
-        targetPos.y = 5;
+        else // If we're in a room and there are walls
+        {
+            // TODO: Make the camera clamp to walls
+            UpdateFreeCamOffset();
+            targetPos = offset + player.transform.position;
+            transform.position = targetPos;
+            transform.LookAt(player.transform.position);
+        }
+
         return targetPos;
+    }
+
+    /// <summary>
+    /// Enables or disables sprite renderers in a list of wall objects.
+    /// </summary>
+    private void SetWallsVisibility(List<GameObject> wallList, bool visible)
+    {
+        foreach (GameObject wall in wallList)
+        {
+            SpriteRenderer sr = wall.GetComponent<SpriteRenderer>();
+            if (sr != null)
+            {
+                sr.enabled = visible;
+            }
+        }
+    }
+
+    public void SetCurrRoom(Room room)
+    {
+        currRoom = room;
+        UpdateWallVisibility();
     }
 
     public bool IsSwitchingScene()

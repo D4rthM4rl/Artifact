@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7354467632002643285
+--- !u!1 &1651999761680949816
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,23 +8,23 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5842314804203058344}
-  - component: {fileID: -1124975908541981795}
-  - component: {fileID: 2608634046033138759}
-  m_Layer: 6
-  m_Name: TheStone
-  m_TagString: Item
+  - component: {fileID: 1857072797396309379}
+  - component: {fileID: -8397231484707752173}
+  - component: {fileID: 5182222612161750668}
+  m_Layer: 0
+  m_Name: Butterfly
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5842314804203058344
+--- !u!4 &1857072797396309379
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7354467632002643285}
+  m_GameObject: {fileID: 1651999761680949816}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -33,18 +33,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &-1124975908541981795
+--- !u!212 &-8397231484707752173
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7354467632002643285}
+  m_GameObject: {fileID: 1651999761680949816}
   m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
   m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
+  m_StaticShadowCaster: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -53,7 +53,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: af69f958c7ad9440abeb7d5da8c7bb44, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -74,38 +74,38 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: a7e7e4d55af9b41a9842c22347316c53, type: 3}
-  m_Color: {r: 0.8349056, g: 0.9803459, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 9c59ed23c1b8c4d79bd3cc2cee884c3c, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 8, y: 7.55}
+  m_Size: {x: 4, y: 4}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2608634046033138759
+--- !u!114 &5182222612161750668
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7354467632002643285}
+  m_GameObject: {fileID: 1651999761680949816}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ad9031e5e5730497fa641f74ec804411, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   item:
-    name: The Stone
+    name: Teal Butterfly
     description: 
     rarity: 0
-    itemImage: {fileID: 0}
+    itemImage: {fileID: 21300000, guid: 9c59ed23c1b8c4d79bd3cc2cee884c3c, type: 3}
     tint: {r: 1, g: 1, b: 1, a: 1}
   heal:
-    amount: 0
-    timeSpan: 0
+    amount: 4
+    timeSpan: 4
   maxHealthChange:
     amount: 0
     multiplier: 0
@@ -123,4 +123,9 @@ MonoBehaviour:
     multiplier: 0
   special: 0
   newTrait: {fileID: 0}
-  effects: []
+  effects:
+  - particles: {fileID: 517404345046783080, guid: 6ea0247a8ff974424a2dd206a26d8f5f, type: 3}
+    type: 4
+    level: 1
+    damagePerHalfSec: 1
+    duration: 3

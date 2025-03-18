@@ -36,10 +36,12 @@ public class Effect
     /// <summary>
     /// How much damage per .5 sec
     /// </summary>
+    [Tooltip("How much damage per .5 seconds")]
     public float damagePerHalfSec;
     /// <summary>
     /// How long effect lasts in sec
     /// </summary>
+    [Tooltip("How long effect lasts in seconds")]
     public float duration;
     /// <summary>
     /// Tuple of Stat Changes to apply with Effect
