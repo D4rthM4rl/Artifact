@@ -392,4 +392,22 @@ public class CameraController : MonoBehaviour
     {
         return !transform.position.Equals(GetCameraTargetPosition());
     }
+
+    /// <summary>
+    /// Get the camera's current azimuth rotation in radians
+    /// </summary>
+    /// <returns>The current azimuth in radians</returns>
+    public float GetAzimuthRadians()
+    {
+        return currentAzimuth * Mathf.Deg2Rad;
+    }
+    
+    /// <summary>
+    /// Get the camera's current azimuth rotation in degrees
+    /// </summary>
+    /// <returns>The current azimuth in degrees</returns>
+    public float GetAzimuthDegrees()
+    {
+        return currentAzimuth;
+    }
 }
