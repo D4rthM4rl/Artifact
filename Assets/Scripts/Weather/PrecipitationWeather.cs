@@ -50,6 +50,7 @@ public class PrecipitationWeather : Weather
     // Dim the lighting for rain effect
     protected override void ChangeLighting()
     {
+        WeatherController.instance.SetSkybox(skybox);
         // Reduce ambient light intensity
         RenderSettings.ambientIntensity = ambientBrightness;
         

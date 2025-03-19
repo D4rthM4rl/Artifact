@@ -34,7 +34,7 @@ public abstract class Weather : ScriptableObject
     public Color ambientColor = Color.white;
 
     /// <summary>What skybox to use when this weather is occuring</summary>
-    public Skybox skybox;
+    public Material skybox;
 
     protected List<Character> affectedCharacters = new List<Character>();
 

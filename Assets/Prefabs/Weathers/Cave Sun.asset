@@ -20,4 +20,4 @@ MonoBehaviour:
   ambientBrightness: 1
   sunColor: {r: 0, g: 0, b: 0, a: 1}
   ambientColor: {r: 0.5849056, g: 0.5849056, b: 0.5849056, a: 1}
-  skybox: {fileID: 0}
+  skybox: {fileID: 2100000, guid: 22fa675199b9748ba9c9afc09ddb388f, type: 2}

@@ -24,6 +24,8 @@ public class WeatherController : MonoBehaviour
     private Color originalAmbientColor;
     public Light directionalLight;
 
+    public Material defaultSkybox;
+
     private float checkInterval = 3f; // Check for new characters every 2 seconds
     private float lastCheckTime = 0f;
     
@@ -160,5 +162,15 @@ public class WeatherController : MonoBehaviour
                 
         //     lastCheckTime = Time.time;
         // }
+    }
+
+    /// <summary>
+    /// If the material isn't null, we 
+    /// </summary>
+    /// <param name="skyboxMat"></param>
+    public void SetSkybox(Material skyboxMat)
+    {
+        if (skyboxMat != null) RenderSettings.skybox = skyboxMat;
+        else RenderSettings.skybox = defaultSkybox;
     }
 }

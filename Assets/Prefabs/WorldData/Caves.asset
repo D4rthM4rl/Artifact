@@ -19,7 +19,7 @@ MonoBehaviour:
   iterationMax: 15
   xRoomWidth: 20
   zRoomWidth: 20
-  yChangeTowardsEnd: -1
+  yChangeTowardsEnd: 1
   doorClosedColor: {r: 1, g: 0, b: 0, a: 1}
   wallsSeparateRooms: 1
   roomTypes:

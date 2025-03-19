@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4011699788165011499
+--- !u!1 &8816359750495022785
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,25 +8,23 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1050354689320461631}
-  - component: {fileID: -1106753158820768916}
-  - component: {fileID: 2190262382471269210}
-  - component: {fileID: -3759097973891496029}
-  - component: {fileID: 5526549256401616693}
-  m_Layer: 9
-  m_Name: Treer
-  m_TagString: Enemy
+  - component: {fileID: 2433467231354285806}
+  - component: {fileID: 188153160460862110}
+  - component: {fileID: -8757845951515532941}
+  m_Layer: 0
+  m_Name: C Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1050354689320461631
+--- !u!4 &2433467231354285806
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4011699788165011499}
+  m_GameObject: {fileID: 8816359750495022785}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -35,13 +33,13 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &-1106753158820768916
+--- !u!212 &188153160460862110
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4011699788165011499}
+  m_GameObject: {fileID: 8816359750495022785}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -76,36 +74,36 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 435de4c3e408f473a8ef29a23e5fc29f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3bcd3a8e3745acb4a81dd0c0af0087e3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 3.125, y: 3.75}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2190262382471269210
+--- !u!114 &-8757845951515532941
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4011699788165011499}
+  m_GameObject: {fileID: 8816359750495022785}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5a8c57737b866456583ad8892ed8c03e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  species: Treer
-  description: Tree deer
+  species: C
+  description: Scary language
   holdPoint: {fileID: 0}
-  powerLevel: 7
-  health: 20
-  maxHealth: 20
-  moveSpeed: 5
+  powerLevel: 0
+  health: 3
+  maxHealth: 3
+  moveSpeed: 9
   mana: 100
   manaUseModifier: 1
   manaRegenRate: 0.005
@@ -114,22 +112,14 @@ MonoBehaviour:
   attackDamageModifier: 1
   projectileSpeedModifier: 1
   projectileLifetimeModifier: 1
-  knockbackModifier: 3
+  knockbackModifier: 1
   defense: 1
   currState: 2
-  relationships:
-  - name: Player
-    priority: 0
-    behavior:
-      whenAttack: 03000000
-      whenFollow: 03000000
-      whenFlee: 
-      followDist: 0
-      fleeDist: 0
+  relationships: []
   itemRelationships: []
   defaultBehavior:
-    whenAttack: 01000000
-    whenFollow: 00000000
+    whenAttack: 03000000
+    whenFollow: 03000000
     whenFlee: 
     followDist: 0
     fleeDist: 0
@@ -143,63 +133,13 @@ MonoBehaviour:
     focusType: 0
     addend: 0
   defaultState: 0
-  range: 30
-  meleeDamage: 5
-  meleeRange: 2
-  cooldown: 1
+  range: 0
+  meleeDamage: 1
+  meleeRange: 1
+  cooldown: 0
   ai: {fileID: 0}
   possibleActions: []
   focus: {fileID: 0}
   focusPos: {x: 0, y: 0, z: 0}
   targetPos: {x: 0, y: 0, z: 0}
   cooldownAttack: 0
---- !u!54 &-3759097973891496029
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4011699788165011499}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 5
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 112
-  m_CollisionDetection: 0
---- !u!136 &5526549256401616693
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4011699788165011499}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.61
-  m_Height: 2.1875
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}

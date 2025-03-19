@@ -137,6 +137,13 @@ public class ChargingEnemy : Enemy
 	}
     protected override void Wander()
     {
-        
+        if (ai != null && destinationRecalculate)
+        {
+            Vector3 randomPosition = transform.position + Random.insideUnitSphere * 5f;
+            randomPosition.y = transform.position.y; // Keep same z position
+            
+            ai.destination = randomPosition;
+            StartCoroutine(CooldownDestinationSet());
+        }
     }
 }

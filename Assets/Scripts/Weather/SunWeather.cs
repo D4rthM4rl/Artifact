@@ -22,6 +22,7 @@ public class SunWeather : Weather
 
 	protected override void ChangeLighting()
 	{
+        WeatherController.instance.SetSkybox(skybox);
         RenderSettings.ambientIntensity = ambientBrightness;
         
         // Slightly tint the ambient color to be cooler/bluer

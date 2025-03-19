@@ -76,6 +76,14 @@ public abstract class CirclerEnemy : TeamingEnemy
     protected override void Wander() 
     {
         // Implement the wandering logic
+        if (ai != null && destinationRecalculate)
+        {
+            Vector3 randomPosition = transform.position + Random.insideUnitSphere * 5f;
+            randomPosition.y = transform.position.y; // Keep same z position
+            
+            ai.destination = randomPosition;
+            StartCoroutine(CooldownDestinationSet());
+        }
     }
 
     /// <summary>

@@ -15,8 +15,8 @@ MonoBehaviour:
   worldName: Forest
   numberOfCrawlers: 4
   canRetrace: 0
-  iterationMin: 10
-  iterationMax: 15
+  iterationMin: 5
+  iterationMax: 8
   xRoomWidth: 20
   zRoomWidth: 20
   yChangeTowardsEnd: 0
@@ -40,7 +40,7 @@ MonoBehaviour:
     coordinates:
     - {x: 0, y: 0}
   - type: Enemy 1
-    weight: 2
+    weight: 6
     coordinates:
     - {x: 0, y: 0}
   randomDecorations:

@@ -513,6 +513,7 @@ MonoBehaviour:
   fogColor: {r: 0.76, g: 0.76, b: 0.76, a: 1}
   fogDensity: 0.02
   directionalLight: {fileID: 1374432618}
+  defaultSkybox: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!199 &422050034
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -7416,7 +7417,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6867962777532244375, guid: c640dcd8d28bd45b7a322bebd074680f, type: 3}
       propertyPath: attackDamageModifier
-      value: 100
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6289549127970173077, guid: c640dcd8d28bd45b7a322bebd074680f, type: 3}
