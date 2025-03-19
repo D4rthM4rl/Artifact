@@ -100,7 +100,6 @@ public class RoomController : MonoBehaviour
             if (!hasPostProcessed) {
                 PostProcessRooms(WorldGenerator.instance.endRoomCoords, 0);
                 // Start our weather for the world
-                WeatherController.instance.StartWeather();
                 // Debug.Log("Setting player height to " + loadedRoomDict[Vector2Int.zero].transform.position.y);
                 GameObject.FindGameObjectWithTag("Player").transform.position += loadedRoomDict[Vector2Int.zero].transform.position.y * Vector3.up;
                 // Not as easy to do this per room, so we'll do it all at once
@@ -113,6 +112,7 @@ public class RoomController : MonoBehaviour
                 }
                 CameraController.instance.FinishWorldInitialization();
                 
+                WeatherController.instance.StartWeather();
                 hasPostProcessed = true;
                 // TODO: Make a screen show up but then go away here
             }

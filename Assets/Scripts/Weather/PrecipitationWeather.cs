@@ -24,7 +24,8 @@ public class PrecipitationWeather : Weather
     // Start precipating
     public override void StartWeather()
     {
-        Debug.Log("Starting rain");
+        Debug.Log("Starting " + weatherName);
+        affectedCharacters.Clear();
         
         // Set particle system intensity
         ParticleSystem ps = WeatherController.instance.gameObject.GetComponent<ParticleSystem>();
