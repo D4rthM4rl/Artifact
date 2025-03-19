@@ -59,10 +59,10 @@ MonoBehaviour:
   manaRegenRate: 0.005
   attackRateModifier: 0.5
   attackSizeModifier: 1
-  attackDamageModifier: 3
-  projectileSpeedModifier: 1
+  attackDamageModifier: 1
+  projectileSpeedModifier: 2
   projectileLifetimeModifier: 1
-  knockbackModifier: 4
+  knockbackModifier: 5
   defense: 1
   currState: 2
   relationships:
@@ -103,7 +103,7 @@ MonoBehaviour:
   cooldownAttack: 0
   myNumber: 0
   mySpot: -1
-  bulletPrefab: {fileID: 501001728316528642, guid: be5026b2bd6699e4e8095fda769e830d, type: 3}
+  bulletPrefab: {fileID: 7357627440796291127, guid: 3e1d346c780ef4feab2e691de9b64c07, type: 3}
   teamsize: 0
   projectileSpeed: 4
   bulletSpawnOffset: 0.5

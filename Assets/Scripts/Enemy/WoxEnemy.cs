@@ -63,7 +63,7 @@ public class WoxEnemy : CirclerEnemy
         Projectile bullet = bulletObject.GetComponent<Projectile>();
         bullet.sender = this;
         bullet.size = attackSizeModifier;
-        bullet.lifetime = 3;
+        bullet.lifetime = projectileLifetimeModifier * 2;
         bullet.knockback = knockbackModifier;
         bullet.canAttack = willAttack;
         Rigidbody bulletrb = bullet.GetComponent<Rigidbody>();

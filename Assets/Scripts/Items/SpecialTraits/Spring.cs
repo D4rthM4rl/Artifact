@@ -13,7 +13,6 @@ public class Spring : SpecialTrait
         LayerMask layerMask = LayerMask.GetMask("Environment");
         if (Input.GetButtonDown("Jump") && Physics.Raycast(gameObject.transform.position, Vector3.down, raycastDist, layerMask))
         {
-            Debug.Log("JUmping");
             if (gameObject.GetComponent<Player>() != null)
             {
                 gameObject.GetComponent<Rigidbody>().AddForce(Vector3.up * jumpForce, ForceMode.Impulse);

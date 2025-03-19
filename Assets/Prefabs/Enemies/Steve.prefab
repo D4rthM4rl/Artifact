@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: -6169072303560065056}
   - component: {fileID: 8279173818123078400}
   - component: {fileID: -2697373252009492425}
+  - component: {fileID: -5161021289295077237}
   m_Layer: 0
   m_Name: Steve
   m_TagString: Untagged
@@ -136,3 +137,71 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &-5161021289295077237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5797833870941065242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32eef6d51a7174bd0add476449d6b6e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  species: Steve
+  description: 
+  holdPoint: {fileID: 0}
+  powerLevel: 0
+  health: 50
+  maxHealth: 50
+  moveSpeed: 9
+  mana: 100
+  manaUseModifier: 1
+  manaRegenRate: 0.005
+  attackRateModifier: 1
+  attackSizeModifier: 1
+  attackDamageModifier: 1
+  projectileSpeedModifier: 20
+  projectileLifetimeModifier: 1
+  knockbackModifier: 150
+  defense: 1
+  currState: 2
+  relationships:
+  - name: Player
+    priority: 100
+    behavior:
+      whenAttack: 03000000
+      whenFollow: 03000000
+      whenFlee: 00000000
+      followDist: 10
+      fleeDist: 10
+  itemRelationships: []
+  defaultBehavior:
+    whenAttack: 03000000
+    whenFollow: 03000000
+    whenFlee: 
+    followDist: 0
+    fleeDist: 0
+  itemDefaultBehavior:
+    whenAttack: 
+    whenFollow: 
+    whenFlee: 
+    followDist: 0
+    fleeDist: 0
+  prioritize:
+    focusType: 0
+    addend: 0
+  defaultState: 2
+  range: 100
+  meleeDamage: 3
+  meleeRange: 2
+  cooldown: 1
+  ai: {fileID: 0}
+  possibleActions: []
+  focus: {fileID: 0}
+  focusPos: {x: 0, y: 0, z: 0}
+  targetPos: {x: 0, y: 0, z: 0}
+  cooldownAttack: 0
+  bulletPrefab: {fileID: 7357627440796291127, guid: 3e1d346c780ef4feab2e691de9b64c07, type: 3}
+  bulletSpawnOffset: 0.5

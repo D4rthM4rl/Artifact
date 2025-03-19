@@ -47,12 +47,12 @@ MonoBehaviour:
   enemies:
   - gameObject: {fileID: 7142557692785521764, guid: c8d92c6d842b34e9298773cc5690995a, type: 3}
     size: {x: 2, y: 3, z: 2}
-    packSizeMin: 1
-    packSizeMax: 2
+    packSizeMin: 2
+    packSizeMax: 3
     weight: 5
-  - gameObject: {fileID: 7142557692785521764, guid: c8d92c6d842b34e9298773cc5690995a, type: 3}
+  - gameObject: {fileID: 8816359750495022785, guid: 5728c4d0fd0e14f84aa2a6070a572be0, type: 3}
     size: {x: 2, y: 3, z: 2}
     packSizeMin: 1
     packSizeMax: 2
-    weight: 5
+    weight: 3
   room: {fileID: 0}
