@@ -220,7 +220,7 @@ void FixedUpdate()
 
     protected override void UpdateMana(float mana)
     {
-        ManaUIController.UpdateManaUI(mana);
+        // ManaUIController.UpdateManaUI(mana); // TODO: Reimplement mana system
     }
 
     protected override void UpdateHealth(float health, float maxHealth)

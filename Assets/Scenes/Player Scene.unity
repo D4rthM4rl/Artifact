@@ -5601,6 +5601,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mana UI
       objectReference: {fileID: 0}
+    - target: {fileID: 7386779609196250420, guid: cc2690db47afd402f8a316448a9355a2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7386779609196250421, guid: cc2690db47afd402f8a316448a9355a2, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
