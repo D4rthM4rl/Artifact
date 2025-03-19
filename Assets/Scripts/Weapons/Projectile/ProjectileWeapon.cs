@@ -7,6 +7,9 @@ public abstract class ProjectileWeapon : Weapon
     public GameObject projectilePrefab;
     public Transform firepoint;
     protected Transform holdPoint;
+    private SpriteRenderer sr;
+
+    private float angle;
 
     public float projectileSpeed = 20f;
     public float projectileLifetime;
@@ -28,6 +31,7 @@ public abstract class ProjectileWeapon : Weapon
             gunColor.a = 1f; // Set full opacity
             gunRenderer.material.color = gunColor;
         }
+        sr = GetComponent<SpriteRenderer>();
     }
 
     void FixedUpdate()
@@ -98,7 +102,7 @@ public abstract class ProjectileWeapon : Weapon
         int numProjectiles = Random.Range(minNumProjectilesInFire, maxNumProjectilesInFire + 1);
         for (int i = 0; i < numProjectiles; i++)
         {
-            GameObject bullet = Instantiate(projectilePrefab, firepoint.position, Quaternion.identity, transform);
+            GameObject bullet = Instantiate(projectilePrefab, firepoint.position, Quaternion.identity);
 
             SetupProjectile(bullet.GetComponent<Projectile>());
 
@@ -130,24 +134,27 @@ public abstract class ProjectileWeapon : Weapon
     {
         if (direction != Vector3.zero)
         {
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg; // Convert to degrees
+            angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg; // Convert to degrees
 
             if (angle >= -90f && angle < 0f)
             {
-                transform.rotation = Quaternion.Euler(0, 180, -angle);
-
+                transform.rotation = Quaternion.Euler(0, 0, angle);
+                sr.flipX = true;
             }
             else if (angle >= 0f && angle < 90f)
             {
-                transform.rotation = Quaternion.Euler(0, 180, -angle);
+                transform.rotation = Quaternion.Euler(0, 0, angle);
+                sr.flipX = true;
             }
             else if (angle >= 90f && angle < 180f)
             {
                 transform.rotation = Quaternion.Euler(0, 0, 180f + angle);
+                sr.flipX = false;
             }
             else
             {
                 transform.rotation = Quaternion.Euler(0, 0, -180f + angle);
+                sr.flipX = false;
             }
         }
     }
@@ -163,20 +170,23 @@ public abstract class ProjectileWeapon : Weapon
 
         if (angle >= -90f && angle < 0f)
         {
-            transform.rotation = Quaternion.Euler(0, 180, -angle);
-
+            transform.rotation = Quaternion.Euler(0, 0, -angle);
+            sr.flipX = true;
         }
         else if (angle >= 0f && angle < 90f)
         {
-            transform.rotation = Quaternion.Euler(0, 180, -angle);
+            transform.rotation = Quaternion.Euler(0, 0, -angle);
+            sr.flipX = true;
         }
         else if (angle >= 90f && angle < 180f)
         {
             transform.rotation = Quaternion.Euler(0, 0, 180f + angle);
+            sr.flipX = false;
         }
         else
         {
             transform.rotation = Quaternion.Euler(0, 0, -180f + angle);
+            sr.flipX = false;
         }
     }
 }
