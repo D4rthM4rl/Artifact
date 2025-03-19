@@ -170,7 +170,7 @@ public abstract class ProjectileWeapon : Weapon
 
         if (angle >= -90f && angle < 0f)
         {
-            transform.rotation = Quaternion.Euler(0, 0, -angle);
+            transform.rotation = Quaternion.Euler(0, 0, angle);
             sr.flipX = true;
         }
         else if (angle >= 0f && angle < 90f)
