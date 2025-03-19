@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Caves
   m_EditorClassIdentifier: 
   worldName: Caves
-  numberOfCrawlers: 4
+  numberOfCrawlers: 2
   canRetrace: 0
-  iterationMin: 10
-  iterationMax: 15
+  iterationMin: 5
+  iterationMax: 7
   xRoomWidth: 20
   zRoomWidth: 20
   yChangeTowardsEnd: 1
@@ -32,7 +32,7 @@ MonoBehaviour:
     coordinates:
     - {x: 0, y: 0}
   - type: Enemy
-    weight: 3
+    weight: 1
     coordinates:
     - {x: 0, y: 0}
   - type: End
@@ -40,13 +40,27 @@ MonoBehaviour:
     coordinates:
     - {x: 0, y: 0}
   randomDecorations:
-  - decoration: {fileID: 0}
+  - decoration: {fileID: 8057117604853420043, guid: 8272dea6e81c148eea5993741e6b0b4f, type: 3}
     obstructing: 0
-    size: {x: 0, y: 0, z: 0}
+    size: {x: 2, y: 2, z: 2}
+    clumpTotalMin: 1
+    clumpTotalMax: 2
+    clumpSizeMin: 2
+    clumpSizeMax: 4
+  - decoration: {fileID: 2468579171775306602, guid: 1fb88cc43a2924b3faac68f2ec249e1e, type: 3}
+    obstructing: 0
+    size: {x: 2, y: 2, z: 2}
     clumpTotalMin: 0
-    clumpTotalMax: 0
-    clumpSizeMin: 0
-    clumpSizeMax: 0
+    clumpTotalMax: 4
+    clumpSizeMin: 1
+    clumpSizeMax: 3
+  - decoration: {fileID: 2590293799515905635, guid: a1c6f65e304234a01b6921ec42c9d22e, type: 3}
+    obstructing: 0
+    size: {x: 2, y: 2, z: 2}
+    clumpTotalMin: 0
+    clumpTotalMax: 3
+    clumpSizeMin: 1
+    clumpSizeMax: 3
   weathers:
   - weather: {fileID: 11400000, guid: bc56ab6c6c4d24466bec30d36f12381c, type: 2}
     weight: 1

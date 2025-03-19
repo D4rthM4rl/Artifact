@@ -5372,7 +5372,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 478849630}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
@@ -7281,7 +7281,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cddf877cbf15433e86417315e732a4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  worldGenerationData: {fileID: 11400000, guid: 652967a2ff44b4c31a634e20119316ff, type: 2}
+  worldGenerationData: {fileID: 11400000, guid: 97c55cc17c6a24f66beb7ed1c5d211d3, type: 2}
   seed: 0
   actualSeed: 0
   randomSeed: 1

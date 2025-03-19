@@ -7,8 +7,6 @@ public class WoxEnemy : CirclerEnemy
     public GameObject bulletPrefab;
     public int teamsize = 0;
     [SerializeField]
-    private float projectileSpeed = 5f;
-    [SerializeField]
     private float bulletSpawnOffset = 0.5f;
 
     void FixedUpdate()
@@ -66,8 +64,9 @@ public class WoxEnemy : CirclerEnemy
         bullet.lifetime = projectileLifetimeModifier * 2;
         bullet.knockback = knockbackModifier;
         bullet.canAttack = willAttack;
+        bullet.damage = 1;
         Rigidbody bulletrb = bullet.GetComponent<Rigidbody>();
-        bulletrb.AddForce(direction * projectileSpeed, ForceMode.Impulse);
+        bulletrb.AddForce(direction * projectileSpeedModifier, ForceMode.Impulse);
         StartCoroutine(Cooldown());
     }
 }

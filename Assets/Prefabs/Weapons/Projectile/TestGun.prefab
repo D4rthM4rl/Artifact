@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
-  cooldown: 0.1
+  cooldown: 0.25
   manaUse: 0
   knockback: 2
   size: 1

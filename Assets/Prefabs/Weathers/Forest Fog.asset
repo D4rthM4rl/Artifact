@@ -17,9 +17,10 @@ MonoBehaviour:
   minDuration: 15
   maxDuration: 90
   specialBehaviors: []
-  ambientBrightness: 0.9
+  sunBrightness: 1
   sunColor: {r: 0.8773585, g: 0.8455809, b: 0.6994037, a: 1}
   ambientColor: {r: 1, g: 1, b: 1, a: 1}
   skybox: {fileID: 0}
+  skyboxBrightness: 0.9
   fogColor: {r: 0.76, g: 0.76, b: 0.76, a: 1}
   fogDensity: 0.02

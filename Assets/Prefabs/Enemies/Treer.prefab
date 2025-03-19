@@ -105,7 +105,7 @@ MonoBehaviour:
   powerLevel: 7
   health: 20
   maxHealth: 20
-  moveSpeed: 5
+  moveSpeed: 8
   mana: 100
   manaUseModifier: 1
   manaRegenRate: 0.005
@@ -128,7 +128,7 @@ MonoBehaviour:
       fleeDist: 0
   itemRelationships: []
   defaultBehavior:
-    whenAttack: 01000000
+    whenAttack: 03000000
     whenFollow: 00000000
     whenFlee: 
     followDist: 0

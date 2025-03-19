@@ -17,7 +17,8 @@ MonoBehaviour:
   minDuration: 90
   maxDuration: 240
   specialBehaviors: []
-  ambientBrightness: 1
+  sunBrightness: 1
   sunColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   ambientColor: {r: 1, g: 1, b: 1, a: 1}
   skybox: {fileID: 0}
+  skyboxBrightness: 1

@@ -176,7 +176,6 @@ public abstract class Character : MonoBehaviour
     /// <summary>EffectTypes that are being applied when I attack </summary>
     private static List<EffectType> effectTypes = new List<EffectType>();
     /// <summary>What Effects my attacks inflict</summary>
-    [System.NonSerialized]
     public List<Effect> attackEffects = new List<Effect>();
     /// <summary>What Effects I'm afflicted by</summary>
     protected List<EffectType> afflictedBy = new List<EffectType>();

@@ -153,19 +153,25 @@ MonoBehaviour:
   description: 
   holdPoint: {fileID: 0}
   powerLevel: 0
-  health: 50
-  maxHealth: 50
+  health: 100
+  maxHealth: 100
   moveSpeed: 9
   mana: 100
   manaUseModifier: 1
   manaRegenRate: 0.005
   attackRateModifier: 1
-  attackSizeModifier: 1
+  attackSizeModifier: 2
   attackDamageModifier: 1
-  projectileSpeedModifier: 20
+  projectileSpeedModifier: 25
   projectileLifetimeModifier: 1
   knockbackModifier: 150
   defense: 1
+  attackEffects:
+  - particles: {fileID: 517404345046783080, guid: 5d2d7cc82666d46beb4f1b83ba9a8284, type: 3}
+    type: 1
+    level: 2
+    damagePerHalfSec: 0.5
+    duration: 2
   currState: 2
   relationships:
   - name: Player

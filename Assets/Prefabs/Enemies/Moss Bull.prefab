@@ -120,8 +120,8 @@ MonoBehaviour:
     angle to charge from, then it will charge in a mostly straight line.
   holdPoint: {fileID: 0}
   powerLevel: 2
-  health: 20
-  maxHealth: 20
+  health: 5
+  maxHealth: 5
   moveSpeed: 5
   mana: 100
   manaUseModifier: 1

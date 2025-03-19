@@ -53,7 +53,7 @@ public class PrecipitationWeather : Weather
     {
         WeatherController.instance.SetSkybox(skybox);
         // Reduce ambient light intensity
-        RenderSettings.ambientIntensity = ambientBrightness;
+        RenderSettings.ambientIntensity = skyboxBrightness;
         
         // Slightly tint the ambient color to be cooler/bluer
         // Color newAmbientColor = ambientColor;
@@ -64,7 +64,7 @@ public class PrecipitationWeather : Weather
         // Dim the sun if we found it
         if (WeatherController.instance.directionalLight != null)
         {
-            WeatherController.instance.directionalLight.intensity = ambientBrightness;
+            WeatherController.instance.directionalLight.intensity = sunBrightness;
             WeatherController.instance.directionalLight.color = ambientColor;
             WeatherController.instance.directionalLight.useColorTemperature = false;
         }

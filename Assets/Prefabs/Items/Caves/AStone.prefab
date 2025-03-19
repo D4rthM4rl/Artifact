@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7354467632002643285}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &-1124975908541981795
 SpriteRenderer:
@@ -102,6 +102,7 @@ MonoBehaviour:
     description: It's just a stone, it does a bit
     rarity: 1
     itemImage: {fileID: 21300000, guid: a7e7e4d55af9b41a9842c22347316c53, type: 3}
+    tint: {r: 1, g: 1, b: 1, a: 1}
   heal:
     amount: 2
     timeSpan: 0

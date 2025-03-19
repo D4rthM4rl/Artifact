@@ -15,8 +15,8 @@ MonoBehaviour:
   worldName: Forest
   numberOfCrawlers: 4
   canRetrace: 0
-  iterationMin: 5
-  iterationMax: 8
+  iterationMin: 7
+  iterationMax: 10
   xRoomWidth: 20
   zRoomWidth: 20
   yChangeTowardsEnd: 0
@@ -31,16 +31,16 @@ MonoBehaviour:
     weight: 1
     coordinates:
     - {x: 0, y: 0}
+  - type: Enemy 1
+    weight: 5
+    coordinates:
+    - {x: 0, y: 0}
   - type: Item
-    weight: 4
+    weight: 5
     coordinates:
     - {x: 0, y: 0}
   - type: End
     weight: 0
-    coordinates:
-    - {x: 0, y: 0}
-  - type: Enemy 1
-    weight: 6
     coordinates:
     - {x: 0, y: 0}
   randomDecorations:
@@ -73,4 +73,4 @@ MonoBehaviour:
   - weather: {fileID: 11400000, guid: 45c0dca09a71c4056866d4f1aa5ae710, type: 2}
     weight: 1
   - weather: {fileID: 11400000, guid: 9cce46ca562b54693852d2efd5e3b6e3, type: 2}
-    weight: 3
+    weight: 2

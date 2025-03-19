@@ -4,6 +4,7 @@ using UnityEngine;
 public class GrassDash : Dash
 {
     public GameObject grass;
+    public Color grassColor;
     public float grassLifetime = 2f;
 
     private void Start() {
@@ -22,6 +23,8 @@ public class GrassDash : Dash
         if (Random.Range(0, 5) > 0) {
             SlowGrass grassTile = Instantiate(grass, gameObject.transform.position + 
                 Vector3.down * .45f, Quaternion.Euler(90, 0, 0)).GetComponent<SlowGrass>();
+            Material grassMat = grassTile.GetComponent<Renderer>().material;
+            grassMat.color = new Color(0, .4f, 0);
             grassTile.blacklistedObjects.Add(gameObject);
             grassTile.lifetime = grassLifetime;
         }

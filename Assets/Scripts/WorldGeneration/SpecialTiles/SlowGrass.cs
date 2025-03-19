@@ -9,12 +9,12 @@ public class SlowGrass : SpecialTile<SlowGrass>
     private void Awake()
     {
         // Make it green like normal
-        MeshRenderer renderer = GetComponentInChildren<MeshRenderer>();
-        if (renderer != null)
-        {
-            Material material = renderer.material;
-            material.color = new Color(0.2f, 0.6f, .1f, 0.8f);
-        }
+        // MeshRenderer renderer = GetComponentInChildren<MeshRenderer>();
+        // if (renderer != null)
+        // {
+        //     Material material = renderer.material;
+        //     material.color = new Color(0.2f, 0.6f, .1f, 0.8f);
+        // }
     }
     
     protected override void ApplyEffect(GameObject gameObject, float originalSpeed)

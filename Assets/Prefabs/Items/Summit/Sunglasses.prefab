@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2302702039059820173}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &-678768311495221784
 SpriteRenderer:
@@ -102,6 +102,7 @@ MonoBehaviour:
     description: Joe Cool
     rarity: 7
     itemImage: {fileID: 21300000, guid: cec358a7291bb422f861e9e298628f88, type: 3}
+    tint: {r: 1, g: 1, b: 1, a: 1}
   heal:
     amount: 0
     timeSpan: 0
@@ -126,5 +127,5 @@ MonoBehaviour:
   - particles: {fileID: 5657241467008020726, guid: 22b61a9c4fd2a49359592c83d7058032, type: 3}
     type: 0
     level: 2
-    damagePerMilli: 1
+    damagePerHalfSec: 1
     duration: 2

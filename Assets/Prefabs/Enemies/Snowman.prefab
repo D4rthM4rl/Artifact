@@ -60,10 +60,16 @@ MonoBehaviour:
   attackRateModifier: 0.5
   attackSizeModifier: 1
   attackDamageModifier: 1
-  projectileSpeedModifier: 2
+  projectileSpeedModifier: 8
   projectileLifetimeModifier: 1
   knockbackModifier: 5
   defense: 1
+  attackEffects:
+  - particles: {fileID: 0}
+    type: 1
+    level: 1
+    damagePerHalfSec: 0.5
+    duration: 1
   currState: 2
   relationships:
   - name: Wox
@@ -105,7 +111,6 @@ MonoBehaviour:
   mySpot: -1
   bulletPrefab: {fileID: 7357627440796291127, guid: 3e1d346c780ef4feab2e691de9b64c07, type: 3}
   teamsize: 0
-  projectileSpeed: 4
   bulletSpawnOffset: 0.5
 --- !u!212 &6782652110442380465
 SpriteRenderer:

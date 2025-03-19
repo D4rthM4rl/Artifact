@@ -144,4 +144,5 @@ MonoBehaviour:
   forceFrequency: 0.01
   timeLeftDashing: 0
   grass: {fileID: 0}
+  grassColor: {r: 0.011569952, g: 0.49056602, b: 0.039931566, a: 1}
   grassLifetime: 2

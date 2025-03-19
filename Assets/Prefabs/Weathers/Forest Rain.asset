@@ -17,10 +17,11 @@ MonoBehaviour:
   minDuration: 15
   maxDuration: 90
   specialBehaviors: []
-  ambientBrightness: 0.8
+  sunBrightness: 1
   sunColor: {r: 1, g: 0.9523821, b: 0.4481132, a: 1}
   ambientColor: {r: 0.764151, g: 0.764151, b: 0.764151, a: 1}
   skybox: {fileID: 0}
+  skyboxBrightness: 0.8
   speedModifier: 1.1
   dragModifier: 0.8
   precipitationColor: {r: 0.21226418, g: 0.5642743, b: 1, a: 1}

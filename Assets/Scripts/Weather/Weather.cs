@@ -24,9 +24,9 @@ public abstract class Weather : ScriptableObject
     [Tooltip("What other special traits/scripts the weather has")]
     public List<SpecialWeatherBehavior> specialBehaviors;
 
-    /// <summary>How bright the sky is, lighting up the world</summary>
+    /// <summary>How bright the sun is, lighting up the world</summary>
     [Range(0, 2)]
-    public float ambientBrightness = 1;
+    public float sunBrightness = 1;
 
     public Color sunColor = Color.yellow;
 
@@ -35,6 +35,9 @@ public abstract class Weather : ScriptableObject
 
     /// <summary>What skybox to use when this weather is occuring</summary>
     public Material skybox;
+    /// <summary>How bright the sky is, lighting up the world</summary>
+    [Range(0, 2)]
+    public float skyboxBrightness = 1;
 
     protected List<Character> affectedCharacters = new List<Character>();
 

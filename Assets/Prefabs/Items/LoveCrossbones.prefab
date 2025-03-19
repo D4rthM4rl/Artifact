@@ -102,17 +102,18 @@ MonoBehaviour:
     description: IDk
     rarity: 0
     itemImage: {fileID: 21300000, guid: 589537795777b436da03b4ba25934b0d, type: 3}
+    tint: {r: 1, g: 1, b: 1, a: 1}
   heal:
-    amount: 0
+    amount: -2
     timeSpan: 0
   maxHealthChange:
-    amount: 0
+    amount: 2
     multiplier: 0
   moveSpeedChange:
     amount: 0
     multiplier: 0
   attackDamageChange:
-    amount: 0
+    amount: 0.2
     multiplier: 0
   attackRateChange:
     amount: 0

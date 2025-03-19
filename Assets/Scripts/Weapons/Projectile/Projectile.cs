@@ -99,7 +99,8 @@ public class Projectile : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         // Debug.Log("Projectile collision with " + collision.gameObject.tag);
-        if (collision.gameObject.tag == "Environment" || sender == null || sender.gameObject == null) 
+        if (collision.gameObject.tag == "Environment" || collision.gameObject.tag.Contains("Wall") || 
+          sender == null || sender.gameObject == null) 
         {
             Destroy(this.gameObject);
         }
