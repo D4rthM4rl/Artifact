@@ -151,6 +151,11 @@ public class Room : MonoBehaviour
     /// <param name="otherRoomOffset">Difference from door's room to other door's room</param>
     private void SetupDoor(Room r, Door d, Door.DoorDirection o, Vector2Int otherRoomOffset)
     {
+
+        Rigidbody rb = d.gameObject.AddComponent<Rigidbody>();
+        rb.useGravity = false;
+        rb.constraints = RigidbodyConstraints.FreezeAll;
+        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
         if (r == null) d.SetWall();
         else
         {
@@ -181,9 +186,9 @@ public class Room : MonoBehaviour
         foreach (Decoration d in decorations)
         {
             Vector3 pos;
-            for (int i = 0; i < Random.Range(d.clumpTotalMin, d.clumpTotalMax); i++)
+            for (int i = 0; i < Random.Range(d.clumpTotalMin, d.clumpTotalMax + 1); i++)
             {
-                for (int j = 0; j < Random.Range(d.clumpSizeMin, d.clumpSizeMax); j++)
+                for (int j = 0; j < Random.Range(d.clumpSizeMin, d.clumpSizeMax + 1); j++)
                 {
                     pos = new Vector3(Random.Range(-xWidth/2, xWidth/2), 0, Random.Range(-zWidth/2, zWidth/2));
                     if (positionsTaken.ContainsKey(pos + d.size)) continue;

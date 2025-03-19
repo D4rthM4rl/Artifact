@@ -66,8 +66,8 @@ public class WoxEnemy : CirclerEnemy
         bullet.lifetime = 3;
         bullet.knockback = knockbackModifier;
         bullet.canAttack = willAttack;
-        Rigidbody2D bulletrb = bullet.GetComponent<Rigidbody2D>();
-        bulletrb.AddForce(direction * projectileSpeed, ForceMode2D.Impulse);
+        Rigidbody bulletrb = bullet.GetComponent<Rigidbody>();
+        bulletrb.AddForce(direction * projectileSpeed, ForceMode.Impulse);
         StartCoroutine(Cooldown());
     }
 }

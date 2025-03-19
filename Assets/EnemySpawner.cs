@@ -89,8 +89,9 @@ public class EnemySpawner : MonoBehaviour
         Vector3 pos;
         bool posTaken = false;
         List<Vector3> positionsMaybeTaken = new List<Vector3>();
-        for (int i = 0; i < Random.Range(e.packSizeMin, e.packSizeMax); i++)
+        for (int i = 0; i < Random.Range(e.packSizeMin, e.packSizeMax + 1); i++)
         {
+            positionsMaybeTaken.Clear();
             pos = new Vector3(Random.Range((-room.xWidth+e.size.x)/2, (room.xWidth-e.size.x)/2), 0,
                 Random.Range((-room.zWidth+e.size.z)/2, (room.zWidth-e.size.z)/2));
             if (positionsTaken.ContainsKey(pos + e.size)) continue;

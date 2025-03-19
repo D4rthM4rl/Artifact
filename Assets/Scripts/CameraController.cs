@@ -334,7 +334,7 @@ public class CameraController : MonoBehaviour
             UpdateFixedRoomCamOffset();
 
             // Get the center of the room
-            Vector3 roomCenter = currRoom.GetRoomCenter();
+            Vector3 roomCenter = currRoom.GetRoomCenter() + Vector3.up * currRoom.transform.position.y;
 
             // Convert spherical coordinates (azimuth, elevation, distance) to Cartesian position
             float radAzimuth = currentAzimuth * Mathf.Deg2Rad;
@@ -374,6 +374,7 @@ public class CameraController : MonoBehaviour
     {
         foreach (GameObject wall in wallList)
         {
+            if (wall == null) continue;
             SpriteRenderer sr = wall.GetComponent<SpriteRenderer>();
             if (sr != null)
             {

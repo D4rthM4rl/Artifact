@@ -138,4 +138,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastDist: 0.5
-  jumpForce: 8
+  jumpForce: 10

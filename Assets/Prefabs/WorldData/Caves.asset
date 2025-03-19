@@ -31,6 +31,10 @@ MonoBehaviour:
     weight: 1
     coordinates:
     - {x: 0, y: 0}
+  - type: Enemy
+    weight: 3
+    coordinates:
+    - {x: 0, y: 0}
   - type: End
     weight: 0
     coordinates:

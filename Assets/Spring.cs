@@ -5,7 +5,7 @@ using UnityEngine;
 public class Spring : SpecialTrait
 {
     public float raycastDist = 0.55f;
-    public float jumpForce = 5;
+    public float jumpForce = 10;
 
     // Update is called once per frame
     void Update()

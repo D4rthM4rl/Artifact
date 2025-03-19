@@ -45,9 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemies:
-  - gameObject: {fileID: 0}
+  - gameObject: {fileID: 5804382455990610890, guid: bf009b261c47a483c941639718e5685f, type: 3}
     size: {x: 0, y: 0, z: 0}
-    packSizeMin: 0
-    packSizeMax: 0
-    weight: 0
+    packSizeMin: 2
+    packSizeMax: 2
+    weight: 1
   room: {fileID: 0}

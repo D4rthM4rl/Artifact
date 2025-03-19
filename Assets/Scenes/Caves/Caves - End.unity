@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731713, g: 0.1341474, b: 0.12107861, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -504,6 +504,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2024949750}
   - component: {fileID: 2024949749}
+  - component: {fileID: 2024949751}
   m_Layer: 0
   m_Name: Room
   m_TagString: Untagged
@@ -532,6 +533,10 @@ MonoBehaviour:
   enemiesInRoom: []
   finalCoords: []
   isRegular: 1
+  leftWalls: []
+  topWalls: []
+  rightWalls: []
+  bottomWalls: []
   postProcessed: 0
 --- !u!4 &2024949750
 Transform:
@@ -552,6 +557,27 @@ Transform:
   - {fileID: 6799359030196345539}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &2024949751
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2024949748}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 19, y: 4, z: 19}
+  m_Center: {x: 0, y: 2, z: 0}
 --- !u!1001 &4232356966613052515
 PrefabInstance:
   m_ObjectHideFlags: 0
