@@ -28,9 +28,6 @@ public abstract class ProjectileWeapon : Weapon
             gunColor.a = 1f; // Set full opacity
             gunRenderer.material.color = gunColor;
         }
-
-        //// Flip the gun along the X-axis
-        //transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y + 180, transform.rotation.z);
     }
 
     void FixedUpdate()
@@ -134,19 +131,52 @@ public abstract class ProjectileWeapon : Weapon
         if (direction != Vector3.zero)
         {
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg; // Convert to degrees
-            angle -= 180;
-            transform.rotation = Quaternion.Euler(0, 0, angle); // Rotate the weapon
+
+            if (angle >= -90f && angle < 0f)
+            {
+                transform.rotation = Quaternion.Euler(0, 180, -angle);
+
+            }
+            else if (angle >= 0f && angle < 90f)
+            {
+                transform.rotation = Quaternion.Euler(0, 180, -angle);
+            }
+            else if (angle >= 90f && angle < 180f)
+            {
+                transform.rotation = Quaternion.Euler(0, 0, 180f + angle);
+            }
+            else
+            {
+                transform.rotation = Quaternion.Euler(0, 0, -180f + angle);
+            }
         }
     }
 
     void RotateWeaponSpriteArrow(Vector3 direction)
     {
         // Convert world‑space direction into a 2D vector (X = horizontal, Y = vertical)
+        
         Vector2 dir2D = new Vector2(direction.x, direction.z);
         if (dir2D == Vector2.zero) return;
 
         float angle = Mathf.Atan2(dir2D.y, dir2D.x) * Mathf.Rad2Deg;
-        angle -= 180;
-        transform.rotation = Quaternion.Euler(0, 0, angle);
+
+        if (angle >= -90f && angle < 0f)
+        {
+            transform.rotation = Quaternion.Euler(0, 180, -angle);
+
+        }
+        else if (angle >= 0f && angle < 90f)
+        {
+            transform.rotation = Quaternion.Euler(0, 180, -angle);
+        }
+        else if (angle >= 90f && angle < 180f)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 180f + angle);
+        }
+        else
+        {
+            transform.rotation = Quaternion.Euler(0, 0, -180f + angle);
+        }
     }
 }
