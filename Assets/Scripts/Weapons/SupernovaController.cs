@@ -29,33 +29,16 @@ public class SupernovaController : Weapon
 
     void Update()
     {
+        // transform.position = holdPoint.transform.position;
         fireRate = user.attackRateModifier;
         if (Input.GetButton("Fire1") && isSelected && Time.time > canFire && user.UseMana(manaUse))
         {
-            Vector2 target = Vector2.zero;
+            Vector2 target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 direction = Vector2.zero;
-            if (user is Player) 
-            {
-                // Get the mouse position in world coordinates
-                target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                
-                // Adjust position based on camera angle
-                float azimuth = CameraController.instance.GetAzimuthRadians();
-                Debug.Log($"Supernova target before adjustment: {target}, Camera azimuth: {azimuth * Mathf.Rad2Deg} degrees");
-            }
-            else 
-            {
-                direction = (user as Enemy).focusPos;
-                
-                // If enemy is firing, account for camera rotation
-                if (CameraController.instance != null)
-                {
-                    float azimuth = CameraController.instance.GetAzimuthRadians();
-                    float dirX = direction.x * Mathf.Cos(azimuth) - direction.y * Mathf.Sin(azimuth);
-                    float dirY = direction.x * Mathf.Sin(azimuth) + direction.y * Mathf.Cos(azimuth);
-                    direction = new Vector2(dirX, dirY);
-                }
-            }
+			if (user is Player) 
+			{target = Camera.main.ScreenToWorldPoint(Input.mousePosition);}
+			else 
+			{direction = (user as Enemy).focusPos;}
             StartCoroutine(Fire(target));
             canFire = Time.time + fireRate;
         }
@@ -68,33 +51,6 @@ public class SupernovaController : Weapon
     IEnumerator Fire(Vector2 pos)
     {
         inUse = true;
-        
-        // Get player position in 2D space
-        Vector2 playerPos = new Vector2(transform.position.x, transform.position.z);
-        
-        // Adjust the target position based on camera angle and apply 180 degree rotation
-        if (user is Player)
-        {
-            float azimuth = CameraController.instance.GetAzimuthRadians();
-            
-            // Calculate the vector from player to target
-            Vector2 directionToTarget = pos - playerPos;
-            
-            // Reflect the position around the player (180 degree rotation)
-            // First apply camera rotation, then reflect
-            float rotatedX = directionToTarget.x * Mathf.Cos(azimuth) - directionToTarget.y * Mathf.Sin(azimuth);
-            float rotatedY = directionToTarget.x * Mathf.Sin(azimuth) + directionToTarget.y * Mathf.Cos(azimuth);
-            
-            // Reverse the direction (180 degree rotation)
-            rotatedX = -rotatedX;
-            rotatedY = -rotatedY;
-            
-            // Convert back to world coordinates
-            pos = playerPos + new Vector2(rotatedX, rotatedY);
-            
-            Debug.Log($"Supernova firing at adjusted position: {pos}");
-        }
-        
         float currentSize = 0f;
 
         // Loop until duration is reached
