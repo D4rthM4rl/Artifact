@@ -79,6 +79,7 @@ void FixedUpdate()
 {
     // Apply movement physics.
     rb.AddForce(movement * moveSpeed * 20 * Time.fixedDeltaTime, ForceMode.Impulse);
+    GameController.ApplyGravity(rb);
 
     // Determine look direction from player to mouse world position.
     float angle = 0;
@@ -220,7 +221,7 @@ void FixedUpdate()
 
     protected override void UpdateMana(float mana)
     {
-        // ManaUIController.UpdateManaUI(mana); // TODO: Reimplement mana system
+        ManaUIController.UpdateManaUI(mana); // TODO: Reimplement mana system
     }
 
     protected override void UpdateHealth(float health, float maxHealth)

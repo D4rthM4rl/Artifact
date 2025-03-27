@@ -6,8 +6,6 @@ public class GameController : MonoBehaviour
 {
     public static GameController instance;
     
-    private bool snowflakeCollected = false;
-    private bool infinityCollected = false;
     public static System.Random seededRandom;
     public static System.Random itemRandom;
     public static System.Random enemyRandom;
@@ -15,8 +13,6 @@ public class GameController : MonoBehaviour
     public static int numItemsSpawned = 0;
     [System.NonSerialized]
     public static int numEnemiesSpawned = 0;
-
-    public GameObject weatherController;
 
     public Material particleMaterial;
     public Material defaultMaterial;
@@ -34,25 +30,8 @@ public class GameController : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Adds item (ItemController) to collected items
-    /// </summary>
-    /// <param name="item">Item to be added</param>
-    public void UpdateCollectedItems(ItemController item)
+    public static void ApplyGravity(Rigidbody rb)
     {
-        collectedNames.Add(item.item.name);
-
-        foreach(string i in collectedNames)
-        {
-            switch(i)
-            {
-                case "Snowflake":
-                    snowflakeCollected = true;
-                    break;
-                case "Infinity":
-                    infinityCollected = true;
-                    break;
-            }
-        }
+        rb.AddForce(Vector3.down * 9.81f, ForceMode.Acceleration);
     }
 }

@@ -25,9 +25,6 @@ public class WeatherController : MonoBehaviour
     public Light directionalLight;
 
     public Material defaultSkybox;
-
-    private float checkInterval = 3f; // Check for new characters every 2 seconds
-    private float lastCheckTime = 0f;
     
     private void Awake()
     {
