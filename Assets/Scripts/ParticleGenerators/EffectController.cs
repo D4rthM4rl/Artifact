@@ -44,10 +44,9 @@ public class Effect
     [Tooltip("How long effect lasts in seconds")]
     public float duration;
     /// <summary>
-    /// Tuple of Stat Changes to apply with Effect
+    /// Stat Changes to apply with Effect
     /// </summary>
-    public (StatChange moveSpeed, StatChange attackRate, StatChange attackSize,
-       StatChange attackDamage, StatChange knockback, StatChange defense) statChanges;
+    public StatChanges statChanges;
 
     /// <summary>
     /// Constructs an Effect to apply
@@ -68,27 +67,19 @@ public class Effect
 
     #nullable enable
     /// <summary>
-    /// Constructs an Effect of stat change()
+    /// Constructs an Effect of stat change
     /// </summary>
     /// <param name="statChanges">What stats to change and how</param>
     /// <param name="duration">How long effect lasts in sec</param>
-    public Effect((StatChange? moveSpeed, StatChange? attackRate, StatChange? attackSize, StatChange? attackDamage, 
-            StatChange? knockback, StatChange? defense) statChanges, float duration)
+    public Effect(StatChanges? statChanges, float duration)
     {
         this.type = EffectType.statChange;
         this.level = 0;
         this.damagePerHalfSec = 0;
         this.duration = duration;
         this.particles = EffectController.instance.GetParticles(type, level);
-        // Create a new tuple with non-nullable StatChange values
-        this.statChanges = (
-            statChanges.moveSpeed ?? StatChange.same,
-            statChanges.attackRate ?? StatChange.same,
-            statChanges.attackSize ?? StatChange.same,
-            statChanges.attackDamage ?? StatChange.same,
-            statChanges.knockback ?? StatChange.same,
-            statChanges.defense ?? StatChange.same
-        );
+        // Create a new StatChanges with non-nullable StatChange values
+        if (statChanges == null) statChanges = new StatChanges();
     }
 }
 
@@ -159,43 +150,35 @@ public class EffectController : MonoBehaviour
     /// <param name="type">Type of Effect</param>
     /// <param name="level">Level of Effect</param>
     /// <returns>6 StatChanges being moveSpeed, attackRate, attackSize, attackDamage, knockback, and defense</returns>
-    public (StatChange, StatChange, StatChange, StatChange, StatChange, StatChange) GetStatChanges(EffectType type, int level)
+    public StatChanges GetStatChanges(EffectType type, int level)
     {
-        (StatChange moveSpeed, StatChange attackRate, StatChange attackSize,
-            StatChange attackDamage, StatChange knockback, StatChange defense) changes;
-        float move = 1;
-        float rate = 1;
-        float size = 1;
-        float dam = 1;
-        float kb = 1;
-        float def = 1;
+        StatChanges changes = new StatChanges();
 
         switch (type)
         {
             case(EffectType.burn): 
-                dam = 1 - 0.05f * level;
-                kb = 1 - 0.05f * level;
+                changes.attackDamageChange.amount = 1 - 0.05f * level;
+                changes.knockbackChange.amount = 1 - 0.05f * level;
                 break;
             case(EffectType.frost):
-                move = 1 - 0.05f * level;
-                def = 1 - 0.05f * level;
+                changes.moveSpeedChange.amount = 1 - 0.05f * level;
+                changes.defense.amount = 1 - 0.05f * level;
                 break;
             case(EffectType.stun):
-                move = 1 - 0.03f * level;
-                rate = 1 + 0.03f * level;
+                changes.moveSpeedChange.amount = 1 - 0.03f * level;
+                changes.attackRateChange.amount = 1 + 0.03f * level;
                 break;
             case(EffectType.radioactive):
-                dam = 1 + 0.05f * level;
-                def = 1 - 0.05f * level;
+                changes.attackDamageChange.amount = 1 + 0.05f * level;
+                changes.defense.amount = 1 - 0.05f * level;
                 break;
             case(EffectType.poison): 
-                rate = 1 - 0.05f * level;
+                changes.attackRateChange.amount = 1 - 0.05f * level;
+                changes.manaRegenChange.amount = 1 - 0.05f * level;
                 break;
             case(EffectType.statChange):
                 break;
         }
-        changes = (new StatChange(move, true), new StatChange(rate, true), new StatChange(size, true),
-            new StatChange(dam, true), new StatChange(kb, true), new StatChange(def, true));
 
         return changes;
     }

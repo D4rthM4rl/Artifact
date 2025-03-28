@@ -7,7 +7,6 @@ public class InfinityItem : SpecialTrait
     public float pushBackForce = .001f; // Factor by which to slow down enemies and bullets
     public float slowdownRadius = 2f; // Distance within which enemies and bullets are slowed down
     public Material material;
-    public Character user;
     private ParticleSystem particles;
 
     void Start()
@@ -43,7 +42,7 @@ public class InfinityItem : SpecialTrait
     {
         var e = particles.emission;
 
-        if (user.mana > 0.01) {
+        if (user.Mana > 0.01) {
             Collider[] colliders = Physics.OverlapSphere(transform.position, slowdownRadius);
             foreach (Collider col in colliders)
             {

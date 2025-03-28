@@ -22,18 +22,21 @@ public class ChargingEnemy : Enemy
     [SerializeField]
     private const int requiredSightFrames = 100;
 
-    void Start()
+    protected override void Start()
     {
-        EnemyStart();
+        base.Start();
+    }
+
+    protected override void Update() {
+        base.Update();
     }
 
     void FixedUpdate()
     {
         if (currState == CharacterState.inactive) return;
         // Debug.Log(currState);
-        EnemyUpdate();
         focusPos = focus.transform.position;
-        if (Vector3.Distance(focusPos, transform.position) <= meleeRange * attackSizeModifier && willAttack.Contains(focus) && !cooldownAttack)
+        if (Vector3.Distance(focusPos, transform.position) <= meleeRange * AttackSizeModifier && willAttack.Contains(focus) && !cooldownAttack)
         {
             Attack();
             currState = CharacterState.attack;
@@ -64,7 +67,7 @@ public class ChargingEnemy : Enemy
     {
         if (!cooldownAttack) {
             StartCoroutine(Cooldown());
-            HitCharacter(focus.GetComponent<Character>(), (meleeDamage * attackDamageModifier));
+            HitCharacter(focus.GetComponent<Character>(), (meleeDamage * AttackDamageModifier));
         }
     }
 
@@ -76,7 +79,7 @@ public class ChargingEnemy : Enemy
 
         // Apply knockback force to what I hit
         Rigidbody otherRb = other.gameObject.GetComponent<Rigidbody>();
-        otherRb.AddForce(knockbackDirection * knockbackModifier + Mathf.Pow(knockbackModifier, 1.5f) * rb.velocity, ForceMode.Impulse);
+        otherRb.AddForce(knockbackDirection * KnockbackModifier + Mathf.Pow(KnockbackModifier, 1.5f) * rb.velocity, ForceMode.Impulse);
     }
 
     protected override void Follow()
@@ -91,7 +94,7 @@ public class ChargingEnemy : Enemy
 
 		if (charging)
 		{
-			ai.speed = moveSpeed * chargeSpeedMultiplier;
+			ai.speed = MoveSpeed * chargeSpeedMultiplier;
 			ai.acceleration = chargeAcceleration;
 			ai.autoBraking = false;
 			// Debug.Log("Max speed: " + maxSpeed);
@@ -99,7 +102,7 @@ public class ChargingEnemy : Enemy
 			Vector3 toDest = ai.destination - transform.position;
 			toDest.y = 0;
 			// Debug.DrawLine(transform.position, (transform.position + toDest).normalized * range, Color.black);
-			if ((rb.velocity.magnitude < (1 + 0.1 * moveSpeed) && maxSpeed > (5 + 0.01 * moveSpeed)) ||
+			if ((rb.velocity.magnitude < (1 + 0.1 * MoveSpeed) && maxSpeed > (5 + 0.01 * MoveSpeed)) ||
 			  Vector3.Distance(transform.position, ai.destination) < meleeRange && 
 			  !Physics.Raycast(transform.position, toDest, range, 9))
 			{
@@ -112,7 +115,7 @@ public class ChargingEnemy : Enemy
 		}
 		else
 		{
-			ai.speed = moveSpeed;
+			ai.speed = MoveSpeed;
 			ai.acceleration = 50;
 			if (CanSeeTarget(focusPos, obstacleLayer))
 			{

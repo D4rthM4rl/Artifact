@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GrassDash : Dash
 {
-    public GameObject grass;
+    private GameObject grass;
     public Color grassColor;
     public float grassLifetime = 2f;
 

@@ -24,7 +24,7 @@ public class SlowGrass : SpecialTile<SlowGrass>
         if (character != null) 
         {
             float multiplier = 0.4f;
-            character.moveSpeed = Mathf.Max(originalSpeed * .01f, character.moveSpeed * multiplier);
+            character.MoveSpeed = Mathf.Max(originalSpeed * .01f, character.MoveSpeed * multiplier);
         }
     }
 
@@ -34,9 +34,8 @@ public class SlowGrass : SpecialTile<SlowGrass>
         Character character = gameObject.GetComponent<Character>();
         if (character != null) 
         {
-            // Rain-spawned slow grass has a stronger effect
             float multiplier = 0.4f;
-            character.moveSpeed = Mathf.Min(originalSpeed, character.moveSpeed / multiplier);
+            character.MoveSpeed = Mathf.Min(originalSpeed, character.MoveSpeed / multiplier);
         }
     }
 }

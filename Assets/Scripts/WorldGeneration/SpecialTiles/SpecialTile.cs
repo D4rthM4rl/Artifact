@@ -26,7 +26,7 @@ public abstract class SpecialTile<T> : MonoBehaviour where T : SpecialTile<T>
     {
         if (other.GetComponent<Rigidbody>() == null) return;
         float speed = 0;
-        if (other.gameObject.GetComponent<Character>() != null) speed = other.gameObject.GetComponent<Character>().moveSpeed;
+        if (other.gameObject.GetComponent<Character>() != null) speed = other.gameObject.GetComponent<Character>().MoveSpeed;
         if (useBlacklist) {
             if (!blacklistedObjects.Contains(other.gameObject) && !affectedThings.ContainsKey(other.gameObject)) 
             {

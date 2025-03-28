@@ -152,8 +152,9 @@ public abstract class Enemy : Character
     protected System.Random random;
 
 	/// <summary>Initializes enemy data</summary>
-	void Start()
+	protected override void Start()
     {
+        base.Start();
         random = GameController.seededRandom;
         foreach (Effect e in attackEffects) 
         {
@@ -167,11 +168,8 @@ public abstract class Enemy : Character
         StartCoroutine(SetupAI());
     }
 
-    /// <summary>Calls <see cref="Start"/></summary>
-    public void EnemyStart() {Start();}
-
     /// <summary>Looks at surroundings and determines what to do and update speed</summary>
-    protected void EnemyUpdate()
+    protected virtual void Update()
     {
         if (dead || currState == CharacterState.inactive) return;
         possibleActions.Clear();
@@ -228,13 +226,13 @@ public abstract class Enemy : Character
                     if (r.name == item.name)
                     {
                         relationshipFound = true;
-                        CheckBehavior(item, new Relationship(item.item.name, Mathf.RoundToInt(r.priority * proximityPriority * lineOfSightPriority), r.behavior));
+                        CheckBehavior(item, new Relationship(item.itemStats.name, Mathf.RoundToInt(r.priority * proximityPriority * lineOfSightPriority), r.behavior));
                         break;
                     }
                 }
                 if (!relationshipFound) 
                 {
-                    CheckBehavior(item, new Relationship(item.item.name, Mathf.RoundToInt(2 * proximityPriority * lineOfSightPriority), itemDefaultBehavior));
+                    CheckBehavior(item, new Relationship(item.itemStats.name, Mathf.RoundToInt(2 * proximityPriority * lineOfSightPriority), itemDefaultBehavior));
                 }
             }
         }
@@ -251,14 +249,14 @@ public abstract class Enemy : Character
                 if (ai) 
                 {
                     ai.enabled = true;
-                    ai.speed = moveSpeed;
+                    ai.speed = MoveSpeed;
                 }
                 break;
             case(CharacterState.flee):
                 if (ai) 
                 {
                     ai.enabled = true;
-                    ai.speed = moveSpeed;
+                    ai.speed = MoveSpeed;
                 }
                 break;
             case(CharacterState.attack):
@@ -373,7 +371,7 @@ public abstract class Enemy : Character
     protected IEnumerator Cooldown()
     {
         cooldownAttack = true;
-        yield return new WaitForSeconds(cooldown * attackRateModifier);
+        yield return new WaitForSeconds(cooldown * AttackRateModifier);
         cooldownAttack = false;
     }
 
@@ -390,7 +388,7 @@ public abstract class Enemy : Character
     protected IEnumerator SetupAI()
     {
         while (ai == null) {yield return new WaitForSeconds(0.1f);}
-        ai.speed = moveSpeed;
+        ai.speed = MoveSpeed;
         ai.angularSpeed = 500;
         ai.acceleration = 50;
         // ai.constrainInsideGraph = true;

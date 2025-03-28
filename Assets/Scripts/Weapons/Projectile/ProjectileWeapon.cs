@@ -37,8 +37,8 @@ public abstract class ProjectileWeapon : Weapon
     void FixedUpdate()
     {
         // transform.position = holdPoint.transform.position;
-        float rate = cooldown * user.attackRateModifier;
-        if (Time.time > canFire && isSelected && user.UseMana(manaUse))
+        float rate = stats.cooldown * user.AttackRateModifier;
+        if (Time.time > canFire && isSelected && user.UseMana(stats.manaUse))
         {
             Vector3 direction = Vector3.zero;
             if (user is Player)
@@ -46,7 +46,7 @@ public abstract class ProjectileWeapon : Weapon
                 if (Input.GetButton("Fire1"))
                 {
                     // Cast a ray from screen point
-                    Plane plane = new Plane(Vector3.back, transform.position);
+                    Plane plane = new Plane(Camera.main.transform.forward, transform.position);
                     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                     // RaycastHit hit;
                     // // Hit ground
@@ -73,11 +73,15 @@ public abstract class ProjectileWeapon : Weapon
                 }
                 else
                 {
+                    Vector3 camRight = Camera.main.transform.right;
+                    Vector3 camForward = Camera.main.transform.forward;
+                    camForward.y = 0;
+                    camForward.Normalize();
                     direction = Vector3.zero;
-                    if (Input.GetButton("LeftFire")) direction += Vector3.left;
-                    if (Input.GetButton("RightFire")) direction += Vector3.right;
-                    if (Input.GetButton("UpFire")) direction += Vector3.forward;
-                    if (Input.GetButton("DownFire")) direction += Vector3.back;
+                    if (Input.GetButton("LeftFire")) direction -= camRight;
+                    if (Input.GetButton("RightFire")) direction += camRight;
+                    if (Input.GetButton("UpFire")) direction += camForward;
+                    if (Input.GetButton("DownFire")) direction -= camForward;
                     if (direction != Vector3.zero)
                     {
                         direction.Normalize();
@@ -116,11 +120,11 @@ public abstract class ProjectileWeapon : Weapon
     protected virtual void SetupProjectile(Projectile projectile)
     {
         projectile.sender = user;
-        projectile.size = size * user.attackSizeModifier;
-        projectile.damage = damage * user.attackDamageModifier;
-        projectile.knockback = knockback * user.knockbackModifier;
-        projectile.speed = projectileSpeed * user.projectileSpeedModifier;
-        projectile.lifetime = projectileLifetime * user.projectileLifetimeModifier;
+        projectile.size = stats.size * user.AttackSizeModifier;
+        projectile.damage = stats.damage * user.AttackDamageModifier;
+        projectile.knockback = stats.knockback * user.KnockbackModifier;
+        projectile.speed = projectileSpeed * user.ProjectileSpeedModifier;
+        projectile.lifetime = projectileLifetime * user.ProjectileLifetimeModifier;
         projectile.canAttack = user.willAttack;
         if (projectile.gameObject != null) projectile.gameObject.layer = user.gameObject.layer + 1;
         foreach (Effect e in user.attackEffects) { projectile.effects.Add(EffectController.instance.GetEffect(e)); }

@@ -97,35 +97,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad9031e5e5730497fa641f74ec804411, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
-    name: Teal Butterfly
-    description: 
-    rarity: 0
-    itemImage: {fileID: 21300000, guid: 9c59ed23c1b8c4d79bd3cc2cee884c3c, type: 3}
-    tint: {r: 1, g: 1, b: 1, a: 1}
-  heal:
-    amount: 4
-    timeSpan: 4
-  maxHealthChange:
-    amount: 0
-    multiplier: 0
-  moveSpeedChange:
-    amount: 0
-    multiplier: 0
-  attackDamageChange:
-    amount: 0
-    multiplier: 0
-  attackRateChange:
-    amount: 0
-    multiplier: 0
-  attackSizeChange:
-    amount: 0
-    multiplier: 0
-  special: 0
-  newTrait: {fileID: 0}
+  itemStats: {fileID: 11400000, guid: 72036bc71c4d84ea49fb077506cd32db, type: 2}
+  newTraits: []
   effects:
   - particles: {fileID: 517404345046783080, guid: 6ea0247a8ff974424a2dd206a26d8f5f, type: 3}
     type: 4
     level: 1
     damagePerHalfSec: 1
     duration: 3
+    statChanges:
+      heal:
+        amount: 0
+        timeSpan: 0
+      maxHealthChange:
+        amount: 0
+        multiplier: 0
+      moveSpeedChange:
+        amount: 0
+        multiplier: 0
+      attackDamageChange:
+        amount: 0
+        multiplier: 0
+      attackRateChange:
+        amount: 0
+        multiplier: 0
+      attackSizeChange:
+        amount: 0
+        multiplier: 0
+      manaHeal:
+        amount: 0
+        timeSpan: 0
+      manaUseChange:
+        amount: 0
+        multiplier: 0
+      manaRegenChange:
+        amount: 0
+        multiplier: 0
+      projectileSpeedChange:
+        amount: 0
+        multiplier: 0
+      projectileLifetimeChange:
+        amount: 0
+        multiplier: 0
+      knockbackChange:
+        amount: 0
+        multiplier: 0
+      defense:
+        amount: 0
+        multiplier: 0

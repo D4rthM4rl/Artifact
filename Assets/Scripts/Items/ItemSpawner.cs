@@ -14,7 +14,13 @@ public class ItemSpawner : MonoBehaviour
     }
 
     public List<Spawnable> items = new List<Spawnable>();
-    float totalWeight;
+    [Tooltip("Chance of spawning the item")]
+    [Range(0, 1)]
+    /// <summary>
+    /// Chance of spawning an item
+    /// </summary>
+    public float spawnChance = 1;
+    private float totalWeight;
 
     private MonoBehaviour enemyController;
     private int chosenIndex;

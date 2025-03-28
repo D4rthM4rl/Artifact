@@ -121,13 +121,13 @@ public class HotbarUIController : MonoBehaviour
             
             if (currWeapon)
             {
-                GameObject weaponSpot = new GameObject(currWeapon.item.name);
+                GameObject weaponSpot = new GameObject(currWeapon.itemStats.name);
                 weaponSpot.transform.position = boxes[i].transform.position;
                 weaponSpot.transform.parent = boxes[i].transform;
 
                 SpriteRenderer weaponRenderer = weaponSpot.AddComponent<SpriteRenderer>();
                 weaponRenderer.sortingLayerName = "UI";
-                weaponRenderer.sprite = currWeapon.item.itemImage;
+                weaponRenderer.sprite = currWeapon.itemStats.itemImage;
                 weaponRenderer.material = GameController.instance.defaultMaterial;
                 weaponSpot.transform.localScale = new Vector2(1, 1);
 

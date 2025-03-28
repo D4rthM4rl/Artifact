@@ -97,29 +97,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad9031e5e5730497fa641f74ec804411, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
-    name: Running Shoes
-    description: Make you run faster
-    rarity: 0
-    itemImage: {fileID: 21300000, guid: 5917c1eb5872e4a2fbb5b272cbee7ac7, type: 3}
-  heal:
-    amount: 10
-    timeSpan: 0
-  maxHealthChange:
-    amount: 0
-    multiplier: 0
-  moveSpeedChange:
-    amount: 1.5
-    multiplier: 1
-  attackDamageChange:
-    amount: 0
-    multiplier: 0
-  attackRateChange:
-    amount: 0
-    multiplier: 0
-  attackSizeChange:
-    amount: 0
-    multiplier: 0
-  special: 0
-  newTrait: {fileID: 0}
+  itemStats: {fileID: 11400000, guid: 7c43ae7ded49640398bb20ebc99f9559, type: 2}
+  newTraits: []
   effects: []

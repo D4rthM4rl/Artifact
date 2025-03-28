@@ -46,10 +46,10 @@ public abstract class Dash : SpecialTrait
 
     void Update()
     {
-        if (coolingDown)
+        if (coolingDown || user == null)
             return;
 
-        if (gameObject.GetComponent<Player>() != null)
+        if (user.GetComponent<Player>() != null)
         {
             // Check each direction input
             StartCoroutine(CheckForPlayerDash(KeyCode.W, Vector3.forward));

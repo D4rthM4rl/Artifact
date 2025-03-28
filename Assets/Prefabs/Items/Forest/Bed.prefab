@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7404453689481693848}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &-3318767071500532147
 MonoBehaviour:
@@ -45,31 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad9031e5e5730497fa641f74ec804411, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
-    name: Bed
-    description: Sleep in it
-    rarity: 10
-    itemImage: {fileID: 21300000, guid: 0394b9c2df9d74bb9bff3cc3aad7fc53, type: 3}
-  heal:
-    amount: 0
-    timeSpan: 0
-  maxHealthChange:
-    amount: 0
-    multiplier: 0
-  moveSpeedChange:
-    amount: 0
-    multiplier: 0
-  attackDamageChange:
-    amount: 0
-    multiplier: 1
-  attackRateChange:
-    amount: 0
-    multiplier: 1
-  attackSizeChange:
-    amount: 0
-    multiplier: 1
-  special: 1
-  newTrait: {fileID: 0}
+  item: {fileID: 0}
   effects: []
 --- !u!212 &6879120203593639043
 SpriteRenderer:

@@ -63,9 +63,9 @@ public class Friend : MonoBehaviour
         Projectile bc = bullet.GetComponent<Projectile>();
         Player p = player.GetComponent<Player>();
         // foreach (Effect e in p.attackEffects) {bc.effects.Add(EffectController.instance.GetEffect(e));}
-        bc.size = friend.bulletSize * p.attackSizeModifier;
-        bc.damage = friend.damage * p.attackDamageModifier;
-        bc.knockback = friend.knockback * p.knockbackModifier;
+        bc.size = friend.bulletSize * p.AttackSizeModifier;
+        bc.damage = friend.damage * p.AttackDamageModifier;
+        bc.knockback = friend.knockback * p.KnockbackModifier;
         Rigidbody2D bulletrb = bullet.GetComponent<Rigidbody2D>();
         bulletrb.AddForce(aim * friend.bulletSpeed, ForceMode2D.Impulse);
     }

@@ -9,6 +9,10 @@ public class WoxEnemy : CirclerEnemy
     [SerializeField]
     private float bulletSpawnOffset = 0.5f;
 
+	protected override void Start() {base.Start();}
+
+	protected override void Update() {base.Update();}
+
     void FixedUpdate()
     {
         if (currState == CharacterState.inactive) return;
@@ -21,7 +25,7 @@ public class WoxEnemy : CirclerEnemy
             // StartCoroutine(CirclerController.AlertAll());
             
         }
-        EnemyUpdate();
+
         focusPos = focus.transform.position;
         if (Vector3.Distance(transform.position, focusPos) <= CirclerController.circleRadius + 2 && !cooldownAttack && willAttack.Contains(focus))
         {
@@ -60,13 +64,13 @@ public class WoxEnemy : CirclerEnemy
         GameObject bulletObject = Instantiate(bulletPrefab, transform.position + direction * bulletSpawnOffset, Quaternion.identity) as GameObject;
         Projectile bullet = bulletObject.GetComponent<Projectile>();
         bullet.sender = this;
-        bullet.size = attackSizeModifier;
-        bullet.lifetime = projectileLifetimeModifier * 2;
-        bullet.knockback = knockbackModifier;
+        bullet.size = AttackSizeModifier;
+        bullet.lifetime = ProjectileLifetimeModifier * 2;
+        bullet.knockback = KnockbackModifier;
         bullet.canAttack = willAttack;
         bullet.damage = 1;
         Rigidbody bulletrb = bullet.GetComponent<Rigidbody>();
-        bulletrb.AddForce(direction * projectileSpeedModifier, ForceMode.Impulse);
+        bulletrb.AddForce(direction * ProjectileSpeedModifier, ForceMode.Impulse);
         StartCoroutine(Cooldown());
     }
 }

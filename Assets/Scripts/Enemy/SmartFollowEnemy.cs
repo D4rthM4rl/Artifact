@@ -6,13 +6,14 @@ using Unity.AI;
 
 public class SmartFollowEnemy : Enemy
 {
-    private void Start() {EnemyStart();}
+    protected override void Start() {base.Start();}
+
+	protected override void Update() {base.Update();}
 
     void FixedUpdate() {
         if (currState == CharacterState.inactive) return;
-        EnemyUpdate();
         focusPos = focus.transform.position;
-        if (Vector3.Distance(focusPos, transform.position) <= meleeRange * attackSizeModifier && !cooldownAttack && willAttack.Contains(focus))
+        if (Vector3.Distance(focusPos, transform.position) <= meleeRange * AttackSizeModifier && !cooldownAttack && willAttack.Contains(focus))
         {
             Attack();
             currState = CharacterState.attack;
@@ -74,7 +75,7 @@ public class SmartFollowEnemy : Enemy
     protected override void Attack()
     {
         if (!cooldownAttack) {
-            if (focus.GetComponent<Character>()) HitCharacter(focus.GetComponent<Character>(), meleeDamage * attackDamageModifier);
+            if (focus.GetComponent<Character>()) HitCharacter(focus.GetComponent<Character>(), meleeDamage * AttackDamageModifier);
             StartCoroutine(Cooldown());
         }
     }

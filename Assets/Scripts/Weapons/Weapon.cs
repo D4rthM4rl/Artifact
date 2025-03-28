@@ -4,12 +4,7 @@ using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour
 {
-    public float damage;
-    public float cooldown;
-    public float manaUse = 10f;
-    public float knockback;
-    public float size;
-
+    public WeaponStats stats;
     public bool inUse = false;
     public bool isSelected = false;
     public Character user;

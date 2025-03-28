@@ -45,32 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad9031e5e5730497fa641f74ec804411, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
-    name: Apple
-    description: Heals and makes you stronger
-    rarity: 0
-    itemImage: {fileID: 21300000, guid: 1e823a88e68c64590bdfe5af744fb230, type: 3}
-    tint: {r: 1, g: 1, b: 1, a: 1}
-  heal:
-    amount: 2
-    timeSpan: 0
-  maxHealthChange:
-    amount: 0
-    multiplier: 0
-  moveSpeedChange:
-    amount: 0
-    multiplier: 0
-  attackDamageChange:
-    amount: 1.1
-    multiplier: 1
-  attackRateChange:
-    amount: 0
-    multiplier: 0
-  attackSizeChange:
-    amount: 0
-    multiplier: 0
-  special: 0
-  newTrait: {fileID: 0}
+  itemStats: {fileID: 11400000, guid: 32e0494b83342414daf5d7a6bef93753, type: 2}
+  newTraits: []
   effects: []
 --- !u!212 &4870681563253361234
 SpriteRenderer:

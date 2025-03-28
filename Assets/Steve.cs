@@ -11,11 +11,12 @@ public class Steve : Enemy
     [SerializeField]
     private float bulletSpawnOffset = 0.5f;
 
-    private void Start() {EnemyStart();}
+    protected override void Start() {Start();}
+
+	protected override void Update() {base.Update();}
 
     void FixedUpdate() {
         if (currState == CharacterState.inactive) return;
-        EnemyUpdate();
         focusPos = focus.transform.position;
         if (!cooldownAttack && willAttack.Contains(focus))
         {
@@ -70,9 +71,9 @@ public class Steve : Enemy
     /// </summary>
     protected override void Attack()
     {
-        if (Vector3.Distance(focusPos, transform.position) <= meleeRange * attackSizeModifier)
+        if (Vector3.Distance(focusPos, transform.position) <= meleeRange * AttackSizeModifier)
         {
-            HitCharacter(focus.GetComponent<Character>(), meleeDamage * attackDamageModifier);
+            HitCharacter(focus.GetComponent<Character>(), meleeDamage * AttackDamageModifier);
         }
         else
         {
@@ -80,12 +81,12 @@ public class Steve : Enemy
             GameObject bulletObject = Instantiate(bulletPrefab, transform.position + direction * bulletSpawnOffset, Quaternion.identity) as GameObject;
             Projectile bullet = bulletObject.GetComponent<Projectile>();
             bullet.sender = this;
-            bullet.size = attackSizeModifier;
-            bullet.lifetime = projectileLifetimeModifier;
-            bullet.knockback = knockbackModifier / 10;
+            bullet.size = AttackSizeModifier;
+            bullet.lifetime = ProjectileLifetimeModifier;
+            bullet.knockback = KnockbackModifier / 10;
             bullet.canAttack = willAttack;
             Rigidbody bulletrb = bullet.GetComponent<Rigidbody>();
-            bulletrb.AddForce(direction * projectileSpeedModifier, ForceMode.Impulse);   
+            bulletrb.AddForce(direction * ProjectileSpeedModifier, ForceMode.Impulse);   
         }
         StartCoroutine(Cooldown());
     }

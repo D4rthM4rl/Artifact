@@ -7,8 +7,8 @@ public class PetalGust : ProjectileWeapon
     void FixedUpdate()
 	{
 		// transform.position = holdPoint.transform.position;
-        float rate = cooldown * user.attackRateModifier;
-        if (Time.time > canFire && isSelected && user.UseMana(manaUse))
+        float rate = stats.cooldown * user.AttackRateModifier;
+        if (Time.time > canFire && isSelected && user.UseMana(stats.manaUse))
         {
 			Vector3 direction = Vector3.zero;
 			if (Input.GetButton("LeftFire")) direction += Vector3.left;

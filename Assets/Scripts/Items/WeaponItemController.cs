@@ -3,17 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-public class WeaponItemController : MonoBehaviour
+public class WeaponItemController : ItemController
 {
-    public Item item;
+    public WeaponStats weaponStats;
 
     public GameObject weaponPrefab;
 
     // Start is called before the first frame update
     void Start()
     {
+        if (itemStats == null) 
+        {
+            Debug.LogError("ItemStats is not set for " + gameObject.name);
+            return;
+        }
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
-        sr.sprite = item.itemImage;
+        sr.sprite = itemStats.itemImage;
+        if (GetComponent<Renderer>()) GetComponent<Renderer>().material.SetColor("_BaseColor", itemStats.tint);
         Destroy(GetComponent<Collider>());
         if (!gameObject.GetComponentInParent<Character>()){
             SphereCollider collider = gameObject.AddComponent<SphereCollider>();

@@ -7,6 +7,10 @@ public abstract class CirclerEnemy : TeamingEnemy
     public int mySpot = -1;
     private bool resetFocus = true;
 
+	protected override void Start() {base.Start();}
+
+	protected override void Update() {base.Update();}
+
     void FixedUpdate()
     {
         if (currState == CharacterState.inactive) return;
@@ -17,10 +21,9 @@ public abstract class CirclerEnemy : TeamingEnemy
             // A sound would be cool here
             // StartCoroutine(CirclerController.AlertAll());
             
-        }   
-        EnemyUpdate();
+        }
         focusPos = focus.transform.position;
-        if (Vector3.Distance(transform.position, focusPos) <= meleeRange * attackSizeModifier && !cooldownAttack && willAttack.Contains(focus))
+        if (Vector3.Distance(transform.position, focusPos) <= meleeRange * AttackSizeModifier && !cooldownAttack && willAttack.Contains(focus))
             {
                 currState = CharacterState.attack;
                 Attack();

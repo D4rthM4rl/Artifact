@@ -226,8 +226,8 @@ public class Room : MonoBehaviour
         agent.ai.agentTypeID = 0;
         agent.ai.updateRotation = false;
         agent.ai.updateUpAxis = false;
-        agent.ai.speed = agent.moveSpeed;
-        agent.ai.angularSpeed = agent.moveSpeed * 10;
+        agent.ai.speed = agent.MoveSpeed;
+        agent.ai.angularSpeed = agent.MoveSpeed * 10;
     }
 
     /// <summary>
@@ -315,15 +315,14 @@ public class Room : MonoBehaviour
         ClearRoom();
     }
     
-    /// <summary>
-    /// Room is entered
-    /// </summary>
+    /// <summary>Room is entered</summary>
     /// <param name="other">What entered the room</param>
     void OnTriggerEnter(Collider other) 
     {
-        if (other.tag == "Player") {
+        if (other.GetComponent<Player>() != null) 
+        {
             RoomController.instance.OnPlayerEnterRoom(this);
-            other.gameObject.GetComponent<Player>().mana = 100;
+            other.gameObject.GetComponent<Player>().Mana = 100;
         }
     }
 }

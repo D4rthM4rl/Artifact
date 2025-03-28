@@ -30,8 +30,8 @@ public class SupernovaController : Weapon
     void Update()
     {
         // transform.position = holdPoint.transform.position;
-        fireRate = user.attackRateModifier;
-        if (Input.GetButton("Fire1") && isSelected && Time.time > canFire && user.UseMana(manaUse))
+        fireRate = user.AttackRateModifier;
+        if (Input.GetButton("Fire1") && isSelected && Time.time > canFire && user.UseMana(stats.manaUse))
         {
             Vector2 target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 direction = Vector2.zero;
@@ -57,15 +57,15 @@ public class SupernovaController : Weapon
         float timer = 0f;
         GameObject particles = Instantiate(particleEffect, pos, Quaternion.identity) as GameObject;
         SupernovaParticles particlesScript = particles.GetComponent<SupernovaParticles>();
-        particlesScript.damage = 0.25f * user.attackDamageModifier;
-        particlesScript.knockback = user.knockbackModifier;
-        particlesScript.size = user.attackSizeModifier;
+        particlesScript.damage = 0.25f * user.AttackDamageModifier;
+        particlesScript.knockback = user.KnockbackModifier;
+        particlesScript.size = user.AttackSizeModifier;
         float gravity = 5f;
         while (timer < 3f)
         {
             // Increase the size gradually
             currentSize += 2 * Time.deltaTime;
-            currentSize = Mathf.Clamp(currentSize, 0f, size);
+            currentSize = Mathf.Clamp(currentSize, 0f, stats.size);
 
             // Increment timer
             timer += Time.deltaTime;

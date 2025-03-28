@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90080559be52a446582d842ee5f4bd55, type: 3}
+  m_Name: Apple
+  m_EditorClassIdentifier: 
+  itemName: Apple
+  description: 
+  rarity: 0
+  itemImage: {fileID: 21300000, guid: 1e823a88e68c64590bdfe5af744fb230, type: 3}
+  tint: {r: 1, g: 1, b: 1, a: 1}
+  statChanges:
+    heal:
+      amount: 1
+      timeSpan: 0
+    maxHealthChange:
+      amount: 0
+      multiplier: 0
+    moveSpeedChange:
+      amount: 0
+      multiplier: 0
+    attackDamageChange:
+      amount: 0
+      multiplier: 0
+    attackRateChange:
+      amount: 0
+      multiplier: 0
+    attackSizeChange:
+      amount: 0
+      multiplier: 0
+    manaHeal:
+      amount: 0
+      timeSpan: 0
+    manaUseChange:
+      amount: 0
+      multiplier: 0
+    manaRegenChange:
+      amount: 0
+      multiplier: 0
+    projectileSpeedChange:
+      amount: 0
+      multiplier: 0
+    projectileLifetimeChange:
+      amount: 0
+      multiplier: 0
+    knockbackChange:
+      amount: 0
+      multiplier: 0
+    defense:
+      amount: 0
+      multiplier: 0
