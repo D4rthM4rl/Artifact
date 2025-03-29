@@ -37,7 +37,7 @@ public abstract class ProjectileWeapon : Weapon
     void FixedUpdate()
     {
         // transform.position = holdPoint.transform.position;
-        float rate = stats.cooldown * user.AttackRateModifier;
+        float rate = stats.cooldown * user.stats.attackRateModifier;
         if (Time.time > canFire && isSelected && user.UseMana(stats.manaUse))
         {
             Vector3 direction = Vector3.zero;
@@ -120,11 +120,11 @@ public abstract class ProjectileWeapon : Weapon
     protected virtual void SetupProjectile(Projectile projectile)
     {
         projectile.sender = user;
-        projectile.size = stats.size * user.AttackSizeModifier;
-        projectile.damage = stats.damage * user.AttackDamageModifier;
-        projectile.knockback = stats.knockback * user.KnockbackModifier;
-        projectile.speed = projectileSpeed * user.ProjectileSpeedModifier;
-        projectile.lifetime = projectileLifetime * user.ProjectileLifetimeModifier;
+        projectile.size = stats.size * user.stats.attackSizeModifier;
+        projectile.damage = stats.damage * user.stats.attackDamageModifier;
+        projectile.knockback = stats.knockback * user.stats.knockbackModifier;
+        projectile.speed = projectileSpeed * user.stats.projectileSpeedModifier;
+        projectile.lifetime = projectileLifetime * user.stats.projectileLifetimeModifier;
         projectile.canAttack = user.willAttack;
         if (projectile.gameObject != null) projectile.gameObject.layer = user.gameObject.layer + 1;
         foreach (Effect e in user.attackEffects) { projectile.effects.Add(EffectController.instance.GetEffect(e)); }

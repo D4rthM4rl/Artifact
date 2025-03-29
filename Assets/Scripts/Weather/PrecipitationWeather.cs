@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class PrecipitationWeather : Weather
 {
-    public float speedModifier = 1;
+    public StatChanges statChanges = new StatChanges();
 
     public float dragModifier = 1;
 
@@ -86,7 +86,7 @@ public class PrecipitationWeather : Weather
             if (!affectedCharacters.Contains(character))
             {
                 // Apply rain speed modifier
-                character.ChangeMoveSpeed(speedModifier, true);
+                character.AddStatChange(statChanges);
                 Rigidbody rb = character.GetComponent<Rigidbody>();
                 if (rb) rb.drag = rb.drag * dragModifier;
                 affectedCharacters.Add(character);
@@ -107,7 +107,7 @@ public class PrecipitationWeather : Weather
             if (character != null) // Check if character still exists
             {
                 // Reverse the rain speed modifier
-                character.ChangeMoveSpeed(1f / speedModifier, true);
+                character.RemoveStatChange(statChanges);
                 Rigidbody rb = character.GetComponent<Rigidbody>();
                 if (rb) rb.drag = rb.drag / dragModifier;
             }

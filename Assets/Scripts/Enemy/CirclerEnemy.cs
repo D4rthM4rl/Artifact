@@ -23,7 +23,7 @@ public abstract class CirclerEnemy : TeamingEnemy
             
         }
         focusPos = focus.transform.position;
-        if (Vector3.Distance(transform.position, focusPos) <= meleeRange * AttackSizeModifier && !cooldownAttack && willAttack.Contains(focus))
+        if (Vector3.Distance(transform.position, focusPos) <= meleeRange * stats.attackSizeModifier && !cooldownAttack && willAttack.Contains(focus))
             {
                 currState = CharacterState.attack;
                 Attack();

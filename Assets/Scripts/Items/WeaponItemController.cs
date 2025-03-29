@@ -45,6 +45,8 @@ public class WeaponItemController : ItemController
             Player player = collision.gameObject.GetComponent<Player>();
             
             player.AddWeapon(obj);
+            if (!weaponStats.statsOnlyWhileUsing)
+                {player.AddStatChange(itemStats.statChanges);}
 
             Destroy(obj);
             // obj.SetActive(false);

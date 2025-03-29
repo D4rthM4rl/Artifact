@@ -13,7 +13,7 @@ public class SmartFollowEnemy : Enemy
     void FixedUpdate() {
         if (currState == CharacterState.inactive) return;
         focusPos = focus.transform.position;
-        if (Vector3.Distance(focusPos, transform.position) <= meleeRange * AttackSizeModifier && !cooldownAttack && willAttack.Contains(focus))
+        if (Vector3.Distance(focusPos, transform.position) <= meleeRange * stats.attackSizeModifier && !cooldownAttack && willAttack.Contains(focus))
         {
             Attack();
             currState = CharacterState.attack;
@@ -75,7 +75,7 @@ public class SmartFollowEnemy : Enemy
     protected override void Attack()
     {
         if (!cooldownAttack) {
-            if (focus.GetComponent<Character>()) HitCharacter(focus.GetComponent<Character>(), meleeDamage * AttackDamageModifier);
+            if (focus.GetComponent<Character>()) HitCharacter(focus.GetComponent<Character>(), meleeDamage * stats.attackDamageModifier);
             StartCoroutine(Cooldown());
         }
     }

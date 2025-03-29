@@ -93,7 +93,7 @@ public class Projectile : MonoBehaviour
 
         // Apply knockback force to what I'm hitting
         Rigidbody targetRb = other.gameObject.GetComponent<Rigidbody>();
-        targetRb.AddForce(knockbackDirection * sender.KnockbackModifier, ForceMode.Impulse);
+        targetRb.AddForce(knockbackDirection * sender.stats.knockbackModifier, ForceMode.Impulse);
     }
 
     void OnCollisionEnter(Collision collision)
@@ -107,7 +107,7 @@ public class Projectile : MonoBehaviour
         else if ((sender is Player || sender.willAttack.Contains(collision.gameObject)) && sender.gameObject != collision.gameObject && collision.gameObject.GetComponent<Character>()) 
         {
             Character character = collision.gameObject.GetComponent<Character>();
-            HitCharacter(character, damage * sender.AttackDamageModifier);
+            HitCharacter(character, damage * sender.stats.attackDamageModifier);
 
             Destroy(this.gameObject);
         }

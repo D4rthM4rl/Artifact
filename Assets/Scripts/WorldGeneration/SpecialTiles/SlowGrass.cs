@@ -17,25 +17,23 @@ public class SlowGrass : SpecialTile<SlowGrass>
         // }
     }
     
-    protected override void ApplyEffect(GameObject gameObject, float originalSpeed)
+    protected override void ApplyEffect(GameObject gameObject)
     {
         Rigidbody rb = gameObject.GetComponent<Rigidbody>();
         Character character = gameObject.GetComponent<Character>();
         if (character != null) 
         {
-            float multiplier = 0.4f;
-            character.MoveSpeed = Mathf.Max(originalSpeed * .01f, character.MoveSpeed * multiplier);
+            character.AddStatChange(statChanges);
         }
     }
 
-    protected override void UndoEffect(GameObject gameObject, float originalSpeed)
+    protected override void UndoEffect(GameObject gameObject)
     {
         Rigidbody rb = gameObject.GetComponent<Rigidbody>();
         Character character = gameObject.GetComponent<Character>();
         if (character != null) 
         {
-            float multiplier = 0.4f;
-            character.MoveSpeed = Mathf.Min(originalSpeed, character.MoveSpeed / multiplier);
+            character.RemoveStatChange(statChanges);
         }
     }
 }

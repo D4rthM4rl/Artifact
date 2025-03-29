@@ -249,14 +249,14 @@ public abstract class Enemy : Character
                 if (ai) 
                 {
                     ai.enabled = true;
-                    ai.speed = MoveSpeed;
+                    ai.speed = stats.moveSpeed;
                 }
                 break;
             case(CharacterState.flee):
                 if (ai) 
                 {
                     ai.enabled = true;
-                    ai.speed = MoveSpeed;
+                    ai.speed = stats.moveSpeed;
                 }
                 break;
             case(CharacterState.attack):
@@ -371,7 +371,7 @@ public abstract class Enemy : Character
     protected IEnumerator Cooldown()
     {
         cooldownAttack = true;
-        yield return new WaitForSeconds(cooldown * AttackRateModifier);
+        yield return new WaitForSeconds(cooldown * stats.attackRateModifier);
         cooldownAttack = false;
     }
 
@@ -388,7 +388,7 @@ public abstract class Enemy : Character
     protected IEnumerator SetupAI()
     {
         while (ai == null) {yield return new WaitForSeconds(0.1f);}
-        ai.speed = MoveSpeed;
+        ai.speed = stats.moveSpeed;
         ai.angularSpeed = 500;
         ai.acceleration = 50;
         // ai.constrainInsideGraph = true;

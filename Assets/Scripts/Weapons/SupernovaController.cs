@@ -30,7 +30,7 @@ public class SupernovaController : Weapon
     void Update()
     {
         // transform.position = holdPoint.transform.position;
-        fireRate = user.AttackRateModifier;
+        fireRate = user.stats.attackRateModifier;
         if (Input.GetButton("Fire1") && isSelected && Time.time > canFire && user.UseMana(stats.manaUse))
         {
             Vector2 target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -57,9 +57,9 @@ public class SupernovaController : Weapon
         float timer = 0f;
         GameObject particles = Instantiate(particleEffect, pos, Quaternion.identity) as GameObject;
         SupernovaParticles particlesScript = particles.GetComponent<SupernovaParticles>();
-        particlesScript.damage = 0.25f * user.AttackDamageModifier;
-        particlesScript.knockback = user.KnockbackModifier;
-        particlesScript.size = user.AttackSizeModifier;
+        particlesScript.damage = 0.25f * user.stats.attackDamageModifier;
+        particlesScript.knockback = user.stats.knockbackModifier;
+        particlesScript.size = user.stats.attackSizeModifier;
         float gravity = 5f;
         while (timer < 3f)
         {

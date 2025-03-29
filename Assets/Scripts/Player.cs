@@ -25,7 +25,7 @@ public class Player : Character
         animator = GetComponent<Animator>();
         weapons = new GameObject[5];
         rb = GetComponent<Rigidbody>();
-        HealthUIController.UpdateHearts(Health, MaxHealth);
+        HealthUIController.UpdateHearts(stats.health, stats.maxHealth);
         base.Start();
     }
 
@@ -78,8 +78,9 @@ public class Player : Character
 
     void FixedUpdate()
     {
+        // Debug.Log("Applying force * " + MoveSpeed);
         // Apply movement physics.
-        rb.AddForce(movement * MoveSpeed * 20 * Time.fixedDeltaTime, ForceMode.Impulse);
+        rb.AddForce(movement * stats.moveSpeed * 20 * Time.fixedDeltaTime, ForceMode.Impulse);
         GameController.ApplyGravity(rb);
 
         // Determine look direction from player to mouse world position.
@@ -198,8 +199,8 @@ public class Player : Character
         }
         else
         {
-            Health = Mathf.Min(MaxHealth, Health + healAmount);
-            HealthUIController.UpdateHearts(Health, MaxHealth);
+            stats.health = Mathf.Min(stats.maxHealth, stats.health + healAmount);
+            HealthUIController.UpdateHearts(stats.health, stats.maxHealth);
         }
     }
 
@@ -210,25 +211,25 @@ public class Player : Character
     /// <param name="healAmount">Total healing amount</param>
     protected override IEnumerator GradualHeal(float timePerUnit, float healAmount)
     {
-        Health = Mathf.Min(MaxHealth, Health + 1);
-        UpdateHealth(Health, MaxHealth);
+        stats.health = Mathf.Min(stats.maxHealth, stats.health + 1);
+        UpdateHealth(stats.health, stats.maxHealth);
         for (int i = 0; i < healAmount - 1; i++)
         {
             yield return new WaitForSeconds(timePerUnit);
-            Health = Mathf.Min(MaxHealth, Health + 1);
-            UpdateHealth(Health, MaxHealth);
+            stats.health = Mathf.Min(stats.maxHealth, stats.health + 1);
+            UpdateHealth(stats.health, stats.maxHealth);
         }
     }
 
     protected override IEnumerator GradualHealMana(float timePerUnit, float healAmount)
     {
-        Health = Mathf.Min(MaxHealth, Health + 1);
-        UpdateMana(Mana);
+        stats.health = Mathf.Min(stats.maxHealth, stats.health + 1);
+        UpdateMana(stats.mana);
         for (int i = 0; i < healAmount - 1; i++)
         {
             yield return new WaitForSeconds(timePerUnit);
-            Health = Mathf.Min(MaxHealth, Health + 1);
-            HealthUIController.UpdateHearts(Health, MaxHealth);
+            stats.health = Mathf.Min(stats.maxHealth, stats.health + 1);
+            HealthUIController.UpdateHearts(stats.health, stats.maxHealth);
         }
     }
 

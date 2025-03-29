@@ -13,5 +13,5 @@ public class ItemStats : ScriptableObject
     public Color tint = Color.white;
     
     [SerializeField]
-    StatChanges statChanges = new StatChanges();
+    public StatChanges statChanges = new StatChanges();
 }

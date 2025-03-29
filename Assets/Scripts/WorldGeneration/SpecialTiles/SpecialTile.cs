@@ -7,8 +7,10 @@ public abstract class SpecialTile<T> : MonoBehaviour where T : SpecialTile<T>
     /// <summary>How many seconds this tile will exist</summary>
     public float lifetime = 3;
 
+    public StatChanges statChanges = new StatChanges();
+
     /// <summary>What GameObjects are currently affected by my effect</summary>
-    public static Dictionary<GameObject, float> affectedThings = new Dictionary<GameObject, float>();
+    public static HashSet<GameObject> affectedThings = new HashSet<GameObject>();
 
     /// <summary>Use blacklist if true, whitelist if false</summary>
     public bool useBlacklist = true;
@@ -24,20 +26,18 @@ public abstract class SpecialTile<T> : MonoBehaviour where T : SpecialTile<T>
 
     private void OnTriggerEnter(Collider other) 
     {
-        if (other.GetComponent<Rigidbody>() == null) return;
-        float speed = 0;
-        if (other.gameObject.GetComponent<Character>() != null) speed = other.gameObject.GetComponent<Character>().MoveSpeed;
+        if (other.GetComponent<Rigidbody>() == null || other.GetComponent<Character>()) return;
         if (useBlacklist) {
-            if (!blacklistedObjects.Contains(other.gameObject) && !affectedThings.ContainsKey(other.gameObject)) 
+            if (!blacklistedObjects.Contains(other.gameObject) && !affectedThings.Contains(other.gameObject)) 
             {
-                affectedThings.Add(other.gameObject, speed);
-                ApplyEffect(other.gameObject, speed);
+                affectedThings.Add(other.gameObject);
+                ApplyEffect(other.gameObject);
             }
         } else {
-            if (whitelistedObjects.Contains(other.gameObject) && !affectedThings.ContainsKey(other.gameObject)) 
+            if (whitelistedObjects.Contains(other.gameObject) && !affectedThings.Contains(other.gameObject)) 
             {
-                affectedThings.Add(other.gameObject, speed);
-                ApplyEffect(other.gameObject, speed);
+                affectedThings.Add(other.gameObject);
+                ApplyEffect(other.gameObject);
             }
         }
     }
@@ -45,9 +45,9 @@ public abstract class SpecialTile<T> : MonoBehaviour where T : SpecialTile<T>
     private void OnTriggerExit(Collider other) 
     {
         if (other.GetComponent<Rigidbody>() == null) return;
-        if (affectedThings.ContainsKey(other.gameObject)) 
+        if (affectedThings.Contains(other.gameObject)) 
         {
-            UndoEffect(other.gameObject, affectedThings[other.gameObject]);
+            UndoEffect(other.gameObject);
             affectedThings.Remove(other.gameObject);
         }
     }
@@ -55,15 +55,15 @@ public abstract class SpecialTile<T> : MonoBehaviour where T : SpecialTile<T>
     public IEnumerator Remove(float lifetime) 
     {
         yield return new WaitForSeconds(lifetime);
-        foreach (GameObject go in affectedThings.Keys)
+        foreach (GameObject go in affectedThings)
         {
-            if (go != null) UndoEffect(go, affectedThings[go]);
+            if (go != null) UndoEffect(go);
         }
         Destroy(this.gameObject);
     }
 
-    protected abstract void ApplyEffect(GameObject gameObject, float originalStat);
+    protected abstract void ApplyEffect(GameObject gameObject);
 
-    protected abstract void UndoEffect(GameObject gameObject, float originalStat);
+    protected abstract void UndoEffect(GameObject gameObject);
 
 }

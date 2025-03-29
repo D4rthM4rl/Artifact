@@ -64,13 +64,13 @@ public class WoxEnemy : CirclerEnemy
         GameObject bulletObject = Instantiate(bulletPrefab, transform.position + direction * bulletSpawnOffset, Quaternion.identity) as GameObject;
         Projectile bullet = bulletObject.GetComponent<Projectile>();
         bullet.sender = this;
-        bullet.size = AttackSizeModifier;
-        bullet.lifetime = ProjectileLifetimeModifier * 2;
-        bullet.knockback = KnockbackModifier;
+        bullet.size = stats.attackSizeModifier;
+        bullet.lifetime = stats.projectileLifetimeModifier * 2;
+        bullet.knockback = stats.knockbackModifier;
         bullet.canAttack = willAttack;
         bullet.damage = 1;
         Rigidbody bulletrb = bullet.GetComponent<Rigidbody>();
-        bulletrb.AddForce(direction * ProjectileSpeedModifier, ForceMode.Impulse);
+        bulletrb.AddForce(direction * stats.projectileSpeedModifier, ForceMode.Impulse);
         StartCoroutine(Cooldown());
     }
 }

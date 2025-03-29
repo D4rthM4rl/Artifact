@@ -50,9 +50,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7c303a7902f5400cb3eb66f284ac194, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  species: 
+  species: Player
   description: 
   holdPoint: {fileID: 0}
+  baseStats:
+    powerLevel: 1
+    health: 10
+    maxHealth: 10
+    moveSpeed: 3
+    mana: 100
+    manaUseModifier: 1
+    manaRegenRate: 0.005
+    attackRateModifier: 1
+    attackSizeModifier: 1
+    attackDamageModifier: 1
+    projectileSpeedModifier: 1
+    projectileLifetimeModifier: 1
+    knockbackModifier: 1
+    defense: 1
   stats:
     powerLevel: 0
     health: 0
@@ -61,7 +76,6 @@ MonoBehaviour:
     mana: 100
     manaUseModifier: 1
     manaRegenRate: 0.005
-    manaRegenTime: 1
     attackRateModifier: 1
     attackSizeModifier: 1
     attackDamageModifier: 1
@@ -69,6 +83,7 @@ MonoBehaviour:
     projectileLifetimeModifier: 1
     knockbackModifier: 1
     defense: 1
+  powerLevel: 0
   attackEffects: []
   currState: 2
   paused: 0

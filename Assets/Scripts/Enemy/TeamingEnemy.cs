@@ -21,8 +21,8 @@ public abstract class TeamingEnemy : Enemy
         float totalMaxHealth = 0;
         foreach (TeamingEnemy teamer in TeamController.team)
         {
-            totalHealth += teamer.Health;
-            totalMaxHealth += teamer.MaxHealth;
+            totalHealth += teamer.stats.health;
+            totalMaxHealth += teamer.stats.maxHealth;
         }
         return Mathf.RoundToInt(((totalHealth + 3) / (totalMaxHealth + 3)) * powerLevel * TeamController.teamTotal);
     }

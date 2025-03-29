@@ -71,9 +71,9 @@ public class Steve : Enemy
     /// </summary>
     protected override void Attack()
     {
-        if (Vector3.Distance(focusPos, transform.position) <= meleeRange * AttackSizeModifier)
+        if (Vector3.Distance(focusPos, transform.position) <= meleeRange * stats.attackSizeModifier)
         {
-            HitCharacter(focus.GetComponent<Character>(), meleeDamage * AttackDamageModifier);
+            HitCharacter(focus.GetComponent<Character>(), meleeDamage * stats.attackDamageModifier);
         }
         else
         {
@@ -81,12 +81,12 @@ public class Steve : Enemy
             GameObject bulletObject = Instantiate(bulletPrefab, transform.position + direction * bulletSpawnOffset, Quaternion.identity) as GameObject;
             Projectile bullet = bulletObject.GetComponent<Projectile>();
             bullet.sender = this;
-            bullet.size = AttackSizeModifier;
-            bullet.lifetime = ProjectileLifetimeModifier;
-            bullet.knockback = KnockbackModifier / 10;
+            bullet.size = stats.attackSizeModifier;
+            bullet.lifetime = stats.projectileLifetimeModifier;
+            bullet.knockback = stats.knockbackModifier / 10;
             bullet.canAttack = willAttack;
             Rigidbody bulletrb = bullet.GetComponent<Rigidbody>();
-            bulletrb.AddForce(direction * ProjectileSpeedModifier, ForceMode.Impulse);   
+            bulletrb.AddForce(direction * stats.projectileSpeedModifier, ForceMode.Impulse);   
         }
         StartCoroutine(Cooldown());
     }

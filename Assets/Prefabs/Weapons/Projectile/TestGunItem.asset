@@ -25,8 +25,8 @@ MonoBehaviour:
       amount: 0
       multiplier: 0
     moveSpeedChange:
-      amount: 0
-      multiplier: 0
+      amount: 5
+      multiplier: 1
     attackDamageChange:
       amount: 0
       multiplier: 0

@@ -32,7 +32,7 @@ public class ItemController : MonoBehaviour
         if (collision.gameObject.GetComponent<Character>())
         {
             Character c = collision.gameObject.GetComponent<Character>();
-            ApplyStatChanges(c, itemStats);
+            c.AddStatChange(itemStats.statChanges);
             foreach (Effect e in effects) {c.AddAttackEffect(e);}
 
             // if (gameObject.GetComponent<SpecialTrait>()) {

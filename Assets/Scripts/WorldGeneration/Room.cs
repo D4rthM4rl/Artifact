@@ -226,8 +226,8 @@ public class Room : MonoBehaviour
         agent.ai.agentTypeID = 0;
         agent.ai.updateRotation = false;
         agent.ai.updateUpAxis = false;
-        agent.ai.speed = agent.MoveSpeed;
-        agent.ai.angularSpeed = agent.MoveSpeed * 10;
+        agent.ai.speed = agent.stats.moveSpeed;
+        agent.ai.angularSpeed = agent.stats.moveSpeed * 10;
     }
 
     /// <summary>
@@ -322,7 +322,7 @@ public class Room : MonoBehaviour
         if (other.GetComponent<Player>() != null) 
         {
             RoomController.instance.OnPlayerEnterRoom(this);
-            other.gameObject.GetComponent<Player>().Mana = 100;
+            other.gameObject.GetComponent<Player>().stats.mana = 100;
         }
     }
 }

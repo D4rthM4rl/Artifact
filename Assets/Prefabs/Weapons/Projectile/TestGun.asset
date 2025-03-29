@@ -17,7 +17,7 @@ MonoBehaviour:
   manaUse: 0
   knockback: 1
   size: 1
-  statsOnlyWhileUsing: 0
+  statsOnlyWhileUsing: 1
   userStats:
     powerLevel: 0
     health: 0

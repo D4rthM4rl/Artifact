@@ -7304,18 +7304,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 326608793834050078, guid: c640dcd8d28bd45b7a322bebd074680f, type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 326608793834050078, guid: c640dcd8d28bd45b7a322bebd074680f, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 3273554651800213360, guid: c640dcd8d28bd45b7a322bebd074680f, type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
     - target: {fileID: 3619948658268982269, guid: c640dcd8d28bd45b7a322bebd074680f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -7355,46 +7343,6 @@ PrefabInstance:
     - target: {fileID: 3619948658268982269, guid: c640dcd8d28bd45b7a322bebd074680f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4764978548355246244, guid: c640dcd8d28bd45b7a322bebd074680f, type: 3}
-      propertyPath: m_Drag
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4764978548355246244, guid: c640dcd8d28bd45b7a322bebd074680f, type: 3}
-      propertyPath: m_CollisionDetection
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6867962777532244375, guid: c640dcd8d28bd45b7a322bebd074680f, type: 3}
-      propertyPath: species
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6867962777532244375, guid: c640dcd8d28bd45b7a322bebd074680f, type: 3}
-      propertyPath: description
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6867962777532244375, guid: c640dcd8d28bd45b7a322bebd074680f, type: 3}
-      propertyPath: stats.health
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6867962777532244375, guid: c640dcd8d28bd45b7a322bebd074680f, type: 3}
-      propertyPath: pStats.health
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6867962777532244375, guid: c640dcd8d28bd45b7a322bebd074680f, type: 3}
-      propertyPath: stats.maxHealth
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6867962777532244375, guid: c640dcd8d28bd45b7a322bebd074680f, type: 3}
-      propertyPath: stats.moveSpeed
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6867962777532244375, guid: c640dcd8d28bd45b7a322bebd074680f, type: 3}
-      propertyPath: pStats.maxHealth
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6867962777532244375, guid: c640dcd8d28bd45b7a322bebd074680f, type: 3}
-      propertyPath: pStats.moveSpeed
-      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

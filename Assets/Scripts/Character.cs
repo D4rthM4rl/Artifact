@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -162,6 +163,64 @@ public class CharacterStats
     public float knockbackModifier = 1f;
     /// <summary>How much less damage I take (roughly -.1 damage for +1 def)</summary>
     public float defense = 1f;
+
+    public static readonly CharacterStats lowerBounds = new CharacterStats
+    {
+        powerLevel = 1,
+        health = 0,
+        maxHealth = 0,
+        moveSpeed = 0.5f,
+        mana = 0,
+        manaUseModifier = 0.01f,
+        manaRegenRate = 0f,
+        attackRateModifier = 0.01f,
+        attackSizeModifier = 0.1f,
+        attackDamageModifier = 0.01f,
+        projectileSpeedModifier = 0.01f,
+        projectileLifetimeModifier = 0.1f,
+        knockbackModifier = 0f,
+        defense = 0.001f
+    };
+
+    public static readonly CharacterStats upperBounds = new CharacterStats
+    {
+        powerLevel = 100,
+        health = 10000,
+        maxHealth = 10000,
+        moveSpeed = 100,
+        mana = 100,
+        manaUseModifier = 10000f,
+        manaRegenRate = float.PositiveInfinity,
+        attackRateModifier = 10000f,
+        attackSizeModifier = 10000f,
+        attackDamageModifier = float.PositiveInfinity,
+        projectileSpeedModifier = 10000f,
+        projectileLifetimeModifier = float.PositiveInfinity,
+        knockbackModifier = float.PositiveInfinity,
+        defense = float.PositiveInfinity
+    };
+
+    // A helper method to clone these stats
+    public CharacterStats Clone()
+    {
+        return new CharacterStats
+        {
+            powerLevel = this.powerLevel,
+            health = this.health,
+            maxHealth = this.maxHealth,
+            moveSpeed = this.moveSpeed,
+            mana = this.mana,
+            manaUseModifier = this.manaUseModifier,
+            manaRegenRate = this.manaRegenRate,
+            attackRateModifier = this.attackRateModifier,
+            attackSizeModifier = this.attackSizeModifier,
+            attackDamageModifier = this.attackDamageModifier,
+            projectileSpeedModifier = this.projectileSpeedModifier,
+            projectileLifetimeModifier = this.projectileLifetimeModifier,
+            knockbackModifier = this.knockbackModifier,
+            defense = this.defense
+        };
+    }
 }
 
 /// <summary>
@@ -176,218 +235,25 @@ public abstract class Character : MonoBehaviour
     public string description;
     /// <summary>Where I hold weapons</summary>
     public Transform holdPoint;
-    /// <summary>Stats of this charaacter that aren't affected temporarily</summary>
-    [Tooltip("Permanent stats of the character (not affected by temporary changes)")]
-    public CharacterStats pStats;
-    /// <summary>Stats of this character that do change from temporary changes</summary>
-    private CharacterStats stats;
+    /// <summary>Stats of this character without any outside changes</summary>
+    [Tooltip("Stats of this character without any outside changes")]
+    [SerializeField]
+    private CharacterStats baseStats;
+    /// <summary>Stats of this character that are results of base stats and all changes</summary>
+    [Tooltip("Actual current stats of the character")]
+    public CharacterStats stats;
+
+    /// <summary>
+    /// List of currently applied stat changes.
+    /// </summary>
+    private List<StatChanges> appliedStatChanges = new List<StatChanges>();
 
     public int powerLevel;
 
     /// <summary>How long I have been regenerating mana</summary>
     private float manaRegenTime = 1f;
 
-    private bool useTempHealth = false;
-    /// <summary>Current health</summary>
-    public float Health
-    {
-        get {
-            return useTempHealth ? stats.health : pStats.health;
-        }
-        set {
-            if (useTempHealth)
-            {
-                stats.health = value;
-            }
-            else
-            {
-                pStats.health = value;
-                stats.health = value;
-            }
-        }
-    }
-
-    private bool useTempMaxHealth = false;
-    /// <summary>Maximum amount of health possible from regen</summary>
-    public float MaxHealth
-    {
-        get {return useTempMaxHealth ? stats.maxHealth : pStats.maxHealth;}
-        set {
-            if (useTempMaxHealth) stats.maxHealth = value;
-            else
-            {
-                pStats.maxHealth = value;
-                stats.maxHealth = value;
-            }
-        }
-    }
-
-    private bool useTempMoveSpeed = false;
-    /// <summary>How fast I move</summary>
-    public float MoveSpeed 
-    {
-        get {return useTempMoveSpeed ? stats.moveSpeed : pStats.moveSpeed;}
-        set {
-            if (useTempMoveSpeed) stats.moveSpeed = value;
-            else
-            {
-                pStats.moveSpeed = value;
-                stats.moveSpeed = value;
-            }
-        }
-    }
-
-    private bool useTempMana = false;
-    /// <summary>How much mana (magic energy) I have left out of 100</summary>
-    public float Mana
-    {
-        get {return useTempMana ? stats.mana : pStats.mana;}
-        set {
-            if (useTempMana) stats.mana = value;
-            else
-            {
-                pStats.mana = value;
-                stats.mana = value;
-            }
-        }
-    }
     
-    // private static float timeSinceManaUsed = 1f;
-    
-    private bool useTempManaUseModifier = false;
-    /// <summary>How much I use mana, 1 is normal amount, 2 is 2x mana cost</summary>
-    public float ManaUseModifier
-    {
-        get {return useTempManaUseModifier ? stats.manaUseModifier : pStats.manaUseModifier;}
-        set {
-            if (useTempManaUseModifier) stats.manaUseModifier = value;
-            else
-            {
-                pStats.manaUseModifier = value;
-                stats.manaUseModifier = value;
-            }
-        }
-    }
-
-    private bool useTempManaRegenRate = false;
-    /// <summary>How fast I regen mana</summary>
-    public float ManaRegenRate
-    {
-        get {return useTempManaRegenRate ? stats.manaRegenRate : pStats.manaRegenRate;}
-        set {
-            if (useTempManaRegenRate) stats.manaRegenRate = value;
-            else
-            {
-                pStats.manaRegenRate = value;
-                stats.manaRegenRate = value;
-            }
-        }
-    }
-
-    private bool useTempAttackRateModifier = false;
-    /// <summary>How fast I attack</summary>
-    public float AttackRateModifier
-    {
-        get {return useTempAttackRateModifier ? stats.attackRateModifier : pStats.attackRateModifier;}
-        set {
-            if (useTempAttackRateModifier) stats.attackRateModifier = value;
-            else
-            {
-                pStats.attackRateModifier = value;
-                stats.attackRateModifier = value;
-            }
-        }
-    }
-
-    private bool useTempAttackSizeModifier = false;
-    /// <summary>How big my attacks are</summary>
-    public float AttackSizeModifier
-    {
-        get {return useTempAttackSizeModifier ? stats.attackSizeModifier : pStats.attackSizeModifier;}
-        set {
-            if (useTempAttackSizeModifier) stats.attackSizeModifier = value;
-            else
-            {
-                pStats.attackSizeModifier = value;
-                stats.attackSizeModifier = value;
-            }
-        }
-    }
-
-    private bool useTempAttackDamageModifier = false;
-    /// <summary>How much damage I deal</summary>
-    public float AttackDamageModifier
-    {
-        get {return useTempAttackDamageModifier ? stats.attackDamageModifier : pStats.attackDamageModifier;}
-        set {
-            if (useTempAttackDamageModifier) stats.attackDamageModifier = value;
-            else
-            {
-                pStats.attackDamageModifier = value;
-                stats.attackDamageModifier = value;
-            }
-        }
-    }
-
-    private bool useTempProjectileSpeedModifier = false;
-    /// <summary>How fast projectiles I shoot/spawn move</summary>
-    public float ProjectileSpeedModifier
-    {
-        get {return useTempProjectileSpeedModifier ? stats.projectileSpeedModifier : pStats.projectileSpeedModifier;}
-        set {
-            if (useTempProjectileSpeedModifier) stats.projectileSpeedModifier = value;
-            else
-            {
-                pStats.projectileSpeedModifier = value;
-                stats.projectileSpeedModifier = value;
-            }
-        }
-    }
-
-    private bool useTempProjectileLifetimeModifier = false;
-    /// <summary>How long projectiles I shoot last</summary>
-    public float ProjectileLifetimeModifier
-    {
-        get {return useTempProjectileLifetimeModifier ? stats.projectileLifetimeModifier : pStats.projectileLifetimeModifier;}
-        set {
-            if (useTempProjectileLifetimeModifier) stats.projectileLifetimeModifier = value;
-            else
-            {
-                pStats.projectileLifetimeModifier = value;
-                stats.projectileLifetimeModifier = value;
-            }
-        }
-    }
-
-    private bool useTempKnockbackModifier = false;
-    /// <summary>How much knockback I deal</summary>
-    public float KnockbackModifier
-    {
-        get {return useTempKnockbackModifier ? stats.knockbackModifier : pStats.knockbackModifier;}
-        set {
-            if (useTempKnockbackModifier) stats.knockbackModifier = value;
-            else
-            {
-                pStats.knockbackModifier = value;
-                stats.knockbackModifier = value;
-            }
-        }
-    }
-
-    private bool useTempDefense = false;
-    /// <summary>How much less damage I take (roughly -.1 damage for +1 def)</summary>
-    public float Defense
-    {
-        get {return useTempDefense ? stats.defense : pStats.defense;}
-        set {
-            if (useTempDefense) stats.defense = value;
-            else
-            {
-                pStats.defense = value;
-                stats.defense = value;
-            }
-        }
-    }
 
     /// <summary>EffectTypes that are being applied when I attack </summary>
     private static List<EffectType> effectTypes = new List<EffectType>();
@@ -407,17 +273,126 @@ public abstract class Character : MonoBehaviour
 
     protected virtual void Start() 
     {
-        stats = pStats;
+        // Create a working copy of baseStats for final values.
+        stats = baseStats.Clone();
+        // Optionally, update your UI or other systems with these final stats:
+        // UpdateStats(stats);
+    }
+
+    /// <summary>
+    /// Adds a new stat change to the list and recalculates final stats.
+    /// </summary>
+    public void AddStatChange(StatChanges change)
+    {
+        appliedStatChanges.Add(change);
+        RecalculateStats();
+    }
+
+    public IEnumerator AddStatChange(StatChanges change, float duration)
+    {
+        AddStatChange(change);
+        if (duration == float.PositiveInfinity || duration <= 0) 
+            Debug.LogError("Duration must be greater than 0 and less than infinity");
+        yield return new WaitForSeconds(duration);
+        RemoveStatChange(change);
+    }
+
+    /// <summary>
+    /// Removes a stat change from the list and recalculates final stats.
+    /// </summary>
+    public void RemoveStatChange(StatChanges change)
+    {
+        Debug.Log(appliedStatChanges.Remove(change));
+        RecalculateStats();
+    }
+
+    /// <summary>
+    /// Recalculates finalStats by starting from baseStats and applying
+    /// all changes—first additive, then multiplicative.
+    /// </summary>
+    protected void RecalculateStats()
+    {
+        // For each stat, we start with the base value,
+        // add all additive modifications, then multiply by all multiplicative factors
+        // Then we clamp to the stat upper and lower bounds
+        stats.maxHealth = Mathf.Clamp(
+            CalculateFinalStat(baseStats.maxHealth, sc => sc.maxHealthChange), 
+            CharacterStats.lowerBounds.maxHealth,
+            CharacterStats.upperBounds.maxHealth);
+        stats.moveSpeed = Mathf.Clamp(
+            CalculateFinalStat(baseStats.moveSpeed, sc => sc.moveSpeedChange), 
+            CharacterStats.lowerBounds.moveSpeed,
+            CharacterStats.upperBounds.moveSpeed);
+        stats.attackDamageModifier = Mathf.Clamp(
+            CalculateFinalStat(baseStats.attackDamageModifier, sc => sc.attackDamageChange),
+            CharacterStats.lowerBounds.attackDamageModifier,
+            CharacterStats.upperBounds.attackDamageModifier);
+        stats.attackRateModifier = Mathf.Clamp(
+            CalculateFinalStat(baseStats.attackRateModifier, sc => sc.attackRateChange),
+            CharacterStats.lowerBounds.attackRateModifier,
+            CharacterStats.upperBounds.attackRateModifier);
+        stats.attackSizeModifier = Mathf.Clamp(
+            CalculateFinalStat(baseStats.attackSizeModifier, sc => sc.attackSizeChange),
+            CharacterStats.lowerBounds.attackSizeModifier,
+            CharacterStats.upperBounds.attackSizeModifier);
+        stats.manaUseModifier = Mathf.Clamp(
+            CalculateFinalStat(baseStats.manaUseModifier, sc => sc.manaUseChange),
+            CharacterStats.lowerBounds.manaUseModifier,
+            CharacterStats.upperBounds.manaUseModifier);
+        stats.manaRegenRate = Mathf.Clamp(
+            CalculateFinalStat(baseStats.manaRegenRate, sc => sc.manaRegenChange),
+            CharacterStats.lowerBounds.manaRegenRate,
+            CharacterStats.upperBounds.manaRegenRate);
+        stats.projectileSpeedModifier = Mathf.Clamp(
+            CalculateFinalStat(baseStats.projectileSpeedModifier, sc => sc.projectileSpeedChange),
+            CharacterStats.lowerBounds.projectileSpeedModifier,
+            CharacterStats.upperBounds.projectileSpeedModifier);
+        stats.projectileLifetimeModifier = Mathf.Clamp(
+            CalculateFinalStat(baseStats.projectileLifetimeModifier, sc => sc.projectileLifetimeChange),
+            CharacterStats.lowerBounds.projectileLifetimeModifier,
+            CharacterStats.upperBounds.projectileLifetimeModifier);
+        stats.knockbackModifier = Mathf.Clamp(
+            CalculateFinalStat(baseStats.knockbackModifier, sc => sc.knockbackChange),
+            CharacterStats.lowerBounds.knockbackModifier,
+            CharacterStats.upperBounds.knockbackModifier);
+        stats.defense = Mathf.Clamp(
+            CalculateFinalStat(baseStats.defense, sc => sc.defense),
+            CharacterStats.lowerBounds.defense,
+            CharacterStats.upperBounds.defense);
+
+
+        stats.health = Mathf.Min(stats.health, stats.maxHealth);
+        // Mana is clamped between 0 and 100:
+        stats.mana = Mathf.Clamp(stats.mana, 0, 100);
+
+        // Now update any UI or dependent systems with these new finalStats.
+        UpdateHealth(stats.health, stats.maxHealth);
+        UpdateMana(stats.mana);
+    }
+
+    /// <summary>
+    /// Helper method that calculates the final value for a single stat.
+    /// </summary>
+    /// <param name="baseValue">The base value of the stat</param>
+    /// <param name="selector">A function to select the StatChange for this stat from a StatChanges instance</param>
+    /// <returns>The final stat value after all changes are applied</returns>
+    private float CalculateFinalStat(float baseValue, System.Func<StatChanges, StatChange> selector)
+    {
+        // Sum all additive modifications (where multiplier is false)
+        float additive = appliedStatChanges.Sum(sc => !selector(sc).multiplier ? selector(sc).amount : 0);
+        // Multiply all multiplicative modifications (where multiplier is true)
+        float multiplicative = appliedStatChanges.Aggregate(1f, (prod, sc) => selector(sc).multiplier ? prod * selector(sc).amount : prod);
+        return (baseValue + additive) * multiplicative;
     }
 
     /// <summary>I take damage of a certain amount, taking defense into account</summary>
     /// <param name="damage">How much damage for me to take</param>
     public virtual void TakeDamage(float damage)
     {
-        Health = Mathf.Max(Health - (damage / (Defense * .1f)), 0);
+        stats.health = Mathf.Max(stats.health - (damage / (stats.defense * .1f)), 0);
 
-        if (Health <= 0) {Die();}
-        UpdateHealth(Health, MaxHealth);
+        if (stats.health <= 0) {Die();}
+        UpdateHealth(stats.health, stats.maxHealth);
     }
 
     /// <summary>
@@ -427,11 +402,11 @@ public abstract class Character : MonoBehaviour
     /// <param name="bypassDef">Whether attack should do given damage regardless of defense amount</param>
     public virtual void TakeDamage(float damage, bool bypassDef)
     {
-        if (!bypassDef) Health = Mathf.Max(Health - Mathf.Max(damage - (Defense * .1f), 0.001f), 0);
-        else Health = Mathf.Max(Health - damage, 0);
+        if (!bypassDef) stats.health = Mathf.Max(stats.health - Mathf.Max(damage - (stats.defense * .1f), 0.001f), 0);
+        else stats.health = Mathf.Max(stats.health - damage, 0);
 
-        if (Health <= 0) {Die();}
-        UpdateHealth(Health, MaxHealth);
+        if (stats.health <= 0) {Die();}
+        UpdateHealth(stats.health, stats.maxHealth);
     }
 
     /// <summary>
@@ -469,7 +444,7 @@ public abstract class Character : MonoBehaviour
         // Component particleComp = instance.gameObject.AddComponent(p.GetType());
         GameObject particleObject = Instantiate(p, transform);
 
-        StatChanges.ChangeStats(this, effect.statChanges, effect.duration);
+        StartCoroutine(AddStatChange(effect.statChanges, effect.duration));
         if (effect.type == EffectType.radioactive) StartCoroutine(RadioactiveDamage(effect));
         else StartCoroutine(GradualHeal(-effect.damagePerHalfSec, 0.5f, effect.duration * 2));
         yield return new WaitForSeconds(effect.duration);
@@ -482,13 +457,13 @@ public abstract class Character : MonoBehaviour
     /// <returns>True if could use the mana, false otherwise</returns>
     public bool UseMana(float amount)
     {
-        amount *= ManaUseModifier;
-        if (Mana >= amount)
+        amount *= stats.manaUseModifier;
+        if (stats.mana >= amount)
         {
             // timeSinceManaUsed = 0;
-            Mana -= amount;
+            stats.mana -= amount;
             manaRegenTime = 1;
-            UpdateMana(pStats.mana);
+            UpdateMana(stats.mana);
             return true;
         } else return false;
     }
@@ -500,8 +475,9 @@ public abstract class Character : MonoBehaviour
     protected virtual void UpdateMana(float mana) {}
 
     /// <summary>Increases mana by proper amount</summary>
-    protected virtual void RegenMana() {
-        if (Mana < 100)
+    protected virtual void RegenMana() 
+    {
+        if (stats.mana < 100)
         {
             // Store the previous elapsed time
             float previousTime = manaRegenTime;
@@ -510,11 +486,12 @@ public abstract class Character : MonoBehaviour
             manaRegenTime += Time.deltaTime;
 
             // Compute the exact amount regenerated over this frame
-            float regenIncrement = (Mathf.Pow(manaRegenTime, 2.3f) - Mathf.Pow(previousTime, 2.3f)) / 2.3f * (ManaRegenRate / 1);
+            float regenIncrement = (Mathf.Pow(manaRegenTime, 2.3f) - 
+                Mathf.Pow(previousTime, 2.3f)) / 2.3f * (stats.manaRegenRate / 1);
 
             // Update mana, clamping to ensure it stays within bounds
-            Mana = Mathf.Clamp(Mana + regenIncrement, 0, 100);
-            UpdateMana(Mana);
+            stats.mana = Mathf.Clamp(stats.mana + regenIncrement, 0, 100);
+            UpdateMana(stats.mana);
 
         }
     }
@@ -529,26 +506,26 @@ public abstract class Character : MonoBehaviour
     /// their power level scaled with their health</returns>
     protected virtual bool WeakerThan(Character other)
     {
-        float myScaledLevel = PowerLevel(pStats.health, pStats.maxHealth);
-        float theirScaledLevel = other.PowerLevel(other.pStats.health, pStats.maxHealth);
+        float myScaledLevel = PowerLevel(stats.health, stats.maxHealth);
+        float theirScaledLevel = other.PowerLevel(other.stats.health, stats.maxHealth);
         return myScaledLevel < theirScaledLevel;
     }
 
     /// <summary>Hit a character</summary>
-    /// <param name="other">Other Character to hit</param>
+    /// <param name="recipient">Other Character to hit</param>
     /// <param name="damage">How much damage (not accounting for def etc.)
-    /// the other Character to take</param>
-    public virtual void HitCharacter(Character other, float damage)
+    /// for the other Character to take</param>
+    public virtual void HitCharacter(Character recipient, float damage)
     {
-        other.TakeDamage(damage, false);
-        other.ReceiveEffect(other.attackEffects);
-        other.attackedBy.Add(other.species); 
-        Vector3 knockbackDirection = (other.transform.position - transform.position).normalized;
-        if (other is Enemy) StartCoroutine((other as Enemy).Alert(other.gameObject));
+        recipient.TakeDamage(damage, false);
+        recipient.ReceiveEffect(attackEffects);
+        recipient.attackedBy.Add(species); 
+        Vector3 knockbackDirection = (recipient.transform.position - transform.position).normalized;
+        if (recipient is Enemy) StartCoroutine((recipient as Enemy).Alert(recipient.gameObject));
 
         // Apply knockback force to what I'm hitting
-        Rigidbody targetRb = other.gameObject.GetComponent<Rigidbody>();
-        targetRb.AddForce(knockbackDirection * pStats.knockbackModifier, ForceMode.Impulse);
+        Rigidbody targetRb = recipient.gameObject.GetComponent<Rigidbody>();
+        targetRb.AddForce(knockbackDirection * stats.knockbackModifier, ForceMode.Impulse);
     }
 
     /// <summary>Returns power level of Character accounting for health</summary>
@@ -556,7 +533,7 @@ public abstract class Character : MonoBehaviour
     /// <param name="maxHealth">Amount of health possible for Character</param>
     /// <returns>The calculated power level accounting for health</returns>
     public virtual int PowerLevel(float health, float maxHealth)
-        {return Mathf.RoundToInt(((health + 3) / (maxHealth + 3)) * pStats.powerLevel);}
+        {return Mathf.RoundToInt(((health + 3) / (maxHealth + 3)) * stats.powerLevel);}
 
     /// <summary>Adds new Effect to apply to my attacks</summary>
     /// <param name="e">Effect to apply to player's attacks</param>
@@ -584,9 +561,9 @@ public abstract class Character : MonoBehaviour
             float k = 0.5f; // Damage curve slope (probably don't change)
             float x0 = 10 - eff.level; // Midpoint of damage curve
             float damage = d / (1 + Mathf.Pow(2.72f, (-k * (timeElapsed - x0)))); // Uses logistic curve
-            pStats.health = (pStats.health - damage);
-            UpdateHealth(pStats.health, pStats.maxHealth);
-            if (pStats.health <= 0) {Die();}
+            stats.health = (stats.health - damage);
+            UpdateHealth(stats.health, stats.maxHealth);
+            if (stats.health <= 0) {Die();}
         }
     }
 
@@ -599,9 +576,9 @@ public abstract class Character : MonoBehaviour
             float timePerHalfHeart = timeSpan / healAmount;
             StartCoroutine(GradualHeal(timePerHalfHeart, timeSpan));
         } else {
-            pStats.health = Mathf.Min(pStats.maxHealth, pStats.health + healAmount);
+            stats.health = Mathf.Min(stats.maxHealth, stats.health + healAmount);
         }
-        UpdateHealth(pStats.health, pStats.maxHealth);
+        UpdateHealth(stats.health, stats.maxHealth);
     }
 
     /// <summary>Heals my mana</summary>
@@ -613,9 +590,9 @@ public abstract class Character : MonoBehaviour
             float timePerUnit = timeSpan / healAmount;
             StartCoroutine(GradualHealMana(timePerUnit, timeSpan));
         } else {
-            pStats.health = Mathf.Min(100, pStats.mana + healAmount);
+            stats.health = Mathf.Min(100, stats.mana + healAmount);
         }
-        UpdateMana(pStats.mana);
+        UpdateMana(stats.mana);
     }
 
     /// <summary>Gradually heals me over time</summary>
@@ -623,14 +600,14 @@ public abstract class Character : MonoBehaviour
     /// <param name="healAmount">How much to heal total</param>
     protected virtual IEnumerator GradualHeal(float timePerHalfHeart, float healAmount)
     {
-        pStats.health = Mathf.Min(pStats.maxHealth, pStats.health);
+        stats.health = Mathf.Min(stats.maxHealth, stats.health);
         for (int i = 0; i < healAmount - 1 ; i++) 
         {
             yield return new WaitForSeconds(timePerHalfHeart);
-            pStats.health = Mathf.Clamp(pStats.health + 1, 0, pStats.maxHealth);
-            if (pStats.health == 0) Die();
+            stats.health = Mathf.Clamp(stats.health + 1, 0, stats.maxHealth);
+            if (stats.health == 0) Die();
         }
-        UpdateHealth(pStats.health, pStats.maxHealth);
+        UpdateHealth(stats.health, stats.maxHealth);
     }
 
     /// <summary>Gradually heals my mana over time</summary>
@@ -639,14 +616,14 @@ public abstract class Character : MonoBehaviour
     /// <param name="numHeals">How many heals to do</param>
     protected virtual IEnumerator GradualHeal(float healAmount, float healFrequency, float numHeals)
     {
-        pStats.health = Mathf.Min(pStats.maxHealth, pStats.health);
+        stats.health = Mathf.Min(stats.maxHealth, stats.health);
         for (int i = 0; i < numHeals - 1 ; i++) 
         {
             yield return new WaitForSeconds(healFrequency);
-            pStats.health = Mathf.Clamp(pStats.health + healAmount, 0, pStats.maxHealth);
-            if (pStats.health == 0) Die();
+            stats.health = Mathf.Clamp(stats.health + healAmount, 0, stats.maxHealth);
+            if (stats.health == 0) Die();
         }
-        UpdateHealth(pStats.health, pStats.maxHealth);
+        UpdateHealth(stats.health, stats.maxHealth);
     }
     
     /// <summary>Gradually heals my mana over time</summary>
@@ -654,13 +631,13 @@ public abstract class Character : MonoBehaviour
     /// <param name="healAmount">How much to heal total</param>
     protected virtual IEnumerator GradualHealMana(float timePerUnit, float healAmount)
     {
-        pStats.mana = Mathf.Min(100, pStats.mana);
+        stats.mana = Mathf.Min(100, stats.mana);
         for (int i = 0; i < healAmount - 1 ; i++) 
         {
             yield return new WaitForSeconds(timePerUnit);
-            pStats.mana = Mathf.Clamp(pStats.mana + 1, 0, 100);
+            stats.mana = Mathf.Clamp(stats.mana + 1, 0, 100);
         }
-        UpdateMana(pStats.mana);
+        UpdateMana(stats.mana);
     }
 
     /// <summary>Gradually heals my mana over time</summary>
@@ -669,320 +646,12 @@ public abstract class Character : MonoBehaviour
     /// <param name="numHeals">How many heals to do</param>
     protected virtual IEnumerator GradualHealMana(float healAmount, float healFrequency, float numHeals)
     {
-        pStats.mana = Mathf.Min(100, pStats.mana);
+        stats.mana = Mathf.Min(100, stats.mana);
         for (int i = 0; i < numHeals - 1 ; i++) 
         {
             yield return new WaitForSeconds(healFrequency);
-            pStats.mana = Mathf.Clamp(pStats.mana + healAmount, 0, 100);
+            stats.mana = Mathf.Clamp(stats.mana + healAmount, 0, 100);
         }
-        UpdateMana(pStats.mana);
-    }
-
-
-
-    /** PERMANENT STAT CHANGES
-     * These are stat changes that are reverted to when temporary changes are done
-     */
-
-    /// <summary>Changes my max health</summary>
-    /// <param name="healthChange">How much it should be changed</param>
-    /// <param name="multiplier">Whether it should be multiplied</param>
-    public virtual void ChangeMaxHealth(float healthChange, bool multiplier) // Max amount of hearts is set to 20 here.
-    {
-        if (multiplier) {
-            pStats.maxHealth = (int)Mathf.Clamp(0, Mathf.Round(pStats.maxHealth * healthChange), 20);
-        } else {
-            pStats.maxHealth = (int) Mathf.Clamp(0, Mathf.Round(pStats.maxHealth + healthChange), 20); 
-        }
-        UpdateHealth(pStats.health, pStats.maxHealth);
-    }
-
-    /// <summary>Changes move speed</summary>
-    /// <param name="moveSpeedChange">How much it should be changed</param>
-    /// <param name="multiplier">Whether it should be multiplied</param>
-    public void ChangeMoveSpeed(float moveSpeedChange, bool multiplier)
-    {
-        if (multiplier) {
-            pStats.moveSpeed = Mathf.Max(0.5f, pStats.moveSpeed * moveSpeedChange);
-        } else {
-            pStats.moveSpeed = Mathf.Max(0.5f, pStats.moveSpeed + moveSpeedChange);
-        }
-    }
-
-    /// <summary>Changes attack rate like swing rate or fire rate</summary>
-    /// <param name="attackRateChange">How much it should be changed</param>
-    /// <param name="multiplier">Whether it should be multiplied</param>
-    public void ChangeAttackRate(float attackRateChange, bool multiplier)
-    {
-        if (multiplier) {
-            pStats.attackRateModifier = Mathf.Max(0.01f, pStats.attackRateModifier * attackRateChange);
-        } else {
-            pStats.attackRateModifier = Mathf.Max(0.01f, pStats.attackRateModifier - attackRateChange);
-        }
-    }
-    
-    /// <summary>Changes attack damage</summary>
-    /// <param name="attackDamageChange">How much it should be changed</param>
-    /// <param name="multiplier">Whether it should be multiplied</param>
-    public void ChangeAttackDamage(float attackDamageChange, bool multiplier)
-    {
-        if (multiplier) {
-            pStats.attackDamageModifier = Mathf.Max(0.0001f, pStats.attackDamageModifier * attackDamageChange);
-        } else {
-            pStats.attackDamageModifier = Mathf.Max(0.0001f, pStats.attackDamageModifier + attackDamageChange);
-        }
-    }
-
-    /// <summary>Changes defense to attacks so attacks do 1/(n*.1) times the damage</summary>
-    /// <param name="defenseChange">How much it should be changed</param>
-    /// <param name="multiplier">Whether it should be multiplied</param>
-    public void ChangeDefense(float defenseChange, bool multiplier) {
-        
-        if (multiplier) {
-            pStats.defense = Mathf.Max(0.01f, pStats.defense * defenseChange);
-        } else {
-            pStats.defense = Mathf.Max(0.01f, pStats.defense + defenseChange);
-        }
-    }
-
-    /// <summary>Changes attack size</summary>
-    /// <param name="attackSizeChange">How much it should be changed</param>
-    /// <param name="multiplier">Whether it should be multiplied</param>
-    public void ChangeAttackSize(float attackSizeChange, bool multiplier) 
-    {
-        if (multiplier) {
-            pStats.attackSizeModifier = Mathf.Max(0f, pStats.attackSizeModifier * attackSizeChange);
-        } else {
-            pStats.attackSizeModifier = Mathf.Max(0f, pStats.attackSizeModifier + attackSizeChange);
-        }
-    }
-
-    /// <summary>Changes how much mana I use</summary>
-    /// <param name="manaUseChange">How much it should be changed</param>
-    /// <param name="multiplier">Whether it should be multiplied</param>
-    public void ChangeManaUse(float manaUseChange, bool multiplier) 
-    {
-        if (multiplier) {
-            pStats.manaUseModifier = Mathf.Max(0f, pStats.manaUseModifier * manaUseChange);
-        } else {
-            pStats.manaUseModifier = Mathf.Max(0f, pStats.manaUseModifier + manaUseChange);
-        }
-    }
-
-    /// <summary>Changes how fast I regenerate mana</summary>
-    /// <param name="manaRegenChange">How much it should be changed</param>
-    /// <param name="multiplier">Whether it should be multiplied</param>
-    public void ChangeManaRegen(float manaRegenChange, bool multiplier) 
-    {
-        if (multiplier) {
-            pStats.manaRegenRate = Mathf.Max(0f, pStats.manaRegenRate * manaRegenChange);
-        } else {
-            pStats.manaRegenRate = Mathf.Max(0f, pStats.manaRegenRate + manaRegenChange);
-        }
-    }
-
-    /// <summary>Changes how fast my projectiles move</summary>
-    /// <param name="projectileSpeedChange">How much it should be changed</param>
-    /// <param name="multiplier">Whether it should be multiplied</param>
-    public void ChangeProjectileSpeed(float projectileSpeedChange, bool multiplier) 
-    {
-        if (multiplier) {
-            pStats.projectileSpeedModifier = Mathf.Max(0f, pStats.projectileSpeedModifier * projectileSpeedChange);
-        } else {
-            pStats.projectileSpeedModifier = Mathf.Max(0f, pStats.projectileSpeedModifier + projectileSpeedChange);
-        }
-    }
-
-    /// <summary>Changes how long my projectiles last</summary>
-    /// <param name="projectileLifetimeChange">How much it should be changed</param>
-    /// <param name="multiplier">Whether it should be multiplied</param>
-    public void ChangeProjectileLifetime(float projectileLifetimeChange, bool multiplier) 
-    {
-        if (multiplier) {
-            pStats.projectileLifetimeModifier = Mathf.Max(0f, pStats.projectileLifetimeModifier * projectileLifetimeChange);
-        } else {
-            pStats.projectileLifetimeModifier = Mathf.Max(0f, pStats.projectileLifetimeModifier + projectileLifetimeChange);
-        }
-    }
-
-    /// <summary>Changes how much my attacks knock others back</summary>
-    /// <param name="knockbackChange">How much it should be changed</param>
-    /// <param name="multiplier">Whether it should be multiplied</param>
-    public void ChangeKnockback(float knockbackChange, bool multiplier) 
-    {
-        if (multiplier) {
-            pStats.knockbackModifier = Mathf.Max(0f, pStats.knockbackModifier * knockbackChange);
-        } else {
-            pStats.knockbackModifier = Mathf.Max(0f, pStats.knockbackModifier + knockbackChange);
-        }
-    }
-    
-
-
-    /** TEMPORARY STAT CHANGES
-     * These are stat changes that are temporary and will revert back to normal after a certain 
-     * amount of time or when something is unequipped
-     */
-    
-    /// <summary>Changes my max health</summary>
-    /// <param name="healthChange">How much it should be changed</param>
-    /// <param name="multiplier">Whether it should be multiplied</param>
-    public virtual void ChangeMaxHealthTemp(float healthChange, bool multiplier) // Max amount of health is set to 20 here.
-    {
-        useTempMaxHealth = true;
-        if (multiplier) {
-            stats.maxHealth = (int)Mathf.Clamp(0, Mathf.Round(stats.maxHealth * healthChange), 20);
-        } else {
-            stats.maxHealth = (int) Mathf.Clamp(0, Mathf.Round(stats.maxHealth + healthChange), 20); 
-        }
-        UpdateHealth(stats.health, stats.maxHealth);
-    }
-
-    /// <summary>Changes move speed</summary>
-    /// <param name="moveSpeedChange">How much it should be changed</param>
-    /// <param name="multiplier">Whether it should be multiplied</param>
-    public void ChangeMoveSpeedTemp(float moveSpeedChange, bool multiplier)
-    {
-        useTempMoveSpeed = true;
-        if (multiplier) {
-            stats.moveSpeed = Mathf.Max(0.5f, stats.moveSpeed * moveSpeedChange);
-        } else {
-            stats.moveSpeed = Mathf.Max(0.5f, stats.moveSpeed + moveSpeedChange);
-        }
-    }
-
-    /// <summary>Changes attack rate like swing rate or fire rate</summary>
-    /// <param name="attackRateChange">How much it should be changed</param>
-    /// <param name="multiplier">Whether it should be multiplied</param>
-    public void ChangeAttackRateTemp(float attackRateChange, bool multiplier)
-    {
-        useTempAttackRateModifier = true;
-        if (multiplier) {
-            stats.attackRateModifier = Mathf.Max(0.01f, stats.attackRateModifier * attackRateChange);
-        } else {
-            stats.attackRateModifier = Mathf.Max(0.01f, stats.attackRateModifier - attackRateChange);
-        }
-    }
-    
-    /// <summary>Changes attack damage</summary>
-    /// <param name="attackDamageChange">How much it should be changed</param>
-    /// <param name="multiplier">Whether it should be multiplied</param>
-    public void ChangeAttackDamageTemp(float attackDamageChange, bool multiplier)
-    {
-        useTempAttackDamageModifier = true;
-        if (multiplier) {
-            stats.attackDamageModifier = Mathf.Max(0.0001f, stats.attackDamageModifier * attackDamageChange);
-        } else {
-            stats.attackDamageModifier = Mathf.Max(0.0001f, stats.attackDamageModifier + attackDamageChange);
-        }
-    }
-
-    /// <summary>Changes defense to attacks so attacks do 1/(n*.1) times the damage</summary>
-    /// <param name="defenseChange">How much it should be changed</param>
-    /// <param name="multiplier">Whether it should be multiplied</param>
-    public void ChangeDefenseTemp(float defenseChange, bool multiplier) 
-    {
-        useTempDefense = true;
-        if (multiplier) {
-            stats.defense = Mathf.Max(0.01f, stats.defense * defenseChange);
-        } else {
-            stats.defense = Mathf.Max(0.01f, stats.defense + defenseChange);
-        }
-    }
-
-    /// <summary>Changes attack size</summary>
-    /// <param name="attackSizeChange">How much it should be changed</param>
-    /// <param name="multiplier">Whether it should be multiplied</param>
-    public void ChangeAttackSizeTemp(float attackSizeChange, bool multiplier) 
-    {
-        useTempAttackSizeModifier = true;
-        if (multiplier) {
-            stats.attackSizeModifier = Mathf.Max(0f, stats.attackSizeModifier * attackSizeChange);
-        } else {
-            stats.attackSizeModifier = Mathf.Max(0f, stats.attackSizeModifier + attackSizeChange);
-        }
-    }
-
-    /// <summary>Changes how much mana I use</summary>
-    /// <param name="manaUseChange">How much it should be changed</param>
-    /// <param name="multiplier">Whether it should be multiplied</param>
-    public void ChangeManaUseTemp(float manaUseChange, bool multiplier) 
-    {
-        useTempManaUseModifier = true;
-        if (multiplier) {
-            stats.manaUseModifier = Mathf.Max(0f, pStats.manaUseModifier * manaUseChange);
-        } else {
-            stats.manaUseModifier = Mathf.Max(0f, pStats.manaUseModifier + manaUseChange);
-        }
-    }
-
-    /// <summary>Changes how fast I regenerate mana</summary>
-    /// <param name="manaRegenChange">How much it should be changed</param>
-    /// <param name="multiplier">Whether it should be multiplied</param>
-    public void ChangeManaRegenTemp(float manaRegenChange, bool multiplier) 
-    {
-        useTempManaRegenRate = true;
-        if (multiplier) {
-            stats.manaRegenRate = Mathf.Max(0f, stats.manaRegenRate * manaRegenChange);
-        } else {
-            stats.manaRegenRate = Mathf.Max(0f, stats.manaRegenRate + manaRegenChange);
-        }
-    }
-
-    /// <summary>Changes how fast my projectiles move</summary>
-    /// <param name="projectileSpeedChange">How much it should be changed</param>
-    /// <param name="multiplier">Whether it should be multiplied</param>
-    public void ChangeProjectileSpeedTemp(float projectileSpeedChange, bool multiplier) 
-    {
-        useTempProjectileSpeedModifier = true;
-        if (multiplier) {
-            stats.projectileSpeedModifier = Mathf.Max(0f, stats.projectileSpeedModifier * projectileSpeedChange);
-        } else {
-            stats.projectileSpeedModifier = Mathf.Max(0f, stats.projectileSpeedModifier + projectileSpeedChange);
-        }
-    }
-
-    /// <summary>Changes how long my projectiles last</summary>
-    /// <param name="projectileLifetimeChange">How much it should be changed</param>
-    /// <param name="multiplier">Whether it should be multiplied</param>
-    public void ChangeProjectileLifetimeTemp(float projectileLifetimeChange, bool multiplier) 
-    {
-        useTempProjectileLifetimeModifier = true;
-        if (multiplier) {
-            stats.projectileLifetimeModifier = Mathf.Max(0f, stats.projectileLifetimeModifier * projectileLifetimeChange);
-        } else {
-            stats.projectileLifetimeModifier = Mathf.Max(0f, stats.projectileLifetimeModifier + projectileLifetimeChange);
-        }
-    }
-
-    /// <summary>Changes how much my attacks knock others back</summary>
-    /// <param name="knockbackChange">How much it should be changed</param>
-    /// <param name="multiplier">Whether it should be multiplied</param>
-    public void ChangeKnockbackTemp(float knockbackChange, bool multiplier) 
-    {
-        useTempKnockbackModifier = true;
-        if (multiplier) {
-            stats.knockbackModifier = Mathf.Max(0f, stats.knockbackModifier * knockbackChange);
-        } else {
-            stats.knockbackModifier = Mathf.Max(0f, stats.knockbackModifier + knockbackChange);
-        }
-    }
-
-    /// <summary>Sets the temporary stats back to the permanent ones</summary>
-    public void ResetTempStats()
-    {
-        stats = pStats;
-        useTempMaxHealth = false;
-        useTempMoveSpeed = false;
-        useTempAttackRateModifier = false;
-        useTempAttackDamageModifier = false;
-        useTempDefense = false;
-        useTempAttackSizeModifier = false;
-        useTempManaUseModifier = false;
-        useTempManaRegenRate = false;
-        useTempProjectileSpeedModifier = false;
-        useTempProjectileLifetimeModifier = false;
-        useTempKnockbackModifier = false;
-        useTempProjectileSpeedModifier = false;
+        UpdateMana(stats.mana);
     }
 }

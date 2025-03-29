@@ -42,7 +42,7 @@ public class InfinityItem : SpecialTrait
     {
         var e = particles.emission;
 
-        if (user.Mana > 0.01) {
+        if (user.stats.mana > 0.01) {
             Collider[] colliders = Physics.OverlapSphere(transform.position, slowdownRadius);
             foreach (Collider col in colliders)
             {
