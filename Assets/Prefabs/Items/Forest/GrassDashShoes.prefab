@@ -47,7 +47,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemStats: {fileID: 11400000, guid: 36da976797018405484e9e6aa39f60b0, type: 2}
-  newTraits: []
+  prefab: {fileID: 644215565910494029}
+  newTraits:
+  - {fileID: 0}
   effects: []
 --- !u!212 &5581152898858423328
 SpriteRenderer:
@@ -119,6 +121,5 @@ MonoBehaviour:
   force: 1
   duration: 0.2
   forceFrequency: 0.01
-  timeLeftDashing: 0
   grassColor: {r: 0.011569952, g: 0.49056602, b: 0.039931566, a: 1}
   grassLifetime: 2

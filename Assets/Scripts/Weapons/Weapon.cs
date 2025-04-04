@@ -14,7 +14,7 @@ public abstract class Weapon : MonoBehaviour
     public void SetUnselected()
     {
         Debug.Assert(user != null, "User is null");
-        Debug.Assert(itemInfo != null, "ItemStats is null");
+        Debug.Assert(itemInfo != null, "ItemInfo is null");
 
         GetComponent<SpriteRenderer>().enabled = false;
         isSelected = false;
@@ -25,7 +25,7 @@ public abstract class Weapon : MonoBehaviour
     public void SetSelected()
     {
         Debug.Assert(user != null, "User is null");
-        Debug.Assert(itemInfo != null, "ItemStats is null");
+        Debug.Assert(itemInfo != null, "ItemInfo is null");
         
         GetComponent<SpriteRenderer>().enabled = true;
         isSelected = true;

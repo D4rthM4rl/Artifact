@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemStats: {fileID: 11400000, guid: 72036bc71c4d84ea49fb077506cd32db, type: 2}
+  prefab: {fileID: 1651999761680949816}
   newTraits: []
   effects:
   - particles: {fileID: 517404345046783080, guid: 6ea0247a8ff974424a2dd206a26d8f5f, type: 3}

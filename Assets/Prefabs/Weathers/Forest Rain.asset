@@ -22,7 +22,46 @@ MonoBehaviour:
   ambientColor: {r: 0.764151, g: 0.764151, b: 0.764151, a: 1}
   skybox: {fileID: 0}
   skyboxBrightness: 0.8
-  speedModifier: 1.1
+  statChanges:
+    heal:
+      amount: 0
+      timeSpan: 0
+    maxHealthChange:
+      amount: 0
+      multiplier: 0
+    moveSpeedChange:
+      amount: 1.1
+      multiplier: 1
+    attackDamageChange:
+      amount: 0
+      multiplier: 0
+    attackRateChange:
+      amount: 0
+      multiplier: 0
+    attackSizeChange:
+      amount: 0
+      multiplier: 0
+    manaHeal:
+      amount: 0
+      timeSpan: 0
+    manaUseChange:
+      amount: 0
+      multiplier: 0
+    manaRegenChange:
+      amount: 0
+      multiplier: 0
+    projectileSpeedChange:
+      amount: 0
+      multiplier: 0
+    projectileLifetimeChange:
+      amount: 0
+      multiplier: 0
+    knockbackChange:
+      amount: 0
+      multiplier: 0
+    defense:
+      amount: 0
+      multiplier: 0
   dragModifier: 0.8
   precipitationColor: {r: 0.21226418, g: 0.5642743, b: 1, a: 1}
   particleSize: 0.6

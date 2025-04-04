@@ -201,15 +201,15 @@ public abstract class Enemy : Character
                 // Look at relationship with each character
                 foreach (Relationship r in relationships)
                 {
-                    if (r.name == character.species)
+                    if (r.name == character.info.species)
                     {
                         relationshipFound = true;
-                        CheckBehavior(character, new Relationship(character.species, Mathf.RoundToInt(r.priority * proximityPriority * lineOfSightPriority), r.behavior));
+                        CheckBehavior(character, new Relationship(character.info.species, Mathf.RoundToInt(r.priority * proximityPriority * lineOfSightPriority), r.behavior));
                         break;
                     }
                 }
                 if (!relationshipFound) {
-                    CheckBehavior(character, new Relationship(character.species, Mathf.RoundToInt(2 * proximityPriority * lineOfSightPriority), defaultBehavior));
+                    CheckBehavior(character, new Relationship(character.info.species, Mathf.RoundToInt(2 * proximityPriority * lineOfSightPriority), defaultBehavior));
                 }
             } 
             else if (collider.gameObject.GetComponent<ItemController>() && currState != CharacterState.inactive)
@@ -226,13 +226,13 @@ public abstract class Enemy : Character
                     if (r.name == item.name)
                     {
                         relationshipFound = true;
-                        CheckBehavior(item, new Relationship(item.itemStats.name, Mathf.RoundToInt(r.priority * proximityPriority * lineOfSightPriority), r.behavior));
+                        CheckBehavior(item, new Relationship(item.info.name, Mathf.RoundToInt(r.priority * proximityPriority * lineOfSightPriority), r.behavior));
                         break;
                     }
                 }
                 if (!relationshipFound) 
                 {
-                    CheckBehavior(item, new Relationship(item.itemStats.name, Mathf.RoundToInt(2 * proximityPriority * lineOfSightPriority), itemDefaultBehavior));
+                    CheckBehavior(item, new Relationship(item.info.name, Mathf.RoundToInt(2 * proximityPriority * lineOfSightPriority), itemDefaultBehavior));
                 }
             }
         }
@@ -514,7 +514,7 @@ public abstract class Enemy : Character
         {
             possibleActions.Add(new Action(MovementType.Flee, r.priority, other.gameObject, distFromFleeIdeal));
         }
-        else if (r.behavior.whenFlee.Contains(WhenFlee.IfAttacked) && attackedBy.Contains(other.species) && inFleeDist)
+        else if (r.behavior.whenFlee.Contains(WhenFlee.IfAttacked) && attackedBy.Contains(other.info.species) && inFleeDist)
         {
             possibleActions.Add(new Action(MovementType.Flee, r.priority, other.gameObject, distFromFleeIdeal));
         }
@@ -530,7 +530,7 @@ public abstract class Enemy : Character
         {
             possibleActions.Add(new Action(MovementType.Follow, r.priority, other.gameObject, distFromFollowIdeal));
         }
-        else if (r.behavior.whenFollow.Contains(WhenFollow.IfAttacked) && attackedBy.Contains(other.species) && inFollowDist)
+        else if (r.behavior.whenFollow.Contains(WhenFollow.IfAttacked) && attackedBy.Contains(other.info.species) && inFollowDist)
         {
             possibleActions.Add(new Action(MovementType.Follow, r.priority, other.gameObject, distFromFollowIdeal));
         }
@@ -552,7 +552,7 @@ public abstract class Enemy : Character
         {
             willAttack.Add(other.gameObject);
         }
-        else if (r.behavior.whenAttack.Contains(WhenAttack.AttackedFirst) && attackedBy.Contains(other.species))
+        else if (r.behavior.whenAttack.Contains(WhenAttack.AttackedFirst) && attackedBy.Contains(other.info.species))
         {
             willAttack.Add(other.gameObject);
         }

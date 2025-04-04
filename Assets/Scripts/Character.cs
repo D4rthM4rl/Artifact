@@ -228,17 +228,10 @@ public class CharacterStats
 /// </summary>
 public abstract class Character : MonoBehaviour
 {
-    /// <summary>What type/species of character this is</summary>
-    public string species;
-    /// <summary>Brief description of the Character</summary>
-    [TextArea(5,10)]
-    public string description;
+    /// <summary>Holds most of the info about the Character</summary>
+    public CharacterInfo info;
     /// <summary>Where I hold weapons</summary>
     public Transform holdPoint;
-    /// <summary>Stats of this character without any outside changes</summary>
-    [Tooltip("Stats of this character without any outside changes")]
-    [SerializeField]
-    private CharacterStats baseStats;
     /// <summary>Stats of this character that are results of base stats and all changes</summary>
     [Tooltip("Actual current stats of the character")]
     public CharacterStats stats;
@@ -273,10 +266,8 @@ public abstract class Character : MonoBehaviour
 
     protected virtual void Start() 
     {
-        // Create a working copy of baseStats for final values.
-        stats = baseStats.Clone();
-        // Optionally, update your UI or other systems with these final stats:
-        // UpdateStats(stats);
+        // Create a working copy of baseStats for final values?
+        stats = info.baseStats;
     }
 
     /// <summary>
@@ -316,47 +307,47 @@ public abstract class Character : MonoBehaviour
         // add all additive modifications, then multiply by all multiplicative factors
         // Then we clamp to the stat upper and lower bounds
         stats.maxHealth = Mathf.Clamp(
-            CalculateFinalStat(baseStats.maxHealth, sc => sc.maxHealthChange), 
+            CalculateFinalStat(info.baseStats.maxHealth, sc => sc.maxHealthChange), 
             CharacterStats.lowerBounds.maxHealth,
             CharacterStats.upperBounds.maxHealth);
         stats.moveSpeed = Mathf.Clamp(
-            CalculateFinalStat(baseStats.moveSpeed, sc => sc.moveSpeedChange), 
+            CalculateFinalStat(info.baseStats.moveSpeed, sc => sc.moveSpeedChange), 
             CharacterStats.lowerBounds.moveSpeed,
             CharacterStats.upperBounds.moveSpeed);
         stats.attackDamageModifier = Mathf.Clamp(
-            CalculateFinalStat(baseStats.attackDamageModifier, sc => sc.attackDamageChange),
+            CalculateFinalStat(info.baseStats.attackDamageModifier, sc => sc.attackDamageChange),
             CharacterStats.lowerBounds.attackDamageModifier,
             CharacterStats.upperBounds.attackDamageModifier);
         stats.attackRateModifier = Mathf.Clamp(
-            CalculateFinalStat(baseStats.attackRateModifier, sc => sc.attackRateChange),
+            CalculateFinalStat(info.baseStats.attackRateModifier, sc => sc.attackRateChange),
             CharacterStats.lowerBounds.attackRateModifier,
             CharacterStats.upperBounds.attackRateModifier);
         stats.attackSizeModifier = Mathf.Clamp(
-            CalculateFinalStat(baseStats.attackSizeModifier, sc => sc.attackSizeChange),
+            CalculateFinalStat(info.baseStats.attackSizeModifier, sc => sc.attackSizeChange),
             CharacterStats.lowerBounds.attackSizeModifier,
             CharacterStats.upperBounds.attackSizeModifier);
         stats.manaUseModifier = Mathf.Clamp(
-            CalculateFinalStat(baseStats.manaUseModifier, sc => sc.manaUseChange),
+            CalculateFinalStat(info.baseStats.manaUseModifier, sc => sc.manaUseChange),
             CharacterStats.lowerBounds.manaUseModifier,
             CharacterStats.upperBounds.manaUseModifier);
         stats.manaRegenRate = Mathf.Clamp(
-            CalculateFinalStat(baseStats.manaRegenRate, sc => sc.manaRegenChange),
+            CalculateFinalStat(info.baseStats.manaRegenRate, sc => sc.manaRegenChange),
             CharacterStats.lowerBounds.manaRegenRate,
             CharacterStats.upperBounds.manaRegenRate);
         stats.projectileSpeedModifier = Mathf.Clamp(
-            CalculateFinalStat(baseStats.projectileSpeedModifier, sc => sc.projectileSpeedChange),
+            CalculateFinalStat(info.baseStats.projectileSpeedModifier, sc => sc.projectileSpeedChange),
             CharacterStats.lowerBounds.projectileSpeedModifier,
             CharacterStats.upperBounds.projectileSpeedModifier);
         stats.projectileLifetimeModifier = Mathf.Clamp(
-            CalculateFinalStat(baseStats.projectileLifetimeModifier, sc => sc.projectileLifetimeChange),
+            CalculateFinalStat(info.baseStats.projectileLifetimeModifier, sc => sc.projectileLifetimeChange),
             CharacterStats.lowerBounds.projectileLifetimeModifier,
             CharacterStats.upperBounds.projectileLifetimeModifier);
         stats.knockbackModifier = Mathf.Clamp(
-            CalculateFinalStat(baseStats.knockbackModifier, sc => sc.knockbackChange),
+            CalculateFinalStat(info.baseStats.knockbackModifier, sc => sc.knockbackChange),
             CharacterStats.lowerBounds.knockbackModifier,
             CharacterStats.upperBounds.knockbackModifier);
         stats.defense = Mathf.Clamp(
-            CalculateFinalStat(baseStats.defense, sc => sc.defense),
+            CalculateFinalStat(info.baseStats.defense, sc => sc.defense),
             CharacterStats.lowerBounds.defense,
             CharacterStats.upperBounds.defense);
 
@@ -519,7 +510,7 @@ public abstract class Character : MonoBehaviour
     {
         recipient.TakeDamage(damage, false);
         recipient.ReceiveEffect(attackEffects);
-        recipient.attackedBy.Add(species); 
+        recipient.attackedBy.Add(info.species); 
         Vector3 knockbackDirection = (recipient.transform.position - transform.position).normalized;
         if (recipient is Enemy) StartCoroutine((recipient as Enemy).Alert(recipient.gameObject));
 
