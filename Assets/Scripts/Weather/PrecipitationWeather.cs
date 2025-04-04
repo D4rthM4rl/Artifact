@@ -24,7 +24,6 @@ public class PrecipitationWeather : Weather
     // Start precipating
     public override void StartWeather()
     {
-        Debug.Log("Starting " + weatherName);
         affectedCharacters.Clear();
         
         // Set particle system intensity
@@ -44,8 +43,6 @@ public class PrecipitationWeather : Weather
         
         // Apply rain effect to all characters
         ApplyEffectToAllCharacters();
-        
-        Debug.Log("Weather changed to rain");
     }
 
     // Dim the lighting for rain effect
@@ -68,8 +65,6 @@ public class PrecipitationWeather : Weather
             WeatherController.instance.directionalLight.color = ambientColor;
             WeatherController.instance.directionalLight.useColorTemperature = false;
         }
-        
-        Debug.Log("Dimmed lighting for rain effect");
     }
 
 	public override void ApplyEffectToCharacter(Character character)
