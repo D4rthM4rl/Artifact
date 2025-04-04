@@ -19,7 +19,6 @@ public class CameraController : MonoBehaviour
     private float currentAzimuth;
     
     private bool fogOn = false;
-    private bool togglingFog = false;
 
     // Fog weather properties
     private Color originalFogColor;

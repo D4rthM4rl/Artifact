@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SlowGrass : SpecialTile<SlowGrass>
-{
-    private bool rainSpawned = false;
-    
+{   
     private void Awake()
     {
         // Make it green like normal

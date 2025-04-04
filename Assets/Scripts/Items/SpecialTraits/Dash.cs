@@ -26,7 +26,7 @@ public abstract class Dash : SpecialTrait
     /// <summary>
     /// How much time is left in the dash
     /// </summary>
-    public float timeLeftDashing;
+    protected float timeLeftDashing;
     /// <summary>
     /// How long after the first tap can the second be tapped for a dash to activate
     /// </summary>
