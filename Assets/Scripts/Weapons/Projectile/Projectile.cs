@@ -87,7 +87,7 @@ public class Projectile : MonoBehaviour
     {
         other.TakeDamage(damage, false);
         other.ReceiveEffect(sender.attackEffects);
-        other.attackedBy.Add(sender.species); 
+        other.attackedBy.Add(sender.info.species); 
         Vector3 knockbackDirection = (other.transform.position - transform.position).normalized;
         if (other is Enemy) StartCoroutine((other as Enemy).Alert(other.gameObject));
 

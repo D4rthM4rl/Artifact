@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour
 {
-    public ItemStats itemStats;
+    public ItemInfo itemInfo;
     public WeaponStats stats;
     public bool inUse = false;
     public bool isSelected = false;
@@ -14,21 +14,21 @@ public abstract class Weapon : MonoBehaviour
     public void SetUnselected()
     {
         Debug.Assert(user != null, "User is null");
-        Debug.Assert(itemStats != null, "ItemStats is null");
+        Debug.Assert(itemInfo != null, "ItemStats is null");
 
         GetComponent<SpriteRenderer>().enabled = false;
         isSelected = false;
-        if (stats.statsOnlyWhileUsing) user.RemoveStatChange(itemStats.statChanges);
+        if (stats.statsOnlyWhileUsing) user.RemoveStatChange(itemInfo.statChanges);
     }
 
     /// <summary>Set a weapon to be not in use</summary>
     public void SetSelected()
     {
         Debug.Assert(user != null, "User is null");
-        Debug.Assert(itemStats != null, "ItemStats is null");
+        Debug.Assert(itemInfo != null, "ItemStats is null");
         
         GetComponent<SpriteRenderer>().enabled = true;
         isSelected = true;
-        if (stats.statsOnlyWhileUsing) user.AddStatChange(itemStats.statChanges);
+        if (stats.statsOnlyWhileUsing) user.AddStatChange(itemInfo.statChanges);
     }
 }

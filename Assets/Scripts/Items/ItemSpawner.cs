@@ -9,7 +9,7 @@ public class ItemSpawner : MonoBehaviour
     [System.Serializable]
     public struct Spawnable
     {
-        public GameObject gameObject;
+        public GameObject itemSpawn;
         public float weight;
     }
 
@@ -74,7 +74,8 @@ public class ItemSpawner : MonoBehaviour
     /// Spawns the randomly chosen item at the item spawner location
     /// </summary>
     public void SpawnItem() {
-        GameObject i = Instantiate(items[chosenIndex].gameObject, transform.position, Quaternion.identity, transform.parent) as GameObject;
+        GameObject i = Instantiate(items[chosenIndex].itemSpawn, transform.position, Quaternion.identity, transform.parent) as GameObject;
+        i.GetComponent<ItemController>().prefab = items[chosenIndex].itemSpawn;
         i.SetActive(true);
         i.layer = 3; // Item layer
         GameController.numItemsSpawned++;

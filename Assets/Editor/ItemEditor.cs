@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(ItemStats))]
+[CustomEditor(typeof(ItemInfo))]
 [CanEditMultipleObjects]
 public class ItemDetailsEditor : Editor
 {
@@ -15,7 +15,7 @@ public class ItemDetailsEditor : Editor
 
         if (targets.Length == 1) // Ensure single-object editing
         {
-            ItemStats item = (ItemStats)target;
+            ItemInfo item = (ItemInfo)target;
 
             if (item.itemImage != lastItemImage) // Only update if the sprite changed
             {
@@ -30,7 +30,7 @@ public class ItemDetailsEditor : Editor
         serializedObject.ApplyModifiedProperties();
     }
 
-    private void SetThumbnail(ItemStats item, Texture2D texture)
+    private void SetThumbnail(ItemInfo item, Texture2D texture)
     {
         if (texture != null)
         {

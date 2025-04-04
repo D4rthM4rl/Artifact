@@ -4,23 +4,22 @@ using UnityEngine;
 
 public class ItemController : MonoBehaviour
 {    
-    public ItemStats itemStats;
-    
-    public List<GameObject> newTraits = new List<GameObject>();
-    public List<Effect> effects = new List<Effect>();
+    public ItemInfo info;
+    [HideInInspector]
+    public GameObject prefab;
     
 
     // Start is called before the first frame update
     void Start()
     {
-        if (itemStats == null) 
+        if (info == null) 
         {
-            Debug.LogError("ItemStats is not set for " + gameObject.name);
+            Debug.LogError("ItemInfo is not set for " + gameObject.name);
             return;
         }
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
-        sr.sprite = itemStats.itemImage;
-        if (GetComponent<Renderer>()) GetComponent<Renderer>().material.SetColor("_BaseColor", itemStats.tint);
+        sr.sprite = info.itemImage;
+        if (GetComponent<Renderer>()) GetComponent<Renderer>().material.SetColor("_BaseColor", info.tint);
         Destroy(GetComponent<Collider>());
         SphereCollider collider = gameObject.AddComponent<SphereCollider>();
         collider.isTrigger = true;
@@ -32,8 +31,10 @@ public class ItemController : MonoBehaviour
         if (collision.gameObject.GetComponent<Character>())
         {
             Character c = collision.gameObject.GetComponent<Character>();
-            c.AddStatChange(itemStats.statChanges);
-            foreach (Effect e in effects) {c.AddAttackEffect(e);}
+            c.gameObject.AddComponent<ItemSpawner>().items = new List<ItemSpawner.Spawnable> 
+                {new ItemSpawner.Spawnable {itemSpawn = prefab, weight = 1}};
+            c.AddStatChange(info.statChanges);
+            foreach (Effect e in info.Effects) {c.AddAttackEffect(e);}
 
             // if (gameObject.GetComponent<SpecialTrait>()) {
             //     c.gameObject.AddComponent(gameObject.GetComponent<SpecialTrait>().GetType());
@@ -42,7 +43,7 @@ public class ItemController : MonoBehaviour
         }
     }
 
-    public void ApplyStatChanges(Character c, ItemStats s)
+    public void ApplyStatChanges(Character c, ItemInfo s)
     {
         // SpecialTrait newTrait = item.newTrait;
         // If we're multiplying by 0 it's probably an accident (default value) so we ignore it.

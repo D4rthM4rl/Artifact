@@ -12,14 +12,14 @@ public class WeaponItemController : ItemController
     // Start is called before the first frame update
     void Start()
     {
-        if (itemStats == null) 
+        if (info == null) 
         {
             Debug.LogError("ItemStats is not set for " + gameObject.name);
             return;
         }
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
-        sr.sprite = itemStats.itemImage;
-        if (GetComponent<Renderer>()) GetComponent<Renderer>().material.SetColor("_BaseColor", itemStats.tint);
+        sr.sprite = info.itemImage;
+        if (GetComponent<Renderer>()) GetComponent<Renderer>().material.SetColor("_BaseColor", info.tint);
         Destroy(GetComponent<Collider>());
         if (!gameObject.GetComponentInParent<Character>()){
             SphereCollider collider = gameObject.AddComponent<SphereCollider>();
@@ -46,7 +46,7 @@ public class WeaponItemController : ItemController
             
             player.AddWeapon(obj);
             if (!weaponStats.statsOnlyWhileUsing)
-                {player.AddStatChange(itemStats.statChanges);}
+                {player.AddStatChange(info.statChanges);}
 
             Destroy(obj);
             // obj.SetActive(false);
