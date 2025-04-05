@@ -17,6 +17,7 @@ MonoBehaviour:
   rarity: 1
   itemImage: {fileID: 21300000, guid: b39809c802759aa4e85125b1931728c9, type: 3}
   tint: {r: 1, g: 1, b: 1, a: 1}
+  effects: []
   statChanges:
     heal:
       amount: 0

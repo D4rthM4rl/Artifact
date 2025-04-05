@@ -50,24 +50,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7c303a7902f5400cb3eb66f284ac194, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  species: Player
-  description: 
+  info: {fileID: 0}
   holdPoint: {fileID: 0}
-  baseStats:
-    powerLevel: 1
-    health: 10
-    maxHealth: 10
-    moveSpeed: 3
-    mana: 100
-    manaUseModifier: 1
-    manaRegenRate: 0.005
-    attackRateModifier: 1
-    attackSizeModifier: 1
-    attackDamageModifier: 1
-    projectileSpeedModifier: 1
-    projectileLifetimeModifier: 1
-    knockbackModifier: 1
-    defense: 1
   stats:
     powerLevel: 0
     health: 0
@@ -86,6 +70,7 @@ MonoBehaviour:
   powerLevel: 0
   attackEffects: []
   currState: 2
+  prefab: {fileID: 0}
   paused: 0
   weapon: {fileID: 0}
   weapons: []
@@ -116,7 +101,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 1
+  m_CollisionDetection: 2
 --- !u!95 &5279243177627309461
 Animator:
   serializedVersion: 5

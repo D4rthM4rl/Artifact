@@ -14,7 +14,11 @@ public class CharacterInfo : ScriptableObject
     /// <summary>Stats of this character without any outside changes</summary>
     [Tooltip("Stats of this character without any outside changes")]
     [SerializeField]
-    public CharacterStats baseStats;
+    private CharacterStats baseStats;
+    public CharacterStats BaseStats
+    {
+        get { return baseStats; }
+    }
 
     public Sprite sprite;
 }

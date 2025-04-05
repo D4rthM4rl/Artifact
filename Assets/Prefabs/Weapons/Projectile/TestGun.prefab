@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a1bd96fe359a4dd0972a3e8a99043a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemStats: {fileID: 11400000, guid: e14d9f2a8dbab422c8a4b70e30d0ef49, type: 2}
+  itemInfo: {fileID: 11400000, guid: e14d9f2a8dbab422c8a4b70e30d0ef49, type: 2}
   stats: {fileID: 11400000, guid: 43c914b4fdc7d4c3ba75769ee8c32fb3, type: 2}
   inUse: 0
   isSelected: 0
@@ -123,9 +123,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1170fc62be6624b5fb7a208e96cb75ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemStats: {fileID: 11400000, guid: e14d9f2a8dbab422c8a4b70e30d0ef49, type: 2}
-  newTraits: []
-  effects: []
+  info: {fileID: 11400000, guid: e14d9f2a8dbab422c8a4b70e30d0ef49, type: 2}
+  prefab: {fileID: 0}
   weaponStats: {fileID: 11400000, guid: 43c914b4fdc7d4c3ba75769ee8c32fb3, type: 2}
   weaponPrefab: {fileID: 3392209155486363556}
 --- !u!1001 &8967381392905061616

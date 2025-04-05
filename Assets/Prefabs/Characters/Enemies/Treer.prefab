@@ -99,24 +99,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a8c57737b866456583ad8892ed8c03e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  species: Treer
-  description: Tree deer
+  info: {fileID: 11400000, guid: 77fc586c0bdef43e296df25a807b3023, type: 2}
   holdPoint: {fileID: 0}
+  stats:
+    powerLevel: 0
+    health: 0
+    maxHealth: 0
+    moveSpeed: 0
+    mana: 100
+    manaUseModifier: 1
+    manaRegenRate: 0.005
+    attackRateModifier: 1
+    attackSizeModifier: 1
+    attackDamageModifier: 1
+    projectileSpeedModifier: 1
+    projectileLifetimeModifier: 1
+    knockbackModifier: 1
+    defense: 1
   powerLevel: 7
-  health: 20
-  maxHealth: 20
-  moveSpeed: 8
-  mana: 100
-  manaUseModifier: 1
-  manaRegenRate: 0.005
-  attackRateModifier: 1
-  attackSizeModifier: 1
-  attackDamageModifier: 1
-  projectileSpeedModifier: 1
-  projectileLifetimeModifier: 1
-  knockbackModifier: 3
-  defense: 1
+  attackEffects: []
   currState: 2
+  prefab: {fileID: 0}
   relationships:
   - name: Player
     priority: 0
@@ -135,7 +138,7 @@ MonoBehaviour:
     fleeDist: 0
   itemDefaultBehavior:
     whenAttack: 
-    whenFollow: 
+    whenFollow: 03000000
     whenFlee: 
     followDist: 0
     fleeDist: 0
@@ -152,7 +155,6 @@ MonoBehaviour:
   focus: {fileID: 0}
   focusPos: {x: 0, y: 0, z: 0}
   targetPos: {x: 0, y: 0, z: 0}
-  cooldownAttack: 0
 --- !u!54 &-3759097973891496029
 Rigidbody:
   m_ObjectHideFlags: 0

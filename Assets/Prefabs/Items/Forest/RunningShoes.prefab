@@ -97,6 +97,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad9031e5e5730497fa641f74ec804411, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemStats: {fileID: 11400000, guid: 7c43ae7ded49640398bb20ebc99f9559, type: 2}
-  newTraits: []
-  effects: []
+  info: {fileID: 11400000, guid: 7c43ae7ded49640398bb20ebc99f9559, type: 2}
+  prefab: {fileID: 0}

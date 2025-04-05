@@ -18,7 +18,7 @@ MonoBehaviour:
     powerLevel: 1
     health: 10
     maxHealth: 10
-    moveSpeed: 4.25
+    moveSpeed: 3
     mana: 100
     manaUseModifier: 1
     manaRegenRate: 0.005

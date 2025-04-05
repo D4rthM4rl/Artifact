@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 90080559be52a446582d842ee5f4bd55, type: 3}
-  m_Name: ItemStats
+  m_Name: Running Shoes
   m_EditorClassIdentifier: 
   itemName: Running Shoes
   description: 
   rarity: 0
   itemImage: {fileID: 21300000, guid: 5917c1eb5872e4a2fbb5b272cbee7ac7, type: 3}
   tint: {r: 1, g: 1, b: 1, a: 1}
+  effects: []
   statChanges:
     heal:
       amount: 0

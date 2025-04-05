@@ -45,33 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad9031e5e5730497fa641f74ec804411, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
-    name: Skull and Crossbones
-    description: Lots of damage at a cost
-    rarity: 0
-    itemImage: {fileID: 21300000, guid: 77e55e4201cd043f78e2f9f1ad9d3b06, type: 3}
-    tint: {r: 1, g: 1, b: 1, a: 1}
-  heal:
-    amount: -2
-    timeSpan: 0
-  maxHealthChange:
-    amount: 0
-    multiplier: 1
-  moveSpeedChange:
-    amount: 0
-    multiplier: 1
-  attackDamageChange:
-    amount: 0.2
-    multiplier: 0
-  attackRateChange:
-    amount: 1.1
-    multiplier: 1
-  attackSizeChange:
-    amount: 0
-    multiplier: 1
-  special: 0
-  newTrait: {fileID: 0}
-  effects: []
+  info: {fileID: 11400000, guid: 50c73a9ec30f747e084be2129b88f68a, type: 2}
+  prefab: {fileID: 0}
 --- !u!212 &7648637220969931692
 SpriteRenderer:
   m_ObjectHideFlags: 0

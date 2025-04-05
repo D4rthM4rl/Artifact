@@ -101,8 +101,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   items:
-  - gameObject: {fileID: 7648637220969931695, guid: 042919984f8ef4b3894c0424b509360d, type: 3}
+  - itemSpawn: {fileID: 7648637220969931695, guid: 042919984f8ef4b3894c0424b509360d, type: 3}
     weight: 1
+  spawnChance: 1
 --- !u!114 &1303425118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,25 +116,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57f29d91468504d8fa2696097c49b027, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  species: Moss Bull
-  description: A bull cow thing that's covered in moss and will try to find a good
-    angle to charge from, then it will charge in a mostly straight line.
+  info: {fileID: 11400000, guid: 86dd2dc406288475c86b299595a4ac5a, type: 2}
   holdPoint: {fileID: 0}
+  stats:
+    powerLevel: 0
+    health: 0
+    maxHealth: 0
+    moveSpeed: 0
+    mana: 100
+    manaUseModifier: 1
+    manaRegenRate: 0.005
+    attackRateModifier: 1
+    attackSizeModifier: 1
+    attackDamageModifier: 1
+    projectileSpeedModifier: 1
+    projectileLifetimeModifier: 1
+    knockbackModifier: 1
+    defense: 1
   powerLevel: 2
-  health: 5
-  maxHealth: 5
-  moveSpeed: 5
-  mana: 100
-  manaUseModifier: 1
-  manaRegenRate: 0.005
-  attackRateModifier: 0.5
-  attackSizeModifier: 1
-  attackDamageModifier: 1
-  projectileSpeedModifier: 1
-  projectileLifetimeModifier: 1
-  knockbackModifier: 1
-  defense: 1
+  attackEffects: []
   currState: 2
+  prefab: {fileID: 0}
   relationships:
   - name: 
     priority: 2

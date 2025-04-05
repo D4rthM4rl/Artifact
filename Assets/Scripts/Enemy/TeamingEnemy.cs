@@ -44,7 +44,10 @@ public abstract class TeamingEnemy : Enemy
         {
             TeamController.team.Remove(this);
             TeamController.teamTotal--;
-            if (itemSpawner) { gameObject.GetComponent<ItemSpawner>().SpawnItem(); }
+            foreach (ItemSpawner itemSpawner in GetComponents<ItemSpawner>())
+            {
+                if (itemSpawner != null) itemSpawner.SpawnItem();
+            }
         }
         dead = true;
         Destroy(gameObject);

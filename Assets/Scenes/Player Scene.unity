@@ -7258,7 +7258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cddf877cbf15433e86417315e732a4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  worldGenerationData: {fileID: 11400000, guid: 8c5b0bd991a7540dbb737795b0577668, type: 2}
+  worldGenerationData: {fileID: 11400000, guid: 376754b55452e4d83a0c85f2536f42f2, type: 2}
   seed: 0
   actualSeed: 0
   randomSeed: 1
@@ -7344,6 +7344,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6867962777532244375, guid: c640dcd8d28bd45b7a322bebd074680f, type: 3}
+      propertyPath: info
+      value: 
+      objectReference: {fileID: 11400000, guid: 460eed64bcb9a4c7e867ffd70a4ae365, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

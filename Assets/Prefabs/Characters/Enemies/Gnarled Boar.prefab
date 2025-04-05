@@ -68,6 +68,7 @@ MonoBehaviour:
   powerLevel: 1
   attackEffects: []
   currState: 0
+  prefab: {fileID: 0}
   relationships:
   - name: Player
     priority: 1
@@ -94,7 +95,7 @@ MonoBehaviour:
     focusType: 0
     addend: 0
   defaultState: 2
-  range: 20
+  range: 30
   meleeDamage: 1
   meleeRange: 2
   cooldown: 1
@@ -103,7 +104,6 @@ MonoBehaviour:
   focus: {fileID: 0}
   focusPos: {x: 0, y: 0, z: 0}
   targetPos: {x: 0, y: 0, z: 0}
-  cooldownAttack: 0
 --- !u!212 &3477187138778615701
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -169,9 +169,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   items:
-  - itemSpawn: {fileID: 0}
+  - itemSpawn: {fileID: 7648637220969931695, guid: 042919984f8ef4b3894c0424b509360d, type: 3}
     weight: 1
-  spawnChance: 1
+  spawnChance: 0.5
 --- !u!54 &8441501791241215001
 Rigidbody:
   m_ObjectHideFlags: 0

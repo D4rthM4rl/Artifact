@@ -45,9 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad9031e5e5730497fa641f74ec804411, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemStats: {fileID: 11400000, guid: 32e0494b83342414daf5d7a6bef93753, type: 2}
-  newTraits: []
-  effects: []
+  info: {fileID: 11400000, guid: 32e0494b83342414daf5d7a6bef93753, type: 2}
+  prefab: {fileID: 0}
 --- !u!212 &4870681563253361234
 SpriteRenderer:
   m_ObjectHideFlags: 0

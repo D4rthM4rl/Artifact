@@ -11,6 +11,8 @@ public class ItemSpawner : MonoBehaviour
     {
         public GameObject itemSpawn;
         public float weight;
+        // [HideInInspector]
+        // public List<SpecialTrait> specialTraits;
     }
 
     public List<Spawnable> items = new List<Spawnable>();
@@ -22,7 +24,7 @@ public class ItemSpawner : MonoBehaviour
     public float spawnChance = 1;
     private float totalWeight;
 
-    private MonoBehaviour enemyController;
+    private Character character;
     private int chosenIndex;
 
     /// <summary>
@@ -40,14 +42,14 @@ public class ItemSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(StartHelper());
+        StartCoroutine(TryToSpawn());
     }
 
     /// <summary>
     /// Generates a random item from the weights and spawns after a pause since
     /// we need to wait for its room to be moved to its correct spot and not (0, 0)
     /// </summary>
-    private IEnumerator StartHelper()
+    private IEnumerator TryToSpawn()
     {
         // Debug.Log(GameController.seed + GameController.numItemsSpawned);
         while (GameController.itemRandom == null) yield return new WaitForSeconds(0.1f);
@@ -63,8 +65,10 @@ public class ItemSpawner : MonoBehaviour
             cumulativeWeight += items[chosenIndex].weight;
         }
 
-        enemyController = gameObject.GetComponent<Enemy>();
-        if (!enemyController) {
+        // If we have a Character component on this GameObject, that means we
+        // need to wait for it to die before spawning the item
+        character = gameObject.GetComponent<Character>();
+        if (!character) {
             yield return new WaitForSeconds(0.5f);
             SpawnItem();
         }
@@ -74,8 +78,12 @@ public class ItemSpawner : MonoBehaviour
     /// Spawns the randomly chosen item at the item spawner location
     /// </summary>
     public void SpawnItem() {
+        Debug.Assert(items[chosenIndex].itemSpawn != null, "Item spawner has a null item for " + gameObject.name);
         GameObject i = Instantiate(items[chosenIndex].itemSpawn, transform.position, Quaternion.identity, transform.parent) as GameObject;
-        i.GetComponent<ItemController>().prefab = items[chosenIndex].itemSpawn;
+        
+        ItemController item = i.GetComponent<ItemController>();
+        Debug.Assert(item != null, "ItemController is null");
+        item.prefab = items[chosenIndex].itemSpawn;
         i.SetActive(true);
         i.layer = 3; // Item layer
         GameController.numItemsSpawned++;

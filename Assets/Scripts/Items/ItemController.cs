@@ -35,10 +35,12 @@ public class ItemController : MonoBehaviour
                 {new ItemSpawner.Spawnable {itemSpawn = prefab, weight = 1}};
             c.AddStatChange(info.statChanges);
             foreach (Effect e in info.Effects) {c.AddAttackEffect(e);}
+            foreach (SpecialTrait trait in GetComponents<SpecialTrait>())
+            {
+                SpecialTrait addedTrait = c.gameObject.AddComponent(trait.GetType()) as SpecialTrait;
+                addedTrait.user = c;
+            }
 
-            // if (gameObject.GetComponent<SpecialTrait>()) {
-            //     c.gameObject.AddComponent(gameObject.GetComponent<SpecialTrait>().GetType());
-            // }
             Destroy(gameObject);
         }
     }

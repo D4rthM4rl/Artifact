@@ -4,7 +4,9 @@ using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour
 {
+    [HideInInspector]
     public ItemInfo itemInfo;
+    [HideInInspector]
     public WeaponStats stats;
     public bool inUse = false;
     public bool isSelected = false;

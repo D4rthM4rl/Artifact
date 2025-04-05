@@ -17,7 +17,7 @@ public class SunWeather : Weather
     public override void StopWeather()
     {
         RemoveEffectFromAllCharacters();
-        Debug.Log("Weather changed from sunny");
+        // Debug.Log("Weather changed from sunny");
     }
 
 	protected override void ChangeLighting()
@@ -35,8 +35,6 @@ public class SunWeather : Weather
             WeatherController.instance.directionalLight.color = ambientColor;
             WeatherController.instance.directionalLight.useColorTemperature = true;
         }
-        
-        Debug.Log("Sunny light");
 	}
 
 	public override void ApplyEffectToCharacter(Character character)

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
+    /// <summary>
+    /// An instance of enemy-- the prefab, how many, how big one is, and how common
+    /// </summary>
     [System.Serializable]
     public struct EnemyInstance
     {
@@ -11,11 +14,11 @@ public class EnemySpawner : MonoBehaviour
         [Tooltip("Prefab for the decoration")]
         public GameObject gameObject;
 
-        /// <summary>How big the decoration is in each direction</summary>
+        /// <summary>How big the enemy is in each direction</summary>
         [Tooltip("How big an enemy is in each direction")]
         public Vector3 size;
 
-        /// <summary>How many of this decoration minimum can be in a clump</summary>
+        /// <summary>How many of this enemy minimum can be in a clump</summary>
         [Tooltip("How many of this decoration minimum can be in a clump")]
         public int packSizeMin;
         /// <summary>How many of this decoration maximum can be in a clump</summary>
@@ -116,12 +119,12 @@ public class EnemySpawner : MonoBehaviour
             }
             GameController.numEnemiesSpawned++;
             GameObject enemyObj = Instantiate(e.gameObject, pos + Vector3.up + transform.position, Quaternion.identity, transform);
-            room.enemiesInRoom.Add(enemyObj.GetComponent<Enemy>());
-            room.SetupPathfinding(enemyObj.GetComponent<Enemy>());
-            enemyObj.gameObject.GetComponent<Enemy>().currState = CharacterState.inactive;
+            Enemy enemy = enemyObj.GetComponent<Enemy>();
+            Debug.Assert(enemy != null, "Enemy is null");
+            enemy.prefab = enemyObj;
+            room.enemiesInRoom.Add(enemy);
+            room.SetupPathfinding(enemy);
+            enemy.currState = CharacterState.inactive;
         }
-        // GameObject i = Instantiate(enemies[chosenIndex].gameObject, transform.position, Quaternion.identity, transform.parent) as GameObject;
-        // i.SetActive(true);
-        // i.layer = 3; // Item layer
     }
 }

@@ -105,7 +105,7 @@ public class CameraController : MonoBehaviour
         fogOn = true;
         
         // Log for debugging
-        Debug.Log($"Weather fog set: Density={RenderSettings.fogDensity}, Intensity={intensity}");
+        // Debug.Log($"Weather fog set: Density={RenderSettings.fogDensity}, Intensity={intensity}");
     }
     
     public void ClearWeatherFog()

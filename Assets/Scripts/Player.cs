@@ -168,13 +168,15 @@ public class Player : Character
                 Weapon weapon = weaponGO.GetComponent<Weapon>();
                 if (weapon.inUse)
                 {
+                    // Buffer the input to keep the check going and if the weapon
+                    // is still in use, don't switch
                     StartCoroutine(WaitFor(0.1f));
                     if (weapon.inUse)
                         return;
                 }
                 if (i == index)
                     weapon.SetSelected();
-                else
+                else if (i != index)
                     weapon.SetUnselected();
             }
         }

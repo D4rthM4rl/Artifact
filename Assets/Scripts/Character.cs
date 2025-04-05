@@ -263,11 +263,14 @@ public abstract class Character : MonoBehaviour
     /// <summary>State the enemy is in, starts wandering</summary>
     public CharacterState currState = CharacterState.wander;
 
+    [HideInInspector]
+    /// <summary>The prefab to spawn me again</summary>
+    public GameObject prefab;
 
     protected virtual void Start() 
     {
         // Create a working copy of baseStats for final values?
-        stats = info.baseStats;
+        stats = info.BaseStats.Clone();
     }
 
     /// <summary>
@@ -283,7 +286,7 @@ public abstract class Character : MonoBehaviour
     {
         AddStatChange(change);
         if (duration == float.PositiveInfinity || duration <= 0) 
-            Debug.LogError("Duration must be greater than 0 and less than infinity");
+            Debug.LogError("Duration must >= 0 and less than infinity");
         yield return new WaitForSeconds(duration);
         RemoveStatChange(change);
     }
@@ -307,47 +310,47 @@ public abstract class Character : MonoBehaviour
         // add all additive modifications, then multiply by all multiplicative factors
         // Then we clamp to the stat upper and lower bounds
         stats.maxHealth = Mathf.Clamp(
-            CalculateFinalStat(info.baseStats.maxHealth, sc => sc.maxHealthChange), 
+            CalculateFinalStat(info.BaseStats.maxHealth, sc => sc.maxHealthChange), 
             CharacterStats.lowerBounds.maxHealth,
             CharacterStats.upperBounds.maxHealth);
         stats.moveSpeed = Mathf.Clamp(
-            CalculateFinalStat(info.baseStats.moveSpeed, sc => sc.moveSpeedChange), 
+            CalculateFinalStat(info.BaseStats.moveSpeed, sc => sc.moveSpeedChange), 
             CharacterStats.lowerBounds.moveSpeed,
             CharacterStats.upperBounds.moveSpeed);
         stats.attackDamageModifier = Mathf.Clamp(
-            CalculateFinalStat(info.baseStats.attackDamageModifier, sc => sc.attackDamageChange),
+            CalculateFinalStat(info.BaseStats.attackDamageModifier, sc => sc.attackDamageChange),
             CharacterStats.lowerBounds.attackDamageModifier,
             CharacterStats.upperBounds.attackDamageModifier);
         stats.attackRateModifier = Mathf.Clamp(
-            CalculateFinalStat(info.baseStats.attackRateModifier, sc => sc.attackRateChange),
+            CalculateFinalStat(info.BaseStats.attackRateModifier, sc => sc.attackRateChange),
             CharacterStats.lowerBounds.attackRateModifier,
             CharacterStats.upperBounds.attackRateModifier);
         stats.attackSizeModifier = Mathf.Clamp(
-            CalculateFinalStat(info.baseStats.attackSizeModifier, sc => sc.attackSizeChange),
+            CalculateFinalStat(info.BaseStats.attackSizeModifier, sc => sc.attackSizeChange),
             CharacterStats.lowerBounds.attackSizeModifier,
             CharacterStats.upperBounds.attackSizeModifier);
         stats.manaUseModifier = Mathf.Clamp(
-            CalculateFinalStat(info.baseStats.manaUseModifier, sc => sc.manaUseChange),
+            CalculateFinalStat(info.BaseStats.manaUseModifier, sc => sc.manaUseChange),
             CharacterStats.lowerBounds.manaUseModifier,
             CharacterStats.upperBounds.manaUseModifier);
         stats.manaRegenRate = Mathf.Clamp(
-            CalculateFinalStat(info.baseStats.manaRegenRate, sc => sc.manaRegenChange),
+            CalculateFinalStat(info.BaseStats.manaRegenRate, sc => sc.manaRegenChange),
             CharacterStats.lowerBounds.manaRegenRate,
             CharacterStats.upperBounds.manaRegenRate);
         stats.projectileSpeedModifier = Mathf.Clamp(
-            CalculateFinalStat(info.baseStats.projectileSpeedModifier, sc => sc.projectileSpeedChange),
+            CalculateFinalStat(info.BaseStats.projectileSpeedModifier, sc => sc.projectileSpeedChange),
             CharacterStats.lowerBounds.projectileSpeedModifier,
             CharacterStats.upperBounds.projectileSpeedModifier);
         stats.projectileLifetimeModifier = Mathf.Clamp(
-            CalculateFinalStat(info.baseStats.projectileLifetimeModifier, sc => sc.projectileLifetimeChange),
+            CalculateFinalStat(info.BaseStats.projectileLifetimeModifier, sc => sc.projectileLifetimeChange),
             CharacterStats.lowerBounds.projectileLifetimeModifier,
             CharacterStats.upperBounds.projectileLifetimeModifier);
         stats.knockbackModifier = Mathf.Clamp(
-            CalculateFinalStat(info.baseStats.knockbackModifier, sc => sc.knockbackChange),
+            CalculateFinalStat(info.BaseStats.knockbackModifier, sc => sc.knockbackChange),
             CharacterStats.lowerBounds.knockbackModifier,
             CharacterStats.upperBounds.knockbackModifier);
         stats.defense = Mathf.Clamp(
-            CalculateFinalStat(info.baseStats.defense, sc => sc.defense),
+            CalculateFinalStat(info.BaseStats.defense, sc => sc.defense),
             CharacterStats.lowerBounds.defense,
             CharacterStats.upperBounds.defense);
 

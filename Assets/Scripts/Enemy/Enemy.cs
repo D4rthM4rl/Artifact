@@ -123,11 +123,13 @@ public abstract class Enemy : Character
     private Collider territory;
     private bool drawLinesOfSight = false;
     protected bool drawFocus = false;
+    [HideInInspector]
 	public NavMeshAgent ai;
     /// <summary>Whether to recalculate </summary>
     protected bool destinationRecalculate = true;
 
     /// <summary>Possible <see cref="Action"/>s for an enemy to take</summary>
+    [HideInInspector]
     public List<Action> possibleActions = new List<Action>();
     /// <summary>What I'm looking at; fleeing from or following</summary>
     public GameObject focus;
@@ -141,10 +143,8 @@ public abstract class Enemy : Character
 
     [System.NonSerialized]
     public bool dead = false;
-    [SerializeField]
+    /// <summary>Whether I can attack (am not cooling down)</summary>
     protected bool cooldownAttack = false;
-    /// <summary>Script to spawn item if there is one attached</summary>
-    protected MonoBehaviour itemSpawner;
     [System.NonSerialized]
     public Collider col;
     [System.NonSerialized]
@@ -161,7 +161,6 @@ public abstract class Enemy : Character
             if (e.particles == null) e.particles = EffectController.instance.GetParticles(e.type, e.level);
         }
         // player = GameObject.FindGameObjectWithTag("Player");
-        itemSpawner = gameObject.GetComponent<ItemSpawner>();
         rb = GetComponent<Rigidbody>();
         rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
         obstacleLayer = LayerMask.GetMask("Environment");
@@ -346,7 +345,13 @@ public abstract class Enemy : Character
     public override void Die()
     {
         // If we don't check if its dead first then it could spawn multiple
-        if (itemSpawner && !dead) {gameObject.GetComponent<ItemSpawner>().SpawnItem();}
+        if (!dead)
+        {
+            foreach (ItemSpawner itemSpawner in GetComponents<ItemSpawner>())
+            {
+                if (itemSpawner != null) itemSpawner.SpawnItem();
+            }
+        }
         dead = true;
         Destroy(gameObject);
     }

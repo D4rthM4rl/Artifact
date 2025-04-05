@@ -50,5 +50,17 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Summit/Summit - End.unity
     guid: 79b6c4504e67a4db391bcab580df0380
+  - enabled: 1
+    path: Assets/Scenes/Plains/Plains - Start.unity
+    guid: c7f37491b8837437781ce5908bae9480
+  - enabled: 1
+    path: Assets/Scenes/Plains/Plains - Enemy 1.unity
+    guid: 61d7498d270ec4663842bacaa689b888
+  - enabled: 1
+    path: Assets/Scenes/Plains/Plains - Item.unity
+    guid: 335833db9f9d043c2b8d1b6f67f0de8a
+  - enabled: 1
+    path: Assets/Scenes/Plains/Plains - End.unity
+    guid: 8af0d440a00d742d79b4c1c62dd84cfe
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: a4e5e2ae1b1904acfab9f5a5c1e2f395, type: 2}

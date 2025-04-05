@@ -35,27 +35,27 @@ public class HotbarUIController : MonoBehaviour
     /// </summary>
     void Update()
     {
-        if (Input.GetKeyDown("1"))
+        if (Input.GetKeyDown("1") && boxSelected != 1)
         {
             boxSelected = 1;
             HighlightBox(0, highlightedBoxColor, otherBoxColor);
             player.ChangeWeapon(0);
-        } else if (Input.GetKeyDown("2"))
+        } else if (Input.GetKeyDown("2") && boxSelected != 2)
         {
             boxSelected = 2;
             HighlightBox(1, highlightedBoxColor, otherBoxColor);
             player.ChangeWeapon(1);
-        } else if (Input.GetKeyDown("3"))
+        } else if (Input.GetKeyDown("3")  && boxSelected != 3)
         {
             boxSelected = 3;
             HighlightBox(2, highlightedBoxColor, otherBoxColor);
             player.ChangeWeapon(2);
-        } else if (Input.GetKeyDown("4"))
+        } else if (Input.GetKeyDown("4") && boxSelected != 4)
         {
             boxSelected = 4;
             HighlightBox(3, highlightedBoxColor, otherBoxColor);
             player.ChangeWeapon(3);
-        } else if (Input.GetKeyDown("5"))
+        } else if (Input.GetKeyDown("5") && boxSelected != 5)
         {
             boxSelected = 5;
             HighlightBox(4, highlightedBoxColor, otherBoxColor);

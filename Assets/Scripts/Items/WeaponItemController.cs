@@ -17,6 +17,14 @@ public class WeaponItemController : ItemController
             Debug.LogError("ItemStats is not set for " + gameObject.name);
             return;
         }
+        Weapon weapon = weaponPrefab.GetComponent<Weapon>();
+        if (weapon == null) 
+        {
+            Debug.LogError("Weapon prefab is not set for " + gameObject.name);
+            return;
+        }
+        weapon.itemInfo = info;
+        weapon.stats = weaponStats;
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         sr.sprite = info.itemImage;
         if (GetComponent<Renderer>()) GetComponent<Renderer>().material.SetColor("_BaseColor", info.tint);
