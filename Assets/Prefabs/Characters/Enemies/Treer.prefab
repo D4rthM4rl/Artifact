@@ -120,15 +120,7 @@ MonoBehaviour:
   attackEffects: []
   currState: 2
   prefab: {fileID: 0}
-  relationships:
-  - name: Player
-    priority: 0
-    behavior:
-      whenAttack: 03000000
-      whenFollow: 03000000
-      whenFlee: 
-      followDist: 0
-      fleeDist: 0
+  relationships: []
   itemRelationships: []
   defaultBehavior:
     whenAttack: 03000000
@@ -143,8 +135,8 @@ MonoBehaviour:
     followDist: 0
     fleeDist: 0
   prioritize:
-    focusType: 0
-    addend: 0
+    focusType: 1
+    addend: 1
   defaultState: 0
   range: 30
   meleeDamage: 5

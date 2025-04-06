@@ -126,6 +126,7 @@ public enum MovementType
     Follow
 }
 
+#region Character Stats Class
 /// <summary>Stats for the character</summary>
 [System.Serializable]
 public class CharacterStats
@@ -222,7 +223,9 @@ public class CharacterStats
         };
     }
 }
+#endregion
 
+#region Character Class
 /// <summary>
 /// Anything that can attack and be attacked, such as enemies and players and some summons
 /// </summary>
@@ -246,8 +249,6 @@ public abstract class Character : MonoBehaviour
     /// <summary>How long I have been regenerating mana</summary>
     private float manaRegenTime = 1f;
 
-    
-
     /// <summary>EffectTypes that are being applied when I attack </summary>
     private static List<EffectType> effectTypes = new List<EffectType>();
     /// <summary>What Effects my attacks inflict</summary>
@@ -267,9 +268,14 @@ public abstract class Character : MonoBehaviour
     /// <summary>The prefab to spawn me again</summary>
     public GameObject prefab;
 
+    /// <summary>
+    /// Modifier for all knockback force to scale better
+    /// </summary>
+    protected const float KnockbackStart = 30;
+
     protected virtual void Start() 
     {
-        // Create a working copy of baseStats for final values?
+        // Create a working copy of baseStats for final values
         stats = info.BaseStats.Clone();
     }
 
@@ -379,28 +385,30 @@ public abstract class Character : MonoBehaviour
         return (baseValue + additive) * multiplicative;
     }
 
-    /// <summary>I take damage of a certain amount, taking defense into account</summary>
-    /// <param name="damage">How much damage for me to take</param>
-    public virtual void TakeDamage(float damage)
-    {
-        stats.health = Mathf.Max(stats.health - (damage / (stats.defense * .1f)), 0);
-
-        if (stats.health <= 0) {Die();}
-        UpdateHealth(stats.health, stats.maxHealth);
-    }
-
     /// <summary>
     /// Taken damage for given amount considering or not considering defense amount
     /// </summary>
     /// <param name="damage">How much damage (pre-defense) for player to take</param>
     /// <param name="bypassDef">Whether attack should do given damage regardless of defense amount</param>
-    public virtual void TakeDamage(float damage, bool bypassDef)
+    public virtual void TakeDamage(float damage, bool bypassDef = false)
     {
         if (!bypassDef) stats.health = Mathf.Max(stats.health - Mathf.Max(damage - (stats.defense * .1f), 0.001f), 0);
         else stats.health = Mathf.Max(stats.health - damage, 0);
 
+        StartCoroutine(ShowDamage());
         if (stats.health <= 0) {Die();}
         UpdateHealth(stats.health, stats.maxHealth);
+    }
+
+    /// <summary>
+    /// Changes sprite color for .075s to indicate damage is being taken
+    /// </summary>
+    public virtual IEnumerator ShowDamage()
+    {
+        Material mat = GetComponent<Renderer>().material;
+        mat.SetColor("_BaseColor", GameController.instance.takingDamageColor);
+        yield return new WaitForSeconds(0.075f);
+        mat.SetColor("_BaseColor", Color.white);
     }
 
     /// <summary>
@@ -519,7 +527,7 @@ public abstract class Character : MonoBehaviour
 
         // Apply knockback force to what I'm hitting
         Rigidbody targetRb = recipient.gameObject.GetComponent<Rigidbody>();
-        targetRb.AddForce(knockbackDirection * stats.knockbackModifier, ForceMode.Impulse);
+        targetRb.AddForce(knockbackDirection * stats.knockbackModifier * KnockbackStart, ForceMode.Impulse);
     }
 
     /// <summary>Returns power level of Character accounting for health</summary>
@@ -649,3 +657,4 @@ public abstract class Character : MonoBehaviour
         UpdateMana(stats.mana);
     }
 }
+#endregion

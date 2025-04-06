@@ -7348,6 +7348,10 @@ PrefabInstance:
       propertyPath: info
       value: 
       objectReference: {fileID: 11400000, guid: 460eed64bcb9a4c7e867ffd70a4ae365, type: 2}
+    - target: {fileID: 6959326490417667448, guid: c640dcd8d28bd45b7a322bebd074680f, type: 3}
+      propertyPath: takingDamageMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 366b436128d6b468a81ef075232802e0, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

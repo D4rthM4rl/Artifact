@@ -138,10 +138,8 @@ public abstract class Dash : SpecialTrait
     /// </summary>
     protected IEnumerator Cooldown()
     {
-        // Debug.Log("Cooling down");
         coolingDown = true;
         yield return new WaitForSeconds(cooldownTime);
         coolingDown = false;
-        // Debug.Log("Done cooling down");
     }
 }

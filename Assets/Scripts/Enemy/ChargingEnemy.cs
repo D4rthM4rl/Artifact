@@ -11,16 +11,16 @@ public class ChargingEnemy : Enemy
 	
 	/// <summary>How much faster it charges than the normal move speed</summary>
     [SerializeField]
-    private const float chargeSpeedMultiplier = 3f;
+    private const float ChargeSpeedMultiplier = 3f;
 	/// <summary>How fast it accelerates when charging</summary>
     [SerializeField]
-    private const float chargeAcceleration = 100f;
+    private const float ChargeAcceleration = 100f;
 	/// <summary>Min speed to consider ending the "charge"</summary>
     [SerializeField]
-    private const float minChargingSpeed = 3f;
+    private const float MinChargingSpeed = 3f;
 
     [SerializeField]
-    private const int requiredSightFrames = 100;
+    private const int RequiredSightFrames = 100;
 
     protected override void Start()
     {
@@ -67,19 +67,20 @@ public class ChargingEnemy : Enemy
     {
         if (!cooldownAttack) {
             StartCoroutine(Cooldown());
-            HitCharacter(focus.GetComponent<Character>(), (meleeDamage * stats.attackDamageModifier));
+            HitCharacter(focus.GetComponent<Character>(), (stats.attackDamageModifier));
+            Debug.Log("Attacking for " + stats.attackDamageModifier);
         }
     }
 
     public override void HitCharacter(Character other, float damage)
     {
-        other.TakeDamage(meleeDamage, false);
+        other.TakeDamage(damage, false);
         other.ReceiveEffect(attackEffects);
         Vector3 knockbackDirection = (other.transform.position - transform.position).normalized;
 
         // Apply knockback force to what I hit
         Rigidbody otherRb = other.gameObject.GetComponent<Rigidbody>();
-        otherRb.AddForce(knockbackDirection * stats.knockbackModifier + Mathf.Pow(stats.knockbackModifier, 1.5f) * rb.velocity, ForceMode.Impulse);
+        otherRb.AddForce(knockbackDirection * stats.knockbackModifier * KnockbackStart + Mathf.Pow(stats.knockbackModifier, 1.5f) * rb.velocity, ForceMode.Impulse);
     }
 
     protected override void Follow()
@@ -94,8 +95,8 @@ public class ChargingEnemy : Enemy
 
 		if (charging)
 		{
-			ai.speed = stats.moveSpeed * chargeSpeedMultiplier;
-			ai.acceleration = chargeAcceleration;
+			ai.speed = stats.moveSpeed * ChargeSpeedMultiplier;
+			ai.acceleration = ChargeAcceleration;
 			ai.autoBraking = false;
 			// Debug.Log("Max speed: " + maxSpeed);
 			// Debug.Log("Curr speed: " + rb.velocity.magnitude);
@@ -138,15 +139,4 @@ public class ChargingEnemy : Enemy
 			}
 		}
 	}
-    protected override void Wander()
-    {
-        if (ai != null && destinationRecalculate)
-        {
-            Vector3 randomPosition = transform.position + Random.insideUnitSphere * 5f;
-            randomPosition.y = transform.position.y; // Keep same z position
-            
-            ai.destination = randomPosition;
-            StartCoroutine(CooldownDestinationSet());
-        }
-    }
 }

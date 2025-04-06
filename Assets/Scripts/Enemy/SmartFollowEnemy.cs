@@ -41,22 +41,6 @@ public class SmartFollowEnemy : Enemy
         }
     }
 
-    /// <summary>
-    /// Wanders around randomly, not towards anything specific
-    /// </summary>
-    protected override void Wander()
-    {
-        // TODO: Implement wandering behavior for SmartFollowEnemy
-        if (ai != null && destinationRecalculate)
-        {
-            Vector3 randomPosition = transform.position + Random.insideUnitSphere * 5f;
-            randomPosition.y = transform.position.y; // Keep same z position
-            
-            ai.destination = randomPosition;
-            StartCoroutine(CooldownDestinationSet());
-        }
-    }
-
     /// <summary>Moves towards focus</summary>
     protected override void Follow()
     {
@@ -75,7 +59,7 @@ public class SmartFollowEnemy : Enemy
     protected override void Attack()
     {
         if (!cooldownAttack) {
-            if (focus.GetComponent<Character>()) HitCharacter(focus.GetComponent<Character>(), meleeDamage * stats.attackDamageModifier);
+            if (focus.GetComponent<Character>()) HitCharacter(focus.GetComponent<Character>(), stats.attackDamageModifier);
             StartCoroutine(Cooldown());
         }
     }

@@ -114,7 +114,6 @@ public abstract class Enemy : Character
     protected LayerMask obstacleLayer;
     /// <summary>Range that enemy looks for other focuses in</summary>
     public float range;
-    public float meleeDamage;
     public float meleeRange;
     /// <summary>How long is my attack cooldown timer (sec)</summary>
     public float cooldown;
@@ -242,7 +241,7 @@ public abstract class Enemy : Character
                 if (ai) ai.enabled = false; 
                 return;
             case(CharacterState.wander): 
-                
+                if (ai) ai.enabled = true;
                 break;
             case(CharacterState.follow):
                 if (ai) 
@@ -282,8 +281,59 @@ public abstract class Enemy : Character
         isAware = false;
     }
 
-    /// <summary>Just move around aimlessly</summary>
-    protected abstract void Wander();
+    /// <summary>Moves around aimlessly, no focus</summary>
+    protected virtual void Wander()
+    {
+        if (ai != null && destinationRecalculate)
+        {
+            Vector3 randomPosition = Vector3.zero;
+            int maxAttempts = 3;
+            int attempts = 0;
+            
+            // Try finding a walkable random position
+            do
+            {
+                // Generate a random point within a circle on the XZ plane.
+                Vector2 randomCircle = Random.insideUnitCircle * 5f;
+                randomPosition = transform.position + new Vector3(randomCircle.x, 0f, randomCircle.y);
+                attempts++;
+            }
+            while (!IsWalkable(randomPosition) && attempts < maxAttempts);
+
+            // If no valid position was found, you may want to handle it (e.g., use current position or a fallback)
+            if (!IsWalkable(randomPosition))
+            {
+                // Optionally log or handle the situation
+                randomPosition = transform.position;
+            }
+
+            ai.destination = randomPosition;
+            StartCoroutine(CooldownDestinationSet(Random.Range(0.5f, 3f)));
+        }
+    }
+    
+    /// <summary>
+    /// Tests whether some position at this position is in environment layer,
+    /// up or down by 5 relative to the current y
+    /// </summary>
+    /// <param name="position">The position to test within</param>
+    /// <returns>Whether this position is walkable</returns>
+    protected virtual bool IsWalkable(Vector3 position)
+    {
+        // Offset the position upward to ensure the ray starts above any obstacles.
+        Vector3 rayStart = position + Vector3.up * 5f;
+        Ray ray = new Ray(rayStart, Vector3.down);
+        
+        // Adjust the ray distance as needed (here 20f covers the vertical range).
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 10f, LayerMask.GetMask("Environment")))
+        {
+            // Optionally, add extra logic to determine if the hit surface is really "walkable".
+            return true;
+        }
+        return false;
+    }
+    
     /// <summary>Attack, attempt to damage to the focus</summary>
     protected abstract void Attack();
     /// <summary>Move relative to focus to maintain distance</summary>
@@ -400,11 +450,13 @@ public abstract class Enemy : Character
         aiIsSetup = true;
     }
 
-    /// <summary>Waits 0.05s before saying we should recalculate the destination</summary>
-    protected IEnumerator CooldownDestinationSet()
+    /// <summary>
+    /// Waits 0.05s (or a different amount) before saying we should recalculate the destination
+    /// </summary>
+    protected IEnumerator CooldownDestinationSet(float cooldown = 0.05f)
     {
         destinationRecalculate = false;
-        yield return new WaitForSeconds(0.05f);
+        yield return new WaitForSeconds(cooldown);
         destinationRecalculate = true;
     }
 
@@ -459,7 +511,7 @@ public abstract class Enemy : Character
         return hit.collider == null;
     }
 
-    /// <summary>MAKE THIS BETTER</summary>
+    /// <summary>TODO: MAKE THIS BETTER</summary>
     /// <param name="obstacleLayer">Layers to check for walls in</param>
     /// <returns>True if blocked in 2+ directions</returns>
     public bool IsCornered(LayerMask obstacleLayer)

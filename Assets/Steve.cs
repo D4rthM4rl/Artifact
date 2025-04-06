@@ -73,7 +73,7 @@ public class Steve : Enemy
     {
         if (Vector3.Distance(focusPos, transform.position) <= meleeRange * stats.attackSizeModifier)
         {
-            HitCharacter(focus.GetComponent<Character>(), meleeDamage * stats.attackDamageModifier);
+            HitCharacter(focus.GetComponent<Character>(), stats.attackDamageModifier);
         }
         else
         {

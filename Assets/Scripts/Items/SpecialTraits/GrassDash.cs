@@ -9,7 +9,6 @@ public class GrassDash : Dash
 
     private void Start() {
         grass = GameController.instance.slowGrass;
-        cooldownTime = 0;
     }
 
     protected override void DoDash(Vector3 direction)
@@ -20,7 +19,7 @@ public class GrassDash : Dash
 
     private void SpawnGrasses()
     {
-        if (Random.Range(0, 5) > 0) {
+        if (Random.Range(0, 5) > 2) {
             SlowGrass grassTile = Instantiate(grass, gameObject.transform.position + 
                 Vector3.down * .45f, Quaternion.Euler(90, 0, 0)).GetComponent<SlowGrass>();
             Material grassMat = grassTile.GetComponent<Renderer>().material;

@@ -17,6 +17,7 @@ public class GameController : MonoBehaviour
     public Material particleMaterial;
     public Material defaultMaterial;
     public Material litMaterial;
+    public Color takingDamageColor = Color.red;
 
     public GameObject slowGrass;
 
