@@ -25,8 +25,8 @@ public class Player : Character
         animator = GetComponent<Animator>();
         weapons = new GameObject[5];
         rb = GetComponent<Rigidbody>();
-        HealthUIController.UpdateHearts(stats.health, stats.maxHealth);
         base.Start();
+        HealthUIController.UpdateHearts(stats.health, stats.maxHealth);
     }
 
     void Update()
@@ -225,13 +225,12 @@ public class Player : Character
 
     protected override IEnumerator GradualHealMana(float timePerUnit, float healAmount)
     {
-        stats.health = Mathf.Min(stats.maxHealth, stats.health + 1);
         UpdateMana(stats.mana);
         for (int i = 0; i < healAmount - 1; i++)
         {
             yield return new WaitForSeconds(timePerUnit);
-            stats.health = Mathf.Min(stats.maxHealth, stats.health + 1);
-            HealthUIController.UpdateHearts(stats.health, stats.maxHealth);
+            stats.mana = Mathf.Min(stats.mana + 1, 100);
+            UpdateMana(stats.mana);
         }
     }
 

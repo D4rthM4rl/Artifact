@@ -10,7 +10,7 @@ public abstract class Dash : SpecialTrait
     /// <summary>
     /// How long until dash is available again
     /// </summary>
-    public float cooldownTime = 3;
+    public float cooldownTime = 1;
     /// <summary>
     /// How much force is used per push on player
     /// </summary>

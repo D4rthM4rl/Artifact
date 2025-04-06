@@ -322,7 +322,9 @@ public class Room : MonoBehaviour
         if (other.GetComponent<Player>() != null) 
         {
             RoomController.instance.OnPlayerEnterRoom(this);
-            other.gameObject.GetComponent<Player>().stats.mana = 100;
+            if (WorldGenerator.instance.worldGenerationData.wallsSeparateRooms)
+                {other.gameObject.GetComponent<Player>().stats.mana = 100;}
+            
         }
     }
 }
