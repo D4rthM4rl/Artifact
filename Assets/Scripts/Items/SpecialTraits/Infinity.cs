@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InfinityItem : SpecialTrait
 {
-    public float pushBackForce = .001f; // Factor by which to slow down enemies and bullets
+    public float pushBackForce = .01f; // Factor by which to slow down enemies and bullets
     public float slowdownRadius = 2f; // Distance within which enemies and bullets are slowed down
     public Material material;
     private ParticleSystem particles;
@@ -32,13 +32,13 @@ public class InfinityItem : SpecialTrait
         );
         // Couldn't get Gradient to work
         var psRenderer = GetComponent<ParticleSystemRenderer>();
-        psRenderer.material = GameController.instance.particleMaterial;
+        psRenderer.material = material;
         psRenderer.sortingOrder = 1;
         main.startColor = ourGradient;
         user = gameObject.GetComponent<Character>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         var e = particles.emission;
 

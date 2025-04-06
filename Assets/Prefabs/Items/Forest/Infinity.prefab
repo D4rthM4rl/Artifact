@@ -46,10 +46,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe654d6193ed74e459463ce81fad55f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  user: {fileID: 0}
   pushBackForce: 0.1
   slowdownRadius: 3
-  material: {fileID: 2100000, guid: 15870835698e3443c89e6f1e192b6b96, type: 2}
-  user: {fileID: 0}
+  material: {fileID: 2100000, guid: 187f70b0693364770847e955b9712bf8, type: 2}
 --- !u!212 &2408233401761959311
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -114,30 +114,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad9031e5e5730497fa641f74ec804411, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
-    name: Infinity
-    description: Slows everything around you
-    rarity: 0
-    itemImage: {fileID: 21300000, guid: 7e1094e17b2ab48a8ac0851fb67036a2, type: 3}
-    tint: {r: 1, g: 1, b: 1, a: 1}
-  heal:
-    amount: 0
-    timeSpan: 0
-  maxHealthChange:
-    amount: 0
-    multiplier: 1
-  moveSpeedChange:
-    amount: 0
-    multiplier: 1
-  attackDamageChange:
-    amount: 0
-    multiplier: 1
-  attackRateChange:
-    amount: 0
-    multiplier: 1
-  attackSizeChange:
-    amount: 0
-    multiplier: 1
-  special: 1
-  newTrait: {fileID: -6638939248591686504}
-  effects: []
+  info: {fileID: 11400000, guid: 9c289136f7cff4995b4174e037bf0aed, type: 2}
+  prefab: {fileID: 0}

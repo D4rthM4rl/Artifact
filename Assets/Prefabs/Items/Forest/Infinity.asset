@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 90080559be52a446582d842ee5f4bd55, type: 3}
-  m_Name: Butterfly
+  m_Name: Infinity
   m_EditorClassIdentifier: 
-  itemName: Butterfly
+  itemName: Infinity
   description: 
   rarity: 0
-  itemImage: {fileID: 21300000, guid: 9c59ed23c1b8c4d79bd3cc2cee884c3c, type: 3}
+  itemImage: {fileID: 21300000, guid: 7e1094e17b2ab48a8ac0851fb67036a2, type: 3}
   tint: {r: 1, g: 1, b: 1, a: 1}
   effects: []
   statChanges:
     heal:
-      amount: 4
-      timeSpan: 4
+      amount: 0
+      timeSpan: 0
     maxHealthChange:
       amount: 0
       multiplier: 0

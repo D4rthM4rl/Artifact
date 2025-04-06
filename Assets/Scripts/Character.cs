@@ -292,7 +292,7 @@ public abstract class Character : MonoBehaviour
     {
         AddStatChange(change);
         if (duration == float.PositiveInfinity || duration <= 0) 
-            Debug.LogError("Duration must >= 0 and less than infinity");
+            Debug.LogError("Duration must be > 0 and less than infinity");
         yield return new WaitForSeconds(duration);
         RemoveStatChange(change);
     }
@@ -460,7 +460,8 @@ public abstract class Character : MonoBehaviour
     public bool UseMana(float amount)
     {
         amount *= stats.manaUseModifier;
-        if (stats.mana >= amount)
+        if (amount <= 0) return true; // Don't reset mana regen time
+        else if (stats.mana >= amount)
         {
             // timeSinceManaUsed = 0;
             stats.mana -= amount;
@@ -481,22 +482,9 @@ public abstract class Character : MonoBehaviour
     {
         if (stats.mana < 100)
         {
-            // // Store the previous elapsed time
-            // float previousTime = manaRegenTime;
-
-            // // Increment elapsed time using the actual time passed
-            // manaRegenTime += Time.deltaTime;
-
-            // // Compute the exact amount regenerated over this frame
-            // float regenIncrement = (Mathf.Pow(manaRegenTime, 2.3f) - 
-            //     Mathf.Pow(previousTime, 2.3f)) / 2.3f * (stats.manaRegenRate / 1);
-
-            // // Update mana, clamping to ensure it stays within bounds
-            // stats.mana = Mathf.Clamp(stats.mana + regenIncrement, 0, 100);
-            // UpdateMana(stats.mana);
             stats.mana = Mathf.Clamp(stats.mana + Mathf.Pow(manaRegenTime, 1.75f) * 0.75f * stats.manaRegenRate * Time.deltaTime, 0, 100);
-            Debug.Log("Adding " + Mathf.Pow(manaRegenTime, 1.75f) * .75f * stats.manaRegenRate * Time.deltaTime + " mana, totalling " + stats.mana);
-            Debug.Log("    aka adding (" + manaRegenTime + "^1.75) * .75 * " + stats.manaRegenRate + " * " + Time.deltaTime + " mana, totalling " + stats.mana);
+            // Debug.Log("Adding " + Mathf.Pow(manaRegenTime, 1.75f) * .75f * stats.manaRegenRate * Time.deltaTime + " mana, totalling " + stats.mana);
+            // Debug.Log("    aka adding (" + manaRegenTime + "^1.75) * .75 * " + stats.manaRegenRate + " * " + Time.deltaTime + " mana, totalling " + stats.mana);
             manaRegenTime += Time.deltaTime; // Accumulate real time instead of scaling
 
             UpdateMana(stats.mana);

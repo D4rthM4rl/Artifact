@@ -7348,6 +7348,26 @@ PrefabInstance:
       propertyPath: info
       value: 
       objectReference: {fileID: 11400000, guid: 460eed64bcb9a4c7e867ffd70a4ae365, type: 2}
+    - target: {fileID: 6867962777532244375, guid: c640dcd8d28bd45b7a322bebd074680f, type: 3}
+      propertyPath: stats.manaRegenRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6959326490417667448, guid: c640dcd8d28bd45b7a322bebd074680f, type: 3}
+      propertyPath: takingDamageColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6959326490417667448, guid: c640dcd8d28bd45b7a322bebd074680f, type: 3}
+      propertyPath: takingDamageColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6959326490417667448, guid: c640dcd8d28bd45b7a322bebd074680f, type: 3}
+      propertyPath: takingDamageColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6959326490417667448, guid: c640dcd8d28bd45b7a322bebd074680f, type: 3}
+      propertyPath: takingDamageColor.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6959326490417667448, guid: c640dcd8d28bd45b7a322bebd074680f, type: 3}
       propertyPath: takingDamageMaterial
       value: 
