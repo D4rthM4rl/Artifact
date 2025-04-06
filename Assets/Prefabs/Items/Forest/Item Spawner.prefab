@@ -51,6 +51,6 @@ MonoBehaviour:
     weight: 1
   - itemSpawn: {fileID: 7177476688595133109, guid: aecba9f0a3b95493e9aa5e5bac126a52, type: 3}
     weight: 1
-  - itemSpawn: {fileID: 3197396453812287293, guid: 44e62b4ab9aa245cea50e3ee6ffdc6f0, type: 3}
+  - itemSpawn: {fileID: 8987096016504022776, guid: 02ed2df05bf664572b5f20766cad3a8f, type: 3}
     weight: 1
   spawnChance: 1
