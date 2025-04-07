@@ -55,8 +55,9 @@ public class InfinityItem : SpecialTrait
                     Rigidbody rb = col.GetComponent<Rigidbody>();
                     if (rb != null)
                     {
-                        Vector3 knockbackDirection = -(transform.position - rb.transform.position).normalized;
+                        Vector3 knockbackDirection = -(transform.position - rb.transform.position);
                         // Could unnormalize it I think, so that it's stronger the closer you get as an upgrade
+                        // It's unnormalized rn but could be normalized by default
                         rb.AddForce(knockbackDirection * pushBackForce, ForceMode.Impulse);
                     }
                     // If the object doesn't have a Rigidbody, may need to handle slowdown differently

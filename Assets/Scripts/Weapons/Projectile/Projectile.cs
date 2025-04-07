@@ -22,7 +22,7 @@ public class Projectile : MonoBehaviour
     SphereCollider col;
 
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
         StartCoroutine(DeathDelay());
         // Layer should be setup by shooter in ProjectileWeapon
@@ -128,6 +128,4 @@ public class Projectile : MonoBehaviour
         yield return new WaitForSeconds(lifetime);
         Destroy(gameObject);
     }
-
-    public void ProjectileStart() {Start();}
 }

@@ -14,9 +14,9 @@ public class PetalGustPetal : Projectile
     public Vector2 target;
     
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
-        ProjectileStart();
+        base.Start();
         rb = GetComponent<Rigidbody>();
 
         // Could use size here but it doesn't work that well

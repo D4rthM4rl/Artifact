@@ -11,9 +11,9 @@ public class Player : Character
 
     public GameObject weapon;
     public GameObject[] weapons;
-    private short numWeapons = 0;
+    private int numWeapons = 0;
 
-    public Rigidbody rb;
+    protected Rigidbody rb;
 
     // For 3D movement on XZ, we use a Vector3 (Y remains 0)
     private Vector3 movement;
@@ -26,7 +26,7 @@ public class Player : Character
         weapons = new GameObject[5];
         rb = GetComponent<Rigidbody>();
         base.Start();
-        HealthUIController.UpdateHearts(stats.health, stats.maxHealth);
+        HealthUIController.instance.UpdateHearts(stats.health, stats.maxHealth);
     }
 
     void Update()
@@ -36,6 +36,12 @@ public class Player : Character
         {
             Time.timeScale = paused ? 1 : 0;
             paused = !paused;
+        }
+
+        if (rb.velocity.y > 5f)  // Or whatever seems "too high"
+        {
+            Debug.LogWarning("Y-VELOCITY SPIKE: " + rb.velocity.y);
+            Debug.Break(); // Pauses editor when this happens
         }
 
         // Get raw input from the player
@@ -78,9 +84,9 @@ public class Player : Character
 
     void FixedUpdate()
     {
-        // Debug.Log("Applying force * " + MoveSpeed);
         // Apply movement physics.
-        rb.AddForce(movement * stats.moveSpeed * 20 * Time.fixedDeltaTime, ForceMode.Impulse);
+        Vector3 movementForce = movement * stats.moveSpeed * 20 * Time.fixedDeltaTime;
+        rb.AddForce(movementForce, ForceMode.Impulse);
         GameController.ApplyGravity(rb);
 
         // Determine look direction from player to mouse world position.
@@ -108,6 +114,7 @@ public class Player : Character
         animator.SetFloat("mouseang", angle);
     }
 
+    #region Weapon Management
 
     public void AddWeapon(GameObject newWeapon)
     {
@@ -182,6 +189,10 @@ public class Player : Character
         }
     }
 
+    #endregion
+
+    #region Health and Mana
+
     public override void Die()
     {
         transform.position = Vector3.zero;
@@ -202,7 +213,7 @@ public class Player : Character
         else
         {
             stats.health = Mathf.Min(stats.maxHealth, stats.health + healAmount);
-            HealthUIController.UpdateHearts(stats.health, stats.maxHealth);
+            HealthUIController.instance.UpdateHearts(stats.health, stats.maxHealth);
         }
     }
 
@@ -236,13 +247,15 @@ public class Player : Character
 
     protected override void UpdateMana(float mana)
     {
-        ManaUIController.UpdateManaUI(mana); // TODO: Reimplement mana system
+        ManaUIController.instance.UpdateManaUI(mana);
     }
 
     protected override void UpdateHealth(float health, float maxHealth)
     {
-        HealthUIController.UpdateHearts(health, maxHealth);
+        HealthUIController.instance.UpdateHearts(health, maxHealth);
     }
+
+    #endregion
 
     private IEnumerator WaitFor(float sec)
     {

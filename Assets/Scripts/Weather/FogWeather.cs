@@ -18,7 +18,6 @@ public class FogWeather : Weather
         if (CameraController.instance != null)
         {
             CameraController.instance.SetWeatherFog(fogColor, fogDensity, intensity);
-            Debug.Log("Weather changed to fog");
         }
         else
         {

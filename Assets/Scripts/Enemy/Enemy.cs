@@ -312,28 +312,6 @@ public abstract class Enemy : Character
         }
     }
     
-    /// <summary>
-    /// Tests whether some position at this position is in environment layer,
-    /// up or down by 5 relative to the current y
-    /// </summary>
-    /// <param name="position">The position to test within</param>
-    /// <returns>Whether this position is walkable</returns>
-    protected virtual bool IsWalkable(Vector3 position)
-    {
-        // Offset the position upward to ensure the ray starts above any obstacles.
-        Vector3 rayStart = position + Vector3.up * 5f;
-        Ray ray = new Ray(rayStart, Vector3.down);
-        
-        // Adjust the ray distance as needed (here 20f covers the vertical range).
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 10f, LayerMask.GetMask("Environment")))
-        {
-            // Optionally, add extra logic to determine if the hit surface is really "walkable".
-            return true;
-        }
-        return false;
-    }
-    
     /// <summary>Attack, attempt to damage to the focus</summary>
     protected abstract void Attack();
     /// <summary>Move relative to focus to maintain distance</summary>
@@ -439,6 +417,8 @@ public abstract class Enemy : Character
         cooldownAttack = false;
     }
 
+    #region Decide Behavior/Action
+
     /// <summary>Sets up the AI</summary>
     protected IEnumerator SetupAI()
     {
@@ -540,6 +520,28 @@ public abstract class Enemy : Character
             }
         }
         return blockedCount >= 2;
+    }
+
+    /// <summary>
+    /// Tests whether some position at this position is in environment layer,
+    /// up or down by 5 relative to the current y
+    /// </summary>
+    /// <param name="position">The position to test within</param>
+    /// <returns>Whether this position is walkable</returns>
+    protected virtual bool IsWalkable(Vector3 position)
+    {
+        // Offset the position upward to ensure the ray starts above any obstacles.
+        Vector3 rayStart = position + Vector3.up * 5f;
+        Ray ray = new Ray(rayStart, Vector3.down);
+        
+        // Adjust the ray distance as needed (here 20f covers the vertical range).
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 10f, LayerMask.GetMask("Environment")))
+        {
+            // Optionally, add extra logic to determine if the hit surface is really "walkable".
+            return true;
+        }
+        return false;
     }
 
     /// <summary>
@@ -839,4 +841,6 @@ public abstract class Enemy : Character
         this.focus = focus;
         if (drawFocus) Debug.DrawLine(transform.position, focus.transform.position, Color.white);
     }
+
+    #endregion
 }

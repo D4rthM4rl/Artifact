@@ -10,7 +10,9 @@ public class ItemController : MonoBehaviour
     public GameObject prefab;
     
 
-    // Start is called before the first frame update
+    /// <summary>
+    /// Sets up the itemController with sprite, color, collider, and light
+    /// </summary>
     void Start()
     {
         if (info == null) 
@@ -27,6 +29,11 @@ public class ItemController : MonoBehaviour
         gameObject.AddComponent<Light>();
     }
 
+    /// <summary>
+    /// When Item is collected, apply stat changes and effects and give Character
+    /// the special traits
+    /// </summary>
+    /// <param name="collision">What collided with the item (might not be a Character</param>
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.GetComponent<Character>())
@@ -68,12 +75,5 @@ public class ItemController : MonoBehaviour
 
             Destroy(gameObject);
         }
-    }
-
-    public void ApplyStatChanges(Character c, ItemInfo s)
-    {
-        // SpecialTrait newTrait = item.newTrait;
-        // If we're multiplying by 0 it's probably an accident (default value) so we ignore it.
-        
     }
 }

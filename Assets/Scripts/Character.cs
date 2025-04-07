@@ -34,6 +34,7 @@ public struct CharacterBehavior
     public float fleeDist;
 }
 
+#region Relationship classes
 /// <summary>How I react to a specific other thing</summary>
 [System.Serializable]
 public struct Relationship
@@ -78,6 +79,8 @@ public struct ItemRelationship
         this.behavior = behavior;
     }
 }
+
+#endregion
 
 /// <summary>
 /// Action for a character to take. For example Flee from player with priority 1
@@ -231,6 +234,7 @@ public class CharacterStats
 /// </summary>
 public abstract class Character : MonoBehaviour
 {
+    #region Fields
     /// <summary>Holds most of the info about the Character</summary>
     public CharacterInfo info;
     /// <summary>Where I hold weapons</summary>
@@ -273,6 +277,9 @@ public abstract class Character : MonoBehaviour
     /// </summary>
     protected const float KnockbackStart = 30;
 
+    #endregion
+
+    #region StatChanges
     protected virtual void Start() 
     {
         // Create a working copy of baseStats for final values
@@ -384,33 +391,10 @@ public abstract class Character : MonoBehaviour
         float multiplicative = appliedStatChanges.Aggregate(1f, (prod, sc) => selector(sc).multiplier ? prod * selector(sc).amount : prod);
         return (baseValue + additive) * multiplicative;
     }
+    
+    #endregion
 
-    /// <summary>
-    /// Taken damage for given amount considering or not considering defense amount
-    /// </summary>
-    /// <param name="damage">How much damage (pre-defense) for player to take</param>
-    /// <param name="bypassDef">Whether attack should do given damage regardless of defense amount</param>
-    public virtual void TakeDamage(float damage, bool bypassDef = false)
-    {
-        if (!bypassDef) stats.health = Mathf.Max(stats.health - Mathf.Max(damage - (stats.defense * .1f), 0.001f), 0);
-        else stats.health = Mathf.Max(stats.health - damage, 0);
-
-        StartCoroutine(ShowDamage());
-        if (stats.health <= 0) {Die();}
-        UpdateHealth(stats.health, stats.maxHealth);
-    }
-
-    /// <summary>
-    /// Changes sprite color for .075s to indicate damage is being taken
-    /// </summary>
-    public virtual IEnumerator ShowDamage()
-    {
-        Material mat = GetComponent<Renderer>().material;
-        mat.SetColor("_BaseColor", GameController.instance.takingDamageColor);
-        yield return new WaitForSeconds(0.075f);
-        mat.SetColor("_BaseColor", Color.white);
-    }
-
+    #region Effects
     /// <summary>
     /// Gets an Effect applied asynchronously so effects don't die with bullet/attack GameObject
     /// </summary>
@@ -453,6 +437,20 @@ public abstract class Character : MonoBehaviour
         Destroy(particleObject);
         afflictedBy.Remove(effect.type);
     }
+
+    /// <summary>Adds new Effect to apply to my attacks</summary>
+    /// <param name="e">Effect to apply to player's attacks</param>
+    public void AddAttackEffect(Effect e)
+    {
+        if (!effectTypes.Contains(e.type))
+        {
+            attackEffects.Add(e);
+        }
+    }
+
+    #endregion
+
+    #region Health, Mana, and Power level
 
     /// <summary>Removes amount of mana from bar</summary>
     /// <param name="amount">Amount of mana used</param>
@@ -523,22 +521,38 @@ public abstract class Character : MonoBehaviour
         targetRb.AddForce(knockbackDirection * stats.knockbackModifier * KnockbackStart, ForceMode.Impulse);
     }
 
+    /// <summary>
+    /// Taken damage for given amount considering or not considering defense amount
+    /// </summary>
+    /// <param name="damage">How much damage (pre-defense) for player to take</param>
+    /// <param name="bypassDef">Whether attack should do given damage regardless of defense amount</param>
+    public virtual void TakeDamage(float damage, bool bypassDef = false)
+    {
+        if (!bypassDef) stats.health = Mathf.Max(stats.health - Mathf.Max(damage - (stats.defense * .1f), 0.001f), 0);
+        else stats.health = Mathf.Max(stats.health - damage, 0);
+
+        StartCoroutine(ShowDamage());
+        if (stats.health <= 0) {Die();}
+        UpdateHealth(stats.health, stats.maxHealth);
+    }
+
+    /// <summary>
+    /// Changes sprite color for .075s to indicate damage is being taken
+    /// </summary>
+    public virtual IEnumerator ShowDamage()
+    {
+        Material mat = GetComponent<Renderer>().material;
+        mat.SetColor("_BaseColor", GameController.instance.takingDamageColor);
+        yield return new WaitForSeconds(0.075f);
+        mat.SetColor("_BaseColor", Color.white);
+    }
+
     /// <summary>Returns power level of Character accounting for health</summary>
     /// <param name="health">Current amount of health</param>
     /// <param name="maxHealth">Amount of health possible for Character</param>
     /// <returns>The calculated power level accounting for health</returns>
     public virtual int PowerLevel(float health, float maxHealth)
         {return Mathf.RoundToInt(((health + 3) / (maxHealth + 3)) * stats.powerLevel);}
-
-    /// <summary>Adds new Effect to apply to my attacks</summary>
-    /// <param name="e">Effect to apply to player's attacks</param>
-    public void AddAttackEffect(Effect e)
-    {
-        if (!effectTypes.Contains(e.type))
-        {
-            attackEffects.Add(e);
-        }
-    }
 
     /// <summary>Takes exponential damage over time from radioactive effect</summary>
     /// <param name="eff">Specific Radioactive Effect to use</param>
@@ -649,5 +663,7 @@ public abstract class Character : MonoBehaviour
         }
         UpdateMana(stats.mana);
     }
+    
+    #endregion
 }
 #endregion
