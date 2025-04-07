@@ -4,28 +4,22 @@ using UnityEngine;
 
 public class HealthUIController : MonoBehaviour
 {
-    private static GameObject fullHeart; // Prefab of the heart UI element
-    public static GameObject halfHeart;
-    public static GameObject emptyHeart;
-    private static Transform heartsParent; // Parent transform where hearts will be instantiated
-    public static float maxHealth; // Maximum health
-    public static float currentHealth; // Current health
+    public static HealthUIController instance;
+
+    public GameObject fullHeart; // Prefab of the heart UI element
+    public GameObject halfHeart;
+    public GameObject emptyHeart;
+    private Transform heartsParent; // Parent transform where hearts will be instantiated
+    public float maxHealth; 
+    public float currentHealth;
 
     private void Awake()
     {
-        if (fullHeart == null) {
-            fullHeart = GameObject.Find("FullWhiteHeart");
-        }
-        if (halfHeart == null) {
-            halfHeart = GameObject.Find("HalfWhiteHeart");
-        }
-        if (emptyHeart == null) {
-            emptyHeart = GameObject.Find("EmptyHeart");
-        }
-        heartsParent = transform.parent.transform;
+        instance = this;
+        heartsParent = transform;
     }
     
-    public static void UpdateHearts(float health, float max)
+    public void UpdateHearts(float health, float max)
     {
         currentHealth = health;
         maxHealth = max;
@@ -33,14 +27,12 @@ public class HealthUIController : MonoBehaviour
     }
 
     // Function to update the hearts UI based on current health
-    public static void DoHearts()
+    public void DoHearts()
     {
         // Clear existing hearts
         foreach (Transform child in heartsParent)
         {
-            if (child.name.Contains("Clone")){
-                Destroy(child.gameObject);
-            }
+            Destroy(child.gameObject);
         }
         // Debug.Log("Doing hearts, " + currentHealth + " health out of " + maxHealth);
         // Instantiate hearts based on current health

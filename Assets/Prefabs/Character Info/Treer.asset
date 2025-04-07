@@ -16,12 +16,12 @@ MonoBehaviour:
   description: 
   baseStats:
     powerLevel: 0
-    health: 30
-    maxHealth: 30
+    health: 10
+    maxHealth: 10
     moveSpeed: 7
     mana: 100
     manaUseModifier: 1
-    manaRegenRate: 0.005
+    manaRegenRate: 1
     attackRateModifier: 1
     attackSizeModifier: 1
     attackDamageModifier: 1

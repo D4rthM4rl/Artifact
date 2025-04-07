@@ -21,7 +21,7 @@ MonoBehaviour:
     moveSpeed: 5
     mana: 100
     manaUseModifier: 1
-    manaRegenRate: 0.005
+    manaRegenRate: 1
     attackRateModifier: 1
     attackSizeModifier: 1
     attackDamageModifier: 1

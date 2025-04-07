@@ -96,8 +96,7 @@ MonoBehaviour:
     addend: 0
   defaultState: 2
   range: 30
-  meleeDamage: 1
-  meleeRange: 2
+  meleeRange: 5
   cooldown: 1
   ai: {fileID: 0}
   possibleActions: []

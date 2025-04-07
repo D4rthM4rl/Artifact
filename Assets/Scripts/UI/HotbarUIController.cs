@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HotbarUIController : MonoBehaviour
 {
@@ -73,16 +74,16 @@ public class HotbarUIController : MonoBehaviour
     {
         for (int i = 0; i < hotbarSize; i++)
         {
-            SpriteRenderer sr = boxes[i].GetComponent<SpriteRenderer>();
+            Image image = boxes[i].GetComponent<Image>();
             if (i == boxNum)
             {
-                sr.color = c;
-                sr.sortingOrder = 1;
+                image.color = c;
+                // image.sortingOrder = 1;
             }
             else 
             {
-                sr.color = other;
-                sr.sortingOrder = 0;
+                image.color = other;
+                // image.sortingOrder = 0;
             }
         }
     }
@@ -104,7 +105,7 @@ public class HotbarUIController : MonoBehaviour
         box.name = "Hotbar Box " + (hotbarSize - 1 - numBox);
         box.transform.localPosition = new Vector3(xPos +  xAdjust, yAdjust, 0f);
         box.transform.localScale = new Vector2(32, 32);
-        box.GetComponent<SpriteRenderer>().color = otherBoxColor;
+        box.GetComponent<Image>().color = otherBoxColor;
         boxes[hotbarSize - 1 - numBox] = box;
     }
 
@@ -125,11 +126,11 @@ public class HotbarUIController : MonoBehaviour
                 weaponSpot.transform.position = boxes[i].transform.position;
                 weaponSpot.transform.parent = boxes[i].transform;
 
-                SpriteRenderer weaponRenderer = weaponSpot.AddComponent<SpriteRenderer>();
-                weaponRenderer.sortingLayerName = "UI";
+                Image weaponRenderer = weaponSpot.AddComponent<Image>();
+                // weaponRenderer.layer = "UI";
                 weaponRenderer.sprite = currWeapon.info.itemImage;
                 weaponRenderer.material = GameController.instance.defaultMaterial;
-                weaponSpot.transform.localScale = new Vector2(1, 1);
+                // weaponSpot.transform.localScale = new Vector2(1, 1);
 
                 if (i == boxSelected - 1) player.GetComponent<Player>().ChangeWeapon(i);
             }
