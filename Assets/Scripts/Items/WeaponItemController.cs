@@ -33,8 +33,8 @@ public class WeaponItemController : ItemController
             SphereCollider collider = gameObject.AddComponent<SphereCollider>();
             collider.isTrigger = true;
             Light light = gameObject.AddComponent<Light>();
-            light.color = Color.red;
-            light.intensity = 30;
+            light.color = GetColor();
+            light.intensity = 15;
             light.range = 3;
         }
     }

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Butterfly
   description: 
-  rarity: 0
+  rarity: 1
   itemImage: {fileID: 21300000, guid: 9c59ed23c1b8c4d79bd3cc2cee884c3c, type: 3}
   tint: {r: 1, g: 1, b: 1, a: 1}
   effects: []

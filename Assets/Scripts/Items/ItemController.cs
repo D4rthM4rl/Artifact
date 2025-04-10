@@ -26,7 +26,43 @@ public class ItemController : MonoBehaviour
         Destroy(GetComponent<Collider>());
         SphereCollider collider = gameObject.AddComponent<SphereCollider>();
         collider.isTrigger = true;
-        gameObject.AddComponent<Light>();
+        Light light = gameObject.AddComponent<Light>();
+        light.color = GetColor();
+        light.intensity = 15;
+        light.range = 3;
+    }
+
+    /// <summary>
+    /// Gets the <see cref="Color"/> of the item based on its rarity
+    /// </summary>
+    /// <returns>The color that corresponds to the rarity</returns>
+    protected Color GetColor()
+    {
+        switch (info.rarity)
+        {
+            case Rarity.Red:
+                return Color.red;
+            case Rarity.Orange:
+                return new Color(1.0f, 0.5f, 0.0f);
+            case Rarity.Yellow:
+                return Color.yellow;
+            case Rarity.Green:
+                return Color.green;
+            case Rarity.Blue:
+                return Color.blue;
+            case Rarity.Indigo:
+                return new Color(0.29f, 0.0f, 0.51f);
+            case Rarity.Violet:
+                return new Color(0.93f, 0.51f, 0.93f);
+            case Rarity.Pink:
+                return new Color(1.0f, 0.75f, 0.8f);
+            case Rarity.White:
+                return Color.white;
+            case Rarity.Black:
+                return Color.black;
+        }
+        Debug.LogError("Rarity not set for " + gameObject.name);
+        return Color.white;
     }
 
     /// <summary>

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Grass Dash Shoes
   description: 
-  rarity: 0
+  rarity: 2
   itemImage: {fileID: 21300000, guid: 7bf9a51c3988243fcb96da5a11b7e6aa, type: 3}
   tint: {r: 0.05724919, g: 1, b: 0, a: 1}
   effects: []
