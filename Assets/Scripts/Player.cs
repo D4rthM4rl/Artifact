@@ -34,8 +34,7 @@ public class Player : Character
         // If escape is pressed, pause the game by stopping time
         if (Input.GetButtonDown("Pause"))
         {
-            Time.timeScale = paused ? 1 : 0;
-            paused = !paused;
+            PauseMenuController.instance.ToggleMenu();
         }
 
         if (rb.velocity.y > 5f)  // Or whatever seems "too high"

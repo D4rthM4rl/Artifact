@@ -4,39 +4,50 @@ using UnityEngine.SceneManagement;
 public class PauseMenuController : MonoBehaviour
 {
     [SerializeField] private GameObject pauseMenuUI;
-    [SerializeField] private Player playerReference;
+
+    private float originalTimeScale;
+    public static PauseMenuController instance;
     
     private void Awake()
     {
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+
         // Ensure the menu is hidden at startup
         if (pauseMenuUI != null)
             pauseMenuUI.SetActive(false);
     }
 
-    private void Update()
+    public void ToggleMenu()
     {
-        // Make sure we have reference to menu and player
-        if (pauseMenuUI == null || playerReference == null)
-            return;
-            
-        // Update UI based on player's pause state
-        pauseMenuUI.SetActive(playerReference.paused);
+        if (pauseMenuUI.activeSelf)
+        {
+            Resume();
+        }
+        else
+        {
+            Pause();
+        }
     }
 
-    // Call this from the Resume button
-    public void ResumeGame()
+    /// <summary>Resumes game (sets timeScale back, </summary>
+    public void Resume()
     {
-        if (playerReference != null)
-        {
-            playerReference.paused = false;
-            Time.timeScale = 1f;
-            pauseMenuUI.SetActive(false);
-        }
+        Time.timeScale = originalTimeScale;
+        pauseMenuUI.SetActive(false);
+    }
+
+    public void Pause()
+    {
+        originalTimeScale = Time.timeScale;
+        Time.timeScale = 0f;
+        pauseMenuUI.SetActive(true);
     }
 
     // Call this from the Quit button
     public void QuitGame()
     {
+        pauseMenuUI.SetActive(false);
         #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
         #else
