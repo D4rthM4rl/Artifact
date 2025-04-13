@@ -28,5 +28,5 @@ MonoBehaviour:
     projectileSpeedModifier: 1
     projectileLifetimeModifier: 1
     knockbackModifier: 1
-    defense: 1
+    defense: 0
   sprite: {fileID: 21300000, guid: 435de4c3e408f473a8ef29a23e5fc29f, type: 3}

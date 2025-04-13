@@ -24,7 +24,7 @@ public abstract class TeamingEnemy : Enemy
             totalHealth += teamer.stats.health;
             totalMaxHealth += teamer.stats.maxHealth;
         }
-        return Mathf.RoundToInt(((totalHealth + 3) / (totalMaxHealth + 3)) * powerLevel * TeamController.teamTotal);
+        return Mathf.RoundToInt(((totalHealth + 3) / (totalMaxHealth + 3)) * stats.powerLevel * TeamController.teamTotal);
     }
 
     public void SetTeamEstablished() {TeamController.teamEstablished = true;}

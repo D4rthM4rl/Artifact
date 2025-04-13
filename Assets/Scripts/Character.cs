@@ -166,8 +166,9 @@ public class CharacterStats
     /// <summary>How much knockback I deal</summary>
     public float knockbackModifier = 1f;
     /// <summary>How much less damage I take (roughly -.1 damage for +1 def)</summary>
-    public float defense = 1f;
+    public float defense = 0f;
 
+    /// <summary>The minimum value for each CharacterStats field</summary>
     public static readonly CharacterStats lowerBounds = new CharacterStats
     {
         powerLevel = 1,
@@ -183,9 +184,10 @@ public class CharacterStats
         projectileSpeedModifier = 0.01f,
         projectileLifetimeModifier = 0.1f,
         knockbackModifier = 0f,
-        defense = 0.001f
+        defense = float.MinValue,
     };
 
+    /// <summary>The maximum value for each CharacterStats field</summary>
     public static readonly CharacterStats upperBounds = new CharacterStats
     {
         powerLevel = 100,
@@ -201,10 +203,13 @@ public class CharacterStats
         projectileSpeedModifier = 10000f,
         projectileLifetimeModifier = float.PositiveInfinity,
         knockbackModifier = float.PositiveInfinity,
-        defense = float.PositiveInfinity
+        defense = float.PositiveInfinity,
     };
 
-    // A helper method to clone these stats
+    /// <summary>
+    /// Returns a copy of this CharacterStats
+    /// </summary>
+    /// <returns>A copy of this</returns>
     public CharacterStats Clone()
     {
         return new CharacterStats
@@ -247,8 +252,6 @@ public abstract class Character : MonoBehaviour
     /// List of currently applied stat changes.
     /// </summary>
     private List<StatChanges> appliedStatChanges = new List<StatChanges>();
-
-    public int powerLevel;
 
     /// <summary>How long I have been regenerating mana</summary>
     private float manaRegenTime = 1f;

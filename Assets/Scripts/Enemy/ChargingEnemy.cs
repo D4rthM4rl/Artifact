@@ -74,7 +74,7 @@ public class ChargingEnemy : Enemy
 
     public override void HitCharacter(Character other, float damage)
     {
-        other.TakeDamage(damage, false);
+        other.TakeDamage(damage);
         other.ReceiveEffect(attackEffects);
         Vector3 knockbackDirection = (other.transform.position - transform.position).normalized;
 
